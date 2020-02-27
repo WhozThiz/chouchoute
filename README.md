@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center">
   <img width="320" src="https://cp5.sgp1.cdn.digitaloceanspaces.com/zoro/laravue-cdn/laravue-logo-line.png">
 </p>
@@ -122,3 +123,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) f
 
 ## Donate
 If you find this project useful, you can [buy me a coffee](https://www.buymeacoffee.com/tuandm)
+=======
+# La Chouchoute Compagnie - Pet Services Management System
+>>>>>>> 7133193d6a05703df6b4439a76fdde92454a79bd
