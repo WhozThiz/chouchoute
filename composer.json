@@ -1,20 +1,18 @@
 {
-    "name": "tuandm/laravue",
+    "name": "WhozThiz/chouchoute",
     "type": "project",
-    "description": "A beautiful dashboard for Laravel built by VueJS",
+    "description": "A Beautiful Managemente System by La Chouchoute Compagnie",
     "keywords": [
-        "laravel",
-        "laravue",
-        "vue",
-        "admin",
-        "dashboard"
+        "chouchoute",
+        "management",
+        "system"
     ],
     "license": "MIT",
     "authors": [
         {
-            "name": "Tuan Duong",
-            "email": "bacduong@gmail.com",
-            "homepage": "https://laravue.dev",
+            "name": "Daniel Huang",
+            "email": "whozthiz@gmail.com",
+            "homepage": "https://www.wihz.com.br",
             "role": "Developer"
         }
     ],

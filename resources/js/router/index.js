@@ -209,7 +209,7 @@ export const asyncRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://github.com/tuandm/laravue',
+        path: 'https://github.com/WhozThiz/chouchoute',
         meta: { title: 'externalLink', icon: 'link' },
       },
     ],
