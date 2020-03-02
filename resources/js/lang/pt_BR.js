@@ -68,7 +68,7 @@ export default {
     externalLink: 'External Link',
     elementUi: 'Element UI',
     administrator: 'Administrator',
-    users: 'Users',
+    users: 'Usuários',
     userProfile: 'User Profile',
   },
   navbar: {
@@ -81,9 +81,9 @@ export default {
   },
   login: {
     title: 'Log In',
-    logIn: 'Log in',
-    username: 'Username',
-    password: 'Password',
+    logIn: 'Entrar',
+    username: 'Nome do Usuário',
+    password: 'Senha',
     any: 'any',
     thirdparty: 'Or connect with',
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !',
