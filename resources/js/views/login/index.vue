@@ -1,43 +1,88 @@
 <template>
-  <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-      <h3 class="title">
-        {{ $t('login.title') }}
-      </h3>
-      <lang-select class="set-language" />
-      <el-form-item prop="email">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input v-model="loginForm.email" name="email" type="text" auto-complete="on" :placeholder="$t('login.email')" />
-      </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          v-model="loginForm.password"
-          :type="pwdType"
-          name="password"
-          auto-complete="on"
-          placeholder="password"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon icon-class="eye" />
-        </span>
-      </el-form-item>
-      <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-          Sign in
-        </el-button>
-      </el-form-item>
-      <div class="tips">
-        <span style="margin-right:20px;">Email: admin@laravue.dev</span>
-        <span>Password: laravue</span>
+
+  <div class="limiter">
+    <div class="container-login">
+      <div class="wrap-login">
+        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form validate-form" auto-complete="on" label-position="left">
+          <span class="login-form-title p-b-43">
+            {{ $t('login.title') }}
+          </span>
+
+          <lang-select class="set-language" />
+
+          <el-form-item prop="email">
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input v-model="loginForm.email" name="email" type="text" auto-complete="on" :placeholder="$t('login.email')" />
+          </el-form-item>
+          <el-form-item prop="password">
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+            <el-input
+              v-model="loginForm.password"
+              :type="pwdType"
+              name="password"
+              auto-complete="on"
+              placeholder="password"
+              @keyup.enter.native="handleLogin"
+            />
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon icon-class="eye" />
+            </span>
+          </el-form-item>
+          <el-form-item>
+            <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+              Sign in
+            </el-button>
+          </el-form-item>
+
+          <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+            <input class="input100" type="text" name="email">
+            <span class="focus-input100"></span>
+            <span class="label-input100">Email</span>
+          </div>
+
+          <div class="wrap-input100 validate-input" data-validate="Password is required">
+            <input class="input100" type="password" name="pass">
+            <span class="focus-input100"></span>
+            <span class="label-input100">Password</span>
+          </div>
+
+          <div class="flex-sb-m w-full p-t-3 p-b-32">
+            <div class="contact100-form-checkbox">
+              <input id="ckb1" class="input-checkbox100" type="checkbox" name="remember-me">
+              <label class="label-checkbox100" for="ckb1">
+                Remember me
+              </label>
+            </div>
+
+            <div>
+              <a href="#" class="txt1">
+                Forgot Password?
+              </a>
+            </div>
+          </div>
+
+          <div class="container-login100-form-btn">
+            <button class="login100-form-btn">
+              Login
+            </button>
+          </div>
+
+          <div class="text-center p-t-46 p-b-20">
+            <span class="txt2">
+              or sign up using
+            </span>
+          </div>
+        </el-form>
+
+        <div class="login100-more" style="background-image: url('images/bg-01.jpg');"></div>
       </div>
-    </el-form>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -152,6 +197,10 @@ $light_gray:#eee;
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
+.limiter {
+  width: 100%;
+  margin: 0 auto;
+}
 .login-container {
   position: fixed;
   height: 100%;
@@ -165,6 +214,26 @@ $light_gray:#eee;
     max-width: 100%;
     padding: 35px 35px 15px 35px;
     margin: 120px auto;
+  }
+  .login-more {
+    width: calc(100% - 560px);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .login-more::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.1);
   }
   .tips {
     font-size: 14px;
