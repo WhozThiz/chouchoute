@@ -1,88 +1,41 @@
 <template>
-
   <div class="limiter">
-    <div class="container-login">
-      <div class="wrap-login">
-        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form validate-form" auto-complete="on" label-position="left">
-          <span class="login-form-title p-b-43">
+    <div class="container-login100">
+      <div class="wrap-login100">
+        <div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
+          <span class="login100-form-title-1">
             {{ $t('login.title') }}
           </span>
-
           <lang-select class="set-language" />
-
-          <el-form-item prop="email">
-            <span class="svg-container">
-              <svg-icon icon-class="user" />
-            </span>
-            <el-input v-model="loginForm.email" name="email" type="text" auto-complete="on" :placeholder="$t('login.email')" />
+        </div>
+        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login100-form validate-form" auto-complete="on" label-position="left">
+          <el-form-item prop="email" class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+            <span class="label-input100">Username</span>
+            <el-input v-model="loginForm.email" name="email" type="text" auto-complete="on" :placeholder="$t('login.email')" prefix-icon="el-icon-user-solid" />
           </el-form-item>
-          <el-form-item prop="password">
-            <span class="svg-container">
-              <svg-icon icon-class="password" />
-            </span>
+          <el-form-item prop="password" class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
+            <span class="label-input100">Password</span>
             <el-input
               v-model="loginForm.password"
               :type="pwdType"
               name="password"
               auto-complete="on"
               placeholder="password"
+              prefix-icon="el-icon-key"
               @keyup.enter.native="handleLogin"
-            />
-            <span class="show-pwd" @click="showPwd">
-              <svg-icon icon-class="eye" />
-            </span>
+            >
+              <el-button slot="append" icon="el-icon-view" @click="showPwd" />
+            </el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item class="container-login100-form-btn">
             <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
               Sign in
             </el-button>
           </el-form-item>
-
-          <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-            <input class="input100" type="text" name="email">
-            <span class="focus-input100"></span>
-            <span class="label-input100">Email</span>
-          </div>
-
-          <div class="wrap-input100 validate-input" data-validate="Password is required">
-            <input class="input100" type="password" name="pass">
-            <span class="focus-input100"></span>
-            <span class="label-input100">Password</span>
-          </div>
-
-          <div class="flex-sb-m w-full p-t-3 p-b-32">
-            <div class="contact100-form-checkbox">
-              <input id="ckb1" class="input-checkbox100" type="checkbox" name="remember-me">
-              <label class="label-checkbox100" for="ckb1">
-                Remember me
-              </label>
-            </div>
-
-            <div>
-              <a href="#" class="txt1">
-                Forgot Password?
-              </a>
-            </div>
-          </div>
-
-          <div class="container-login100-form-btn">
-            <button class="login100-form-btn">
-              Login
-            </button>
-          </div>
-
-          <div class="text-center p-t-46 p-b-20">
-            <span class="txt2">
-              or sign up using
-            </span>
-          </div>
         </el-form>
-
-        <div class="login100-more" style="background-image: url('images/bg-01.jpg');"></div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -159,48 +112,13 @@ export default {
 };
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
-$bg:#2d3a4b;
-$light_gray:#eee;
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: #fff !important;
-      }
-    }
-  }
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-}
-
-</style>
-
 <style rel="stylesheet/scss" lang="scss" scoped>
+@import 'css/main.css';
+@import 'css/util.css';
+
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
-.limiter {
-  width: 100%;
-  margin: 0 auto;
-}
 .login-container {
   position: fixed;
   height: 100%;
@@ -214,26 +132,6 @@ $light_gray:#eee;
     max-width: 100%;
     padding: 35px 35px 15px 35px;
     margin: 120px auto;
-  }
-  .login-more {
-    width: calc(100% - 560px);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .login-more::before {
-    content: "";
-    display: block;
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(0,0,0,0.1);
   }
   .tips {
     font-size: 14px;
