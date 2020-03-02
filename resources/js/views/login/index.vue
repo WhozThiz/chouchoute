@@ -6,12 +6,13 @@
           <span class="login100-form-title-1">
             {{ $t('login.title') }}
           </span>
+          <span class="login100-form-title-2">This is Secure System and you need to provide your login details to access the site</span>
           <lang-select class="set-language" />
         </div>
         <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login100-form validate-form" auto-complete="on" label-position="left">
           <el-form-item prop="email" class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
             <span class="label-input100">Username</span>
-            <el-input v-model="loginForm.email" name="email" type="text" auto-complete="on" :placeholder="$t('login.email')" prefix-icon="el-icon-user-solid" />
+            <el-input v-model="loginForm.email" class="input100" name="email" type="text" auto-complete="on" placeholder="Enter User Email" prefix-icon="el-icon-user-solid" />
           </el-form-item>
           <el-form-item prop="password" class="wrap-input100 validate-input m-b-18" data-validate="Password is required">
             <span class="label-input100">Password</span>
@@ -20,7 +21,7 @@
               :type="pwdType"
               name="password"
               auto-complete="on"
-              placeholder="password"
+              placeholder="Enter Password"
               prefix-icon="el-icon-key"
               @keyup.enter.native="handleLogin"
             >
@@ -29,7 +30,7 @@
           </el-form-item>
           <el-form-item class="container-login100-form-btn">
             <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-              Sign in
+              {{ $t('login.logIn') }}
             </el-button>
           </el-form-item>
         </el-form>
@@ -119,6 +120,7 @@ export default {
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
+
 .login-container {
   position: fixed;
   height: 100%;
