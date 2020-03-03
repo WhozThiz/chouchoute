@@ -217,7 +217,7 @@ iframe {
   font-size: 30px;
   color: #fff;
   text-transform: uppercase;
-  line-height: 2.0;
+  line-height: 1.2;
   text-align: center;
 }
 
@@ -226,8 +226,8 @@ iframe {
   font-size: 12px;
   color: #fff;
   text-transform: uppercase;
-  line-height: 2.0;
-  padding-bottom: 12px;
+  line-height: 1.2;
+  padding: 12px 20px 0px 20px;
   text-align: center;
 }
 
