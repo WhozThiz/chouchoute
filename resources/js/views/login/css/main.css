@@ -217,7 +217,7 @@ iframe {
   font-size: 30px;
   color: #fff;
   text-transform: uppercase;
-  line-height: 2.0;
+  line-height: 1.2;
   text-align: center;
 }
 
@@ -226,8 +226,8 @@ iframe {
   font-size: 12px;
   color: #fff;
   text-transform: uppercase;
-  line-height: 2.0;
-  padding-bottom: 12px;
+  line-height: 1.2;
+  padding: 12px 20px 0px 20px;
   text-align: center;
 }
 
@@ -266,7 +266,6 @@ iframe {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  border-bottom: 1px solid #b2b2b2;
 }
 
 .label-input100 {
@@ -328,7 +327,6 @@ iframe {
 input.input100 {
   height: 45px;
 }
-
 
 .input100:focus + .focus-input100::before {
   width: 100%;
@@ -523,4 +521,9 @@ input.input100 {
   }
 }
 
-
+.set-language {
+  color: #fff;
+  position: absolute;
+  top: 40px;
+  right: 35px;
+}
