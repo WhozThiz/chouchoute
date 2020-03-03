@@ -266,7 +266,6 @@ iframe {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  border-bottom: 1px solid #b2b2b2;
 }
 
 .label-input100 {
@@ -328,7 +327,6 @@ iframe {
 input.input100 {
   height: 45px;
 }
-
 
 .input100:focus + .focus-input100::before {
   width: 100%;
@@ -523,4 +521,9 @@ input.input100 {
   }
 }
 
-
+.set-language {
+  color: #fff;
+  position: absolute;
+  top: 40px;
+  right: 35px;
+}
