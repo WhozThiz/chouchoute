@@ -13,15 +13,20 @@ Vue.use(Router);
 import Layout from '@/layout';
 
 /* Router for modules */
+import cmsRoutes from './modules/cms';
+import crmRoutes from './modules/crm';
+import productivityRoutes from './modules/productivity';
 import elementUiRoutes from './modules/element-ui';
+/*
 import componentRoutes from './modules/components';
 import chartsRoutes from './modules/charts';
 import tableRoutes from './modules/table';
-import adminRoutes from './modules/admin';
 import nestedRoutes from './modules/nested';
 import errorRoutes from './modules/error';
 import excelRoutes from './modules/excel';
+*/
 import permissionRoutes from './modules/permission';
+import adminRoutes from './modules/admin';
 
 /**
  * Sub-menu only appear when children.length>=1
@@ -92,6 +97,7 @@ export const constantRoutes = [
       },
     ],
   },
+  /*
   {
     path: '/documentation',
     component: Layout,
@@ -118,16 +124,19 @@ export const constantRoutes = [
       },
     ],
   },
+  */
   elementUiRoutes,
 ];
 
 export const asyncRoutes = [
-  permissionRoutes,
+  crmRoutes,
+  cmsRoutes,
+  productivityRoutes,
+  /*
   componentRoutes,
   chartsRoutes,
   nestedRoutes,
   tableRoutes,
-  adminRoutes,
   {
     path: '/theme',
     component: Layout,
@@ -215,6 +224,9 @@ export const asyncRoutes = [
     ],
   },
   { path: '*', redirect: '/404', hidden: true },
+  */
+  permissionRoutes,
+  adminRoutes,
 ];
 
 const createRouter = () => new Router({
