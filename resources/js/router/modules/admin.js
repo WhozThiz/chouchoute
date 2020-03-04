@@ -41,6 +41,7 @@ const adminRoutes = {
       meta: { title: 'createArticle', icon: 'edit', permissions: ['manage article'] },
       hidden: true,
     },
+    /** Articles */
     {
       path: 'articles/edit/:id(\\d+)',
       component: () => import('@/views/articles/Edit'),
@@ -53,6 +54,13 @@ const adminRoutes = {
       component: () => import('@/views/articles/List'),
       name: 'ArticleList',
       meta: { title: 'articleList', icon: 'list', permissions: ['manage article'] },
+    },
+    /** Categories */
+    {
+      path: 'categories',
+      component: () => import('@/views/settings/categories/List'),
+      name: 'CategoryList',
+      meta: { title: 'categories', icon: 'list' },
     },
   ],
 };
