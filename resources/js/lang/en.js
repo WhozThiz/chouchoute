@@ -65,6 +65,7 @@ export default {
     theme: 'Theme',
     clipboardDemo: 'Clipboard',
     i18n: 'I18n',
+    categories: 'Categories',
     externalLink: 'External Link',
     elementUi: 'Element UI',
     administrator: 'Administrator',
