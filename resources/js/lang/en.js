@@ -81,13 +81,16 @@ export default {
   },
   login: {
     title: 'Log In',
+    description: 'This is Secure System and you need to provide your login details to access the site',
     logIn: 'Sign In',
     username: 'Username',
     password: 'Password',
+    enteruserpassword: 'Enter User Password',
     any: 'any',
     thirdparty: 'Or connect with',
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !',
     email: 'Email',
+    enteruseremail: 'Enter User Email',
   },
   documentation: {
     documentation: 'Documentation',
