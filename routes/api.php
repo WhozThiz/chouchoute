@@ -37,7 +37,11 @@ Route::group(['middleware' => 'api'], function () {
     Route::apiResource('categories', 'CategoryController')->middleware('permission:manage category');
     // Listing category will require "view category" or "manage category"
     Route::get('categories', 'CategoryController@index')->name('categories.index')->middleware('permission:view category|manage category');
-    Route::apiResource('leads', 'Crm\LeadController');
+
+    // All api requests to leads need "manage lead" permission
+    Route::apiResource('leads', 'LeadController')->middleware('permission:manage lead');
+    // Listing category will require "view lead" or "manage lead"
+    Route::get('leads', 'LeadController@index')->name('leads.index')->middleware('permission:view lead|manage lead');
 
     // Fake APIs
     Route::get('/table/list', function () {
