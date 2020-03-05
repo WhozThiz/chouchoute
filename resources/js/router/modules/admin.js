@@ -60,7 +60,7 @@ const adminRoutes = {
       path: 'categories',
       component: () => import('@/views/settings/categories/List'),
       name: 'CategoryList',
-      meta: { title: 'categories', icon: 'list' },
+      meta: { title: 'categories', icon: 'list', permissions: ['view category', 'manage category'] },
     },
   ],
 };

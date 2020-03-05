@@ -33,7 +33,10 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('roles/{role}/permissions', 'RoleController@permissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
     Route::apiResource('permissions', 'PermissionController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
 
-    Route::apiResource('categories', 'CategoryController');
+    // All api requests to categories need "manage category" permission
+    Route::apiResource('categories', 'CategoryController')->middleware('permission:manage category');
+    // Listing category will require "view category" or "manage category"
+    Route::get('categories', 'CategoryController@index')->name('categories.index')->middleware('permission:view category|manage category');
     Route::apiResource('leads', 'Crm\LeadController');
 
     // Fake APIs

@@ -40,6 +40,7 @@ final class Acl
 
     const PERMISSION_USER_MANAGE = 'manage user';
     const PERMISSION_ARTICLE_MANAGE = 'manage article';
+    const PERMISSION_CATEGORY_MANAGE = 'manage category';
     const PERMISSION_PERMISSION_MANAGE = 'manage permission';
 
     /**
