@@ -8,7 +8,7 @@ const productivityRoutes = {
   name: 'Productivity',
   meta: {
     title: 'productivity',
-    icon: 'star',
+    icon: 'task',
     permissions: ['view menu productivity routes'],
   },
   children: [
@@ -16,13 +16,13 @@ const productivityRoutes = {
       path: 'todo',
       component: () => import('@/views/productivity/todo/index'),
       name: 'ToDo',
-      meta: { title: 'todo' },
+      meta: { title: 'todo', icon: 'todo' },
     },
     {
       path: 'task',
       component: () => import('@/views/productivity/task/index'),
       name: 'Task',
-      meta: { title: 'tasks' },
+      meta: { title: 'tasks', icon: 'tasks' },
     },
   ],
 };

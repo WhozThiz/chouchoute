@@ -8,15 +8,15 @@ const crmRoutes = {
   name: 'CRM',
   meta: {
     title: 'crm',
-    icon: 'crm',
+    icon: 'paw',
     permissions: ['view menu crm routes'],
   },
   children: [
     {
       path: 'leads',
       component: () => import('@/views/crm/leads/List'),
-      name: 'Leads',
-      meta: { title: 'leads' },
+      name: 'LeadList',
+      meta: { title: 'leadList', icon: 'lead', permissions: ['view lead', 'manage lead'] },
     },
     {
       path: 'leads/edit/:id(\\d+)',
@@ -29,13 +29,13 @@ const crmRoutes = {
       path: 'humans',
       component: () => import('@/views/crm/humans/index'),
       name: 'Humans',
-      meta: { title: 'humans' },
+      meta: { title: 'humans', icon: 'humans' },
     },
     {
       path: 'pets',
       component: () => import('@/views/crm/pets/index'),
       name: 'Pets',
-      meta: { title: 'pets' },
+      meta: { title: 'pets', icon: 'bear' },
     },
   ],
 };

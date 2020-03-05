@@ -7,7 +7,7 @@ const cmsRoutes = {
   name: 'CMS',
   meta: {
     title: 'cms',
-    icon: 'cms',
+    icon: 'management',
     permissions: ['view menu cms routes'],
   },
   children: [
@@ -16,25 +16,27 @@ const cmsRoutes = {
       path: 'articles',
       component: () => import('@/views/articles/List'),
       name: 'Articles',
-      meta: { title: 'articles' },
+      meta: { title: 'articleList', icon: 'articles' },
       children: [
+        /** Articles */
         {
           path: 'articles',
           component: () => import('@/views/articles/List'),
           name: 'ArticleList',
-          meta: { title: 'articleList', icon: 'list', permissions: ['manage article'] },
+          meta: { title: 'articleList', icon: 'articles', permissions: ['manage article'] },
         },
         {
-          path: 'create',
-          component: () => import('@/views/articles/Create'),
-          name: 'CreateArticle',
-          meta: { title: 'createArticle', icon: 'edit', permissions: ['manage article'] },
-        },
-        {
-          path: 'edit/:id(\\d+)',
+          path: 'articles/edit/:id(\\d+)',
           component: () => import('@/views/articles/Edit'),
           name: 'EditArticle',
           meta: { title: 'editArticle', noCache: true, permissions: ['manage article'] },
+          hidden: true,
+        },
+        {
+          path: 'articles/create',
+          component: () => import('@/views/articles/Create'),
+          name: 'CreateArticle',
+          meta: { title: 'createArticle', icon: 'edit', permissions: ['manage article'] },
           hidden: true,
         },
       ],
@@ -44,7 +46,7 @@ const cmsRoutes = {
       path: '/posts',
       component: () => import('@/views/cms/posts/list'), // Parent router-view
       name: 'Posts',
-      meta: { title: 'posts' },
+      meta: { title: 'postList' },
       children: [
         {
           path: 'post/list',
