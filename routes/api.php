@@ -43,6 +43,9 @@ Route::group(['middleware' => 'api'], function () {
     // Listing category will require "view lead" or "manage lead"
     Route::get('leads', 'LeadController@index')->name('leads.index')->middleware('permission:view lead|manage lead');
 
+    // All api requests to leads need "manage post" permission
+    Route::apiResource('posts', 'PostController');
+
     // Fake APIs
     Route::get('/table/list', function () {
         $rowsNumber = mt_rand(20, 30);

@@ -43,24 +43,10 @@ const cmsRoutes = {
     },
     /** Post Managements */
     {
-      path: '/posts',
-      component: () => import('@/views/cms/posts/list'), // Parent router-view
-      name: 'Posts',
-      meta: { title: 'postList' },
-      children: [
-        {
-          path: 'post/list',
-          component: () => import('@/views/cms/posts/list'),
-          name: 'PostList',
-          meta: { title: 'postList' },
-        },
-        {
-          path: 'post/create',
-          component: () => import('@/views/cms/posts/create'),
-          name: 'CreatePost',
-          meta: { title: 'createPost' },
-        },
-      ],
+      path: 'posts',
+      component: () => import('@/views/cms/posts/list'),
+      name: 'PostList',
+      meta: { title: 'postList', icon: 'edit' },
     },
   ],
 };
