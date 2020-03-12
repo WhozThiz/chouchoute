@@ -14,7 +14,17 @@ class Lead extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'address', 'neighborhood', 'city', 'state', 'zipcode', 'homephome', 'mobile', 'email', 'registration_id', 'tax_id'
+        'name', 
+        'address', 
+        'neighborhood', 
+        'city', 
+        'state', 
+        'zipcode', 
+        'homephone', 
+        'mobile', 
+        'email', 
+        'registration_id', 
+        'tax_id',
     ];
 	
 }

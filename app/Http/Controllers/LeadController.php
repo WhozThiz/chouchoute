@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Crm\LeadResource;
 use App\Laravue\Models\Crm\Lead;
+use App\Http\Requests\Crm\LeadRequest;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -67,15 +68,10 @@ class LeadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LeadRequest $request)
     {
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => ['required']
-            ]
-        );
+        $validator = $request->validated();
     
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 403);
@@ -83,11 +79,11 @@ class LeadController extends Controller
             $params = $request->all();
             $lead = Lead::create([
                 'name' => $params['name'],
-                'address' => $params['address'], 
-                'neighborhood' => $params['neighborhood'],
-                'city' => $params['city'],
-                'state' => $params['state'],
-                'zipcode' => $params['zipcode'],
+                'address' => $params['logradouro'], 
+                'neighborhood' => $params['bairro'],
+                'city' => $params['localidade'],
+                'state' => $params['uf'],
+                'zipcode' => $params['cep'],
                 'homephone' => $params['homephone'],
                 'mobile' => $params['mobile'],
                 'email' => $params['email'],
@@ -174,16 +170,16 @@ class LeadController extends Controller
         } else {
             $params = $request->all();
             $lead->name = $params['name'];
-            $lead->address => $params['address'], 
-            $lead->neighborhood => $params['neighborhood'],
-            $lead->city => $params['city'],
-            $lead->state => $params['state'],
-            $lead->zipcode => $params['zipcode'],
-            $lead->homephone => $params['homephone'],
-            $lead->mobile => $params['mobile'],
-            $lead->email => $params['email'],
-            $lead->tax_id => $params['tax_id'],
-            $lead->registration_id => $params['registration_id'],
+            $lead->address = $params['address'];
+            $lead->neighborhood = $params['neighborhood'];
+            $lead->city = $params['city'];
+            $lead->state = $params['state'];
+            $lead->zipcode = $params['zipcode'];
+            $lead->homephone = $params['homephone'];
+            $lead->mobile = $params['mobile'];
+            $lead->email = $params['email'];
+            $lead->tax_id = $params['tax_id'];
+            $lead->registration_id = $params['registration_id'];
             $lead->save();
         }
 

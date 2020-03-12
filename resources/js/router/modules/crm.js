@@ -19,13 +19,6 @@ const crmRoutes = {
       meta: { title: 'leadList', icon: 'lead', permissions: ['view lead', 'manage lead'] },
     },
     {
-      path: 'leads/edit/:id(\\d+)',
-      component: () => import('@/views/crm/leads/Edit'),
-      name: 'Editlead',
-      meta: { title: 'editLead', noCache: true, permissions: ['manage lead'] },
-      hidden: true,
-    },
-    {
       path: 'humans',
       component: () => import('@/views/crm/humans/index'),
       name: 'Humans',
