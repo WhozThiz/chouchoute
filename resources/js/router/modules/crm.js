@@ -26,9 +26,9 @@ const crmRoutes = {
     },
     {
       path: 'pets',
-      component: () => import('@/views/crm/pets/index'),
-      name: 'Pets',
-      meta: { title: 'pets', icon: 'bear' },
+      component: () => import('@/views/crm/pets/List'),
+      name: 'PetList',
+      meta: { title: 'petList', icon: 'bear' },
     },
   ],
 };

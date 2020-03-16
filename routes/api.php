@@ -44,7 +44,10 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('leads', 'LeadController@index')->name('leads.index')->middleware('permission:view lead|manage lead');
 
     // All api requests to leads need "manage post" permission
-    Route::apiResource('posts', 'PostController');
+    Route::apiResource('pets', 'PetController');
+
+    // All api requests to leads need "manage post" permission
+    Route::apiResource('posts', 'Cms\PostController');
 
     // Fake APIs
     Route::get('/table/list', function () {
