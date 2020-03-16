@@ -27,6 +27,7 @@ class CreateLeadsTable extends Migration
             $table->char('homephone');
             $table->char('mobile');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
