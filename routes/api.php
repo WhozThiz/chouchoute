@@ -40,11 +40,14 @@ Route::group(['middleware' => 'api'], function () {
 
     // All api requests to leads need "manage lead" permission
     Route::apiResource('leads', 'LeadController')->middleware('permission:manage lead');
-    // Listing category will require "view lead" or "manage lead"
+    // Listing lead will require "view lead" or "manage lead"
     Route::get('leads', 'LeadController@index')->name('leads.index')->middleware('permission:view lead|manage lead');
 
-    // All api requests to leads need "manage post" permission
-    Route::apiResource('pets', 'PetController');
+    // All api requests to pets need "manage pet" permission
+    Route::apiResource('pets', 'PetController')->middleware('permission:manage pet');
+    // Listing pet will require "view pet" or "manage pet"
+    Route::get('pets', 'PetController@index')->name('pets.index')->middleware('permission:view pet|manage pet');
+
 
     // All api requests to leads need "manage post" permission
     Route::apiResource('posts', 'Cms\PostController');
