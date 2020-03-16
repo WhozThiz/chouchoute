@@ -14,25 +14,25 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('lead.name')" width="300">
+      <el-table-column align="center" :label="$t('general.name')" width="300">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('lead.homephone')" width="160">
+      <el-table-column align="center" :label="$t('general.homephone')" width="160">
         <template slot-scope="scope">
           <span>{{ scope.row.homephone }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('lead.mobile')" width="160">
+      <el-table-column align="center" :label="$t('general.mobile')" width="160">
         <template slot-scope="scope">
           <span>{{ scope.row.mobile }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('lead.address')">
+      <el-table-column align="center" :label="$t('general.address')">
         <template slot-scope="scope">
           <span>{{ scope.row.address }}</span>
         </template>
@@ -53,31 +53,31 @@
     <el-dialog :title="formTitle" :visible.sync="leadFormVisible">
       <div class="form-container">
         <el-form ref="leadForm" :model="currentLead" label-position="left" label-width="150px" style="max-width: 500px;">
-          <el-form-item :label="$t('lead.name')" prop="name">
+          <el-form-item :label="$t('general.name')" prop="name">
             <el-input v-model="currentLead.name" />
           </el-form-item>
-          <el-form-item :label="$t('lead.zipcode')" prop="zipcode">
+          <el-form-item :label="$t('general.zipcode')" prop="zipcode">
             <el-input v-model="currentLead.zipcode" placeholder="XXXXX-XXX" @keyup.enter.native="searchZipcode()" />
           </el-form-item>
-          <el-form-item :label="$t('lead.address')" prop="address">
+          <el-form-item :label="$t('general.address')" prop="address">
             <el-input ref="address" v-model="currentLead.address" />
           </el-form-item>
-          <el-form-item :label="$t('lead.neighborhood')" prop="neighborhood">
+          <el-form-item :label="$t('general.neighborhood')" prop="neighborhood">
             <el-input v-model="currentLead.neighborhood" />
           </el-form-item>
-          <el-form-item :label="$t('lead.city')" prop="city">
+          <el-form-item :label="$t('general.city')" prop="city">
             <el-input v-model="currentLead.city" />
           </el-form-item>
-          <el-form-item :label="$t('lead.state')" prop="state">
+          <el-form-item :label="$t('general.state')" prop="state">
             <el-input v-model="currentLead.state" />
           </el-form-item>
-          <el-form-item :label="$t('lead.homephone')" prop="homephone">
+          <el-form-item :label="$t('general.homephone')" prop="homephone">
             <el-input v-model="currentLead.homephone" />
           </el-form-item>
-          <el-form-item :label="$t('lead.mobile')" prop="mobile">
+          <el-form-item :label="$t('general.mobile')" prop="mobile">
             <el-input v-model="currentLead.mobile" />
           </el-form-item>
-          <el-form-item :label="$t('lead.email')" prop="email">
+          <el-form-item :label="$t('general.email')" prop="email">
             <el-input v-model="currentLead.email" />
           </el-form-item>
           <el-form-item :label="$t('lead.registration_id')" prop="registration_id">
