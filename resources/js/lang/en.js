@@ -86,6 +86,7 @@ export default {
     uploadExcel: 'Upload Excel',
     users: 'Users',
     userProfile: 'User Profile',
+    wizardCrm: 'Wizard',
     zip: 'Zip',
   },
   components: {

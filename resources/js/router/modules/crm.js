@@ -13,16 +13,16 @@ const crmRoutes = {
   },
   children: [
     {
+      path: 'wizard',
+      component: () => import('@/views/crm/wizard/wizard.vue'),
+      name: 'wizardCrm',
+      meta: { title: 'wizardCrm', icon: 'magic' },
+    },
+    {
       path: 'leads',
       component: () => import('@/views/crm/leads/List'),
       name: 'LeadList',
       meta: { title: 'leadList', icon: 'lead', permissions: ['view lead', 'manage lead'] },
-    },
-    {
-      path: 'humans',
-      component: () => import('@/views/crm/humans/index'),
-      name: 'Humans',
-      meta: { title: 'humans', icon: 'humans' },
     },
     {
       path: 'pets',
