@@ -14,7 +14,7 @@ class CreatePetsTable extends Migration
     public function up()
     {
         Schema::create('pets', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name');
             $table->boolean('gender');
             $table->date('birthdate');
@@ -23,14 +23,18 @@ class CreatePetsTable extends Migration
             $table->char('coat');
             $table->char('registration_id');
             $table->tinyInteger('album_id');
+            $table->unsignedBigInteger('lead_id');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
         });
 
         Schema::create('owners', function (Blueprint $table) {
-            $table->foreign('lead_id')->references('id')->on('leads');
-            $table->foreign('pet_id')->references('id')->on('pets');
-            $table->timestamps();
+            $table->increments('id');
+            $table->unsignedBigInteger('lead_id');
+            $table->unsignedInteger('pet_id');
+            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
+            $table->foreign('pet_id')->references('id')->on('pets')->onDelete('cascade');
         });
     }
 
