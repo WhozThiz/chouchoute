@@ -6,8 +6,9 @@
  * @package Laravue
  * @version 1.0
  */
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Laravue\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
