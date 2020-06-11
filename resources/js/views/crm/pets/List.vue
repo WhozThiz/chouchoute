@@ -16,7 +16,7 @@
 
       <el-table-column align="center" :label="$t('general.name')">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <router-link v-show="scope.row.id !== null" :to="`/crm/pets/show/${scope.row.id}`">{{ scope.row.name }}</router-link>
         </template>
       </el-table-column>
 
@@ -63,38 +63,36 @@
     </el-table>
 
     <el-dialog :title="formTitle" :visible.sync="petFormVisible">
-      <div class="form-container">
-        <el-form ref="petForm" :model="currentPet" label-position="left" label-width="150px" style="max-width: 500px;">
-          <el-form-item :label="$t('general.name')" prop="name">
-            <el-input v-model="currentPet.name" />
-          </el-form-item>
-          <el-form-item :label="$t('pet.breed')" prop="breed">
-            <el-input v-model="currentPet.breed" />
-          </el-form-item>
-          <el-form-item :label="$t('pet.coat')" prop="coat">
-            <el-input v-model="currentPet.coat" />
-          </el-form-item>
-          <el-form-item :label="$t('general.gender')" prop="gender">
-            <el-input v-model="currentPet.gender" />
-          </el-form-item>
-          <el-form-item :label="$t('general.birthday')" prop="birthday">
-            <el-input v-model="currentPet.birthday" />
-          </el-form-item>
-          <el-form-item :label="$t('pet.neutered')" prop="neutered">
-            <el-input v-model="currentPet.neutered" />
-          </el-form-item>
-          <el-form-item :label="$t('pet.registration')" prop="registration">
-            <el-input v-model="currentPet.registration" />
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="petFormVisible = false">
-            {{ $t('general.cancel') }}
-          </el-button>
-          <el-button type="primary" @click="handleSubmit()">
-            {{ $t('general.confirm') }}
-          </el-button>
-        </div>
+      <el-form ref="petForm" :model="currentPet" label-position="left" label-width="150px" style="max-width: 100%">
+        <el-form-item :label="$t('general.name')" prop="name">
+          <el-input v-model="currentPet.name" />
+        </el-form-item>
+        <el-form-item :label="$t('pet.breed')" prop="breed">
+          <el-input v-model="currentPet.breed" />
+        </el-form-item>
+        <el-form-item :label="$t('pet.coat')" prop="coat">
+          <el-input v-model="currentPet.coat" />
+        </el-form-item>
+        <el-form-item :label="$t('general.gender')" prop="gender">
+          <el-input v-model="currentPet.gender" />
+        </el-form-item>
+        <el-form-item :label="$t('general.birthday')" prop="birthday">
+          <el-input v-model="currentPet.birthday" />
+        </el-form-item>
+        <el-form-item :label="$t('pet.neutered')" prop="neutered">
+          <el-input v-model="currentPet.neutered" />
+        </el-form-item>
+        <el-form-item :label="$t('pet.registration')" prop="registration">
+          <el-input v-model="currentPet.registration" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="petFormVisible = false">
+          {{ $t('general.cancel') }}
+        </el-button>
+        <el-button type="primary" @click="handleSubmit()">
+          {{ $t('general.confirm') }}
+        </el-button>
       </div>
     </el-dialog>
   </div>

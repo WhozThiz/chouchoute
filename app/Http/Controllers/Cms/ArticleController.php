@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Cms\ArticleImageController;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Laravue\Models\Cms\Article;
 use App\Http\Resources\Cms\ArticleResource;
 use App\Laravue\JsonResponse;
@@ -21,7 +21,7 @@ class ArticleController extends Controller
     public function index()
     {
         // Get articles
-        $articles = Article::orderBy('id', 'desc')->paginate(10);
+        $articles = Article::with('article_images')->orderBy('created_at', 'desc')->paginate(10);
 
         // Return collection of articles as a resource
         return ArticleResource::collection($articles);

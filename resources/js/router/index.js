@@ -16,8 +16,8 @@ import Layout from '@/layout';
 import cmsRoutes from './modules/cms';
 import crmRoutes from './modules/crm';
 import productivityRoutes from './modules/productivity';
-import elementUiRoutes from './modules/element-ui';
-import componentRoutes from './modules/components';
+// import elementUiRoutes from './modules/element-ui';
+// import componentRoutes from './modules/components';
 /*
 import chartsRoutes from './modules/charts';
 import tableRoutes from './modules/table';
@@ -125,14 +125,14 @@ export const constantRoutes = [
     ],
   },
   */
-  elementUiRoutes,
+  // elementUiRoutes,
 ];
 
 export const asyncRoutes = [
   crmRoutes,
   cmsRoutes,
   productivityRoutes,
-  componentRoutes,
+  // componentRoutes,
   /*
   chartsRoutes,
   nestedRoutes,

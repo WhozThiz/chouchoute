@@ -15,4 +15,8 @@ class Pet extends Model
         'neutered',
         'registration',
     ];
+
+    public function vaccines() {
+        return $this->hasMany('App\Laravue\Models\Crm\Vaccine');
+    }
 }
