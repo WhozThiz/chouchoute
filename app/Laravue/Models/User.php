@@ -84,4 +84,9 @@ class User extends Authenticatable implements JWTSubject
 
         return false;
     }
+
+    public function articles()
+    {
+        return $this->hasMany('Laravue\Models\Cms\Article');
+    }
 }

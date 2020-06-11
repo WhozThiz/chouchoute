@@ -14,8 +14,7 @@ class LeadResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
-        /**
+        // return parent::toArray($request);
         return [
 			'id' => $this->id,
             'name' => $this->name,
@@ -30,7 +29,6 @@ class LeadResource extends JsonResource
 			'registration_id' => $this->registration_id,
 			'tax_id' => $this->tax_id,
         ];
-        */
     }
     
 }

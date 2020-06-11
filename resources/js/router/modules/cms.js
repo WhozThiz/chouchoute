@@ -14,32 +14,9 @@ const cmsRoutes = {
     /** Article Managements */
     {
       path: 'articles',
-      component: () => import('@/views/articles/List'),
+      component: () => import('@/views/cms/articles/Articles'),
       name: 'Articles',
-      meta: { title: 'articleList', icon: 'articles' },
-      children: [
-        /** Articles */
-        {
-          path: 'articles',
-          component: () => import('@/views/articles/List'),
-          name: 'ArticleList',
-          meta: { title: 'articleList', icon: 'articles', permissions: ['manage article'] },
-        },
-        {
-          path: 'articles/edit/:id(\\d+)',
-          component: () => import('@/views/articles/Edit'),
-          name: 'EditArticle',
-          meta: { title: 'editArticle', noCache: true, permissions: ['manage article'] },
-          hidden: true,
-        },
-        {
-          path: 'articles/create',
-          component: () => import('@/views/articles/Create'),
-          name: 'CreateArticle',
-          meta: { title: 'createArticle', icon: 'edit', permissions: ['manage article'] },
-          hidden: true,
-        },
-      ],
+      meta: { title: 'articleList', icon: 'articles', permissions: ['manage article'] },
     },
     /** Post Managements */
     {
