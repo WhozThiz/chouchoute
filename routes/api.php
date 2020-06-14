@@ -106,6 +106,7 @@ Route::group(['middleware' => 'api'], function () {
     */
 
     Route::apiResource('articles', 'Cms\ArticleController');
+    Route::get('countarticles', 'Cms\ArticleController@countarticles');
 
     // All api requests to categories need "manage category" permission
     Route::apiResource('categories', 'CategoryController')->middleware('permission:manage category');

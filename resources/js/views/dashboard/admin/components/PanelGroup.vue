@@ -1,6 +1,19 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('purchases')">
+        <div class="card-panel-icon-wrapper icon-money">
+          <svg-icon icon-class="articles" class-name="card-panel-icon" />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            {{ $t('route.articles') }}
+          </div>
+          <count-to :start-val="0" :end-val="countarticles" :duration="3200" class="card-panel-num" />
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="humans" class-name="card-panel-icon" />
@@ -23,19 +36,6 @@
             {{ $t('route.pets') }}
           </div>
           <count-to :start-val="0" :end-val="countpets" :duration="3000" class="card-panel-num" />
-        </div>
-      </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('purchases')">
-        <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="money" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            Purchases
-          </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -69,6 +69,7 @@ export default {
   },
   data() {
     return {
+      countarticles: 0,
       countleads: 0,
       countpets: 0,
     };
@@ -78,6 +79,8 @@ export default {
   },
   methods: {
     async Counter() {
+      const articles = await dashboardResource.countarticles();
+      this.countarticles = articles;
       const leads = await dashboardResource.countleads();
       this.countleads = leads;
       const pets = await dashboardResource.countpets();
