@@ -62,7 +62,7 @@ export default {
     complexTable: 'Complex Table',
     treeTable: 'Tree Table',
     administrator: 'Administrator',
-    articleList: 'Articles',
+    articles: 'Articles',
     categories: 'Categories',
     clipboardDemo: 'Clipboard',
     cms: 'CMS',
@@ -244,6 +244,7 @@ export default {
     sidebarLogo: 'Sidebar Logo',
   },
   table: {
+    createdat: 'Created at',
     description: 'Description',
     dynamicTips1: 'Fixed header, sorted by header order',
     dynamicTips2: 'Not fixed header, sorted by click order',

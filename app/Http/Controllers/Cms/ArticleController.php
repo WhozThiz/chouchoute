@@ -111,7 +111,6 @@ class ArticleController extends Controller
             return response()->json(['errors' => $validator->errors()], 403);
         } else {
             $params = $request->all();
-            $article->name = $params['name'];
             $article->title = $params['title'];
             $article->user_id = '1';
             $article->authors = $params['authors'];
@@ -161,5 +160,17 @@ class ArticleController extends Controller
 
         return response()->json(null, 204);
 
+    }
+
+    /**
+     * Count the specified resource.
+     *
+     * @param  \App\Laravue\Models\Crm\Article  $article
+     * @return \Illuminate\Http\Response
+     */
+    public function countarticles()
+    {
+        $total = Article::count();
+        return response()->json($total);
     }
 }

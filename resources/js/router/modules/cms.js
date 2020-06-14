@@ -16,7 +16,7 @@ const cmsRoutes = {
       path: 'articles',
       component: () => import('@/views/cms/articles/Articles'),
       name: 'Articles',
-      meta: { title: 'articleList', icon: 'articles', permissions: ['manage article'] },
+      meta: { title: 'articles', icon: 'articles', permissions: ['manage article'] },
     },
     /** Post Managements */
     {

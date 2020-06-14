@@ -4,13 +4,13 @@
       <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreateForm">{{ $t('general.add') }}</el-button>
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
+      <el-table-column align="center" :label="$t('table.id')" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" label="Title">
+      <el-table-column min-width="300px" :label="$t('articles.title')">
         <template slot-scope="{row}">
           <router-link :to="'/articles/edit/'+row.id" class="link-type">
             <span>{{ row.title }}</span>
@@ -18,37 +18,46 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="120">
+      <el-table-column :label="$t('table.createdat')">
+        <template slot-scope="{row}">
+          <span>{{ row.created_at }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" :label="$t('table.actions')">
         <template slot-scope="scope">
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEditForm(scope.row.id);">
-            Edit
+            {{ $t('general.edit') }}
+          </el-button>
+          <el-button type="danger" size="small" icon="el-icon-edit" @click="handleDelete(scope.row.id, scope.row.name);">
+            {{ $t('general.delete') }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="formTitle" :visible.sync="articleFormVisible">
+    <el-dialog :title="formTitle" :visible.sync="articleFormVisible" :before-close="handleClose">
       <div class="form-container">
         <el-form ref="ArticleForm" :model="currentArticle">
           <el-form-item :label="$t('articles.title')" prop="title">
-            <el-input id="title" v-model="currentArticle.title" type="text" class="form-control" placeholder="Article Title" required />
+            <el-input id="title" v-model="currentArticle.title" class="form-control" placeholder="Article Title" required />
           </el-form-item>
           <el-form-item :label="$t('articles.authors')" prop="authors">
-            <el-input id="authors" v-model="currentArticle.authors" type="text" class="form-control" placeholder="Article Authors" />
+            <el-input id="authors" v-model="currentArticle.authors" class="form-control" placeholder="Article Authors" />
           </el-form-item>
           <el-form-item :label="$t('articles.keywords')" prop="keywords">
-            <el-input id="keywords" v-model="currentArticle.keywords" type="text" class="form-control" placeholder="Article Keywords" />
+            <el-input id="keywords" v-model="currentArticle.keywords" class="form-control" placeholder="Article Keywords" />
           </el-form-item>
           <el-form-item :label="$t('articles.abstract')" prop="abstract">
-            <el-input id="abstract" v-model="currentArticle.abstract" type="text" class="form-control" placeholder="Article Abstract" />
+            <el-input id="abstract" v-model="currentArticle.abstract" class="form-control" placeholder="Article Abstract" />
           </el-form-item>
           <el-form-item :label="$t('articles.introduction')" prop="introduction">
-            <el-input id="introduction" v-model="currentArticle.introduction" type="text" class="form-control" placeholder="Article Introduction" />
+            <el-input id="introduction" v-model="currentArticle.introduction" class="form-control" placeholder="Article Introduction" />
           </el-form-item>
           <el-form-item :label="$t('articles.body')" prop="body">
             <tinymce v-model="currentArticle.body" />
           </el-form-item>
           <el-form-item :label="$t('articles.references')" prop="references">
-            <el-input id="references" v-model="currentArticle.references" type="text" class="form-control" placeholder="Article References" />
+            <el-input id="references" v-model="currentArticle.references" class="form-control" placeholder="Article References" />
           </el-form-item>
           <el-form-item :label="$t('articles.publish_time')" prop="publish_time">
             <el-date-picker v-model="currentArticle.publish_time" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="Pick a Day and Time" />
@@ -198,6 +207,14 @@ export default {
           message: 'Delete canceled',
         });
       });
+    },
+
+    handleClose(done) {
+      this.$confirm('Are You Want to Leave?')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     },
 
   },
