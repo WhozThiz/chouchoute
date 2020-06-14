@@ -8,6 +8,7 @@ export default {
     comment_status: 'Comment Status',
     createarticle: 'Create Article',
     editarticle: 'Edit Article',
+    form: 'Creation Form',
     introduction: 'Introduction',
     keywords: 'Keywords',
     newarticle: 'New Article',
