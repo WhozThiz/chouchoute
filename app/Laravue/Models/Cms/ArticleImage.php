@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleImage extends Model
 {
-
     protected $fillable = [
         'article_id',
         'article_image_path',

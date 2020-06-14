@@ -16,29 +16,21 @@ class ArticleResource extends Resource
     {
         // return parent::toArray($request);
 
+        
         return [
             'id' => $this->id,
-            'display_time' => $this->display_time,
+            'user_id' => $this->user_id,
             'title' => $this->title,
-            'author' => $this->author,
-            'comment_disabled' => $this->comment_disabled,
-            'content' => $this->content,
-            'content_short' => $this->content_short,
-            'status' => $this->status,
-            'forecast' => $this->forecast,
-            'image_uri' => $this->image_uri,
-            'importance' => $this->importance,
-            'pageviews' => $this->pageviews,
-            'reviewer' => $this->reviewer,
-            'timestamp' => $this->timestamp,
-            'type' => $this->type,
+            'authors' => $this->authors,
+            'keywords' => $this->keywords,
+            'abstract' => $this->abstract,
+            'introdution' => $this->introdution,
+            'body' => $this->body,
+            'references' => $this->references,
+            'publish_time' => $this->publish_time,
+            'publish_status' => $this->publish_status,
+            'comment_status' => $this->comment_status,
         ];
-    }
-
-    public function with($request) {
-        return [
-            'version' => '1.0.0',
-            'author_url' => url('http://www.wihz.com.br')
-        ];
+        
     }
 }

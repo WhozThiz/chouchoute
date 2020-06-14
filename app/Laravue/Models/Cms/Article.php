@@ -22,11 +22,11 @@ class Article extends Model
 
     public function user()
     {
-        return $this->belongsTo('Laravue\Models\User');
+        return $this->belongsTo('App\Laravue\Models\User');
     }
 
-    public function post_images()
+    public function article_images()
     {
-        return $this->hasMany('Laravue\Models\Cms\ArticleImage');
+        return $this->hasMany('App\Laravue\Models\Cms\ArticleImage');
     }
 }
