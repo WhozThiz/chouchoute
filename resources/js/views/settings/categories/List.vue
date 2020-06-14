@@ -1,14 +1,21 @@
 <template>
   <div class="app-container">
+
     <div class="filter-container">
       <el-button v-permission="['manage category']" class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreateForm">
         {{ $t('table.add') }}
       </el-button>
     </div>
-    <el-table v-loading="loading" :data="list" border fit highlight-current-row>
+    <el-table v-loading="loading" :data="list" border fit stripe highlight-current-row>
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="Parent" width="200">
+        <template slot-scope="scope">
+          <span v-if="scope.row.parent !== null">{{ scope.row.parent.name }}</span>
         </template>
       </el-table-column>
 
@@ -18,13 +25,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Code" width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.code }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="Description">
+      <el-table-column align="left" label="Description">
         <template slot-scope="scope">
           <span>{{ scope.row.description }}</span>
         </template>
@@ -46,6 +47,14 @@
         <el-form ref="categoryForm" :model="currentCategory" label-position="left" label-width="150px" style="max-width: 500px;">
           <el-form-item label="Name" prop="name">
             <el-input v-model="currentCategory.name" />
+          </el-form-item>
+          <el-form-item label="Parent" prop="parent_id">
+            <el-select v-model="currentCategory.parent_id" placeholder="Select Parent">
+              <el-option v-for="item in list" :key="item.id" :label="item.name" :value="item.id">
+                <span style="float: left">{{ item.name }}</span>
+                <span v-if="item.parent !== null" style="float: right">{{ item.parent.name }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="Description" prop="description">
             <el-input v-model="currentCategory.description" type="textarea" />

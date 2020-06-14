@@ -109,9 +109,9 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('countarticles', 'Cms\ArticleController@countarticles');
 
     // All api requests to categories need "manage category" permission
-    Route::apiResource('categories', 'CategoryController')->middleware('permission:manage category');
+    Route::apiResource('categories', 'Settings\CategoryController')->middleware('permission:manage category');
     // Listing category will require "view category" or "manage category"
-    Route::get('categories', 'CategoryController@index')->name('categories.index')->middleware('permission:view category|manage category');
+    Route::get('categories', 'Settings\CategoryController@index')->name('categories.index')->middleware('permission:view category|manage category');
 
     // All api requests to leads need "manage lead" permission
     Route::apiResource('leads', 'Crm\LeadController')->middleware('permission:manage lead');
