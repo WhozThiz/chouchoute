@@ -33,6 +33,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('roles/{role}/permissions', 'Auth\RoleController@permissions')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
     Route::apiResource('permissions', 'Auth\PermissionController')->middleware('permission:' . \App\Laravue\Acl::PERMISSION_PERMISSION_MANAGE);
 
+    /*
     Route::get('/articles', function () {
         $rowsNumber = 10;
         $data = [];
@@ -62,7 +63,6 @@ Route::group(['middleware' => 'api'], function () {
         return response()->json(new JsonResponse(['items' => $data, 'total' => mt_rand(1000, 10000)]));
     });
 
-    /*
     Route::get('articles/{id}', function ($id) {
         $article = [
             'id' => $id,
@@ -105,7 +105,7 @@ Route::group(['middleware' => 'api'], function () {
     });
     */
 
-    // Route::apiResource('articles','Cms\ArticleController');
+    Route::apiResource('articles', 'Cms\ArticleController');
 
     // All api requests to categories need "manage category" permission
     Route::apiResource('categories', 'CategoryController')->middleware('permission:manage category');
