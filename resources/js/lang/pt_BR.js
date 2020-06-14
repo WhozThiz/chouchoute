@@ -8,6 +8,7 @@ export default {
     comment_status: 'Comment Status',
     createarticle: 'Criar Novo Texto',
     editarticle: 'Alterar Texto',
+    form: 'Modelo',
     introduction: 'Introduction',
     keywords: 'Keywords',
     newarticle: 'Novo Texto',
