@@ -18,6 +18,14 @@
         </template>
       </el-table-column>
 
+      <el-table-column class-name="status-col" label="Status" width="110">
+        <template slot-scope="{row}">
+          <el-tag :type="row.publish_status | statusFilter">
+            {{ row.publish_status }}
+          </el-tag>
+        </template>
+      </el-table-column>
+
       <el-table-column :label="$t('table.createdat')">
         <template slot-scope="{row}">
           <span>{{ row.created_at }}</span>
@@ -83,18 +91,31 @@
         </div>
       </div>
     </el-dialog>
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
   </div>
 </template>
 
 <script>
 import Resource from '@/api/resource';
+import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
 import Tinymce from '@/components/Tinymce';
 
 const articleResource = new Resource('articles');
 
 export default {
   name: 'ArticleList',
-  components: { Tinymce },
+  components: { Pagination, Tinymce },
+
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        1: 'success',
+        draft: 'info',
+        deleted: 'danger',
+      };
+      return statusMap[status];
+    },
+  },
 
   data() {
     return {
@@ -103,6 +124,11 @@ export default {
       listLoading: true,
       articleFormVisible: false,
       formTitle: '',
+      total: 0,
+      listQuery: {
+        page: 1,
+        limit: 20,
+      },
     };
   },
 
@@ -116,6 +142,7 @@ export default {
       this.listLoading = true;
       const { data } = await articleResource.list({});
       this.list = data.items.data;
+      this.total = data.total;
       this.listLoading = false;
     },
 
