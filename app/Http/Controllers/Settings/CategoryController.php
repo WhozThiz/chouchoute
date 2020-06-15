@@ -133,4 +133,14 @@ class CategoryController extends Controller
         return response()->json(null, 204);
     }
 
+    public function petcategories()
+    {
+
+        $coats = Category::where('parent_id', 3)->get();
+        $breeds = Category::where('parent_id', 2)->get();
+
+        return response()->json(new JsonResponse(['coats' => $coats, 'breeds' => $breeds]));
+
+    }
+
 }

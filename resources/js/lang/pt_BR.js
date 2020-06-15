@@ -136,7 +136,7 @@ export default {
     add: 'Adicionar',
     address: 'Endereço',
     back: 'Voltar',
-    birthday: 'Aniversário',
+    birthdate: 'Aniversário',
     cancel: 'Cancelar',
     city: 'Cidade',
     confirm: 'Confirmar',
@@ -210,6 +210,7 @@ export default {
   pet: {
     breed: 'Raça',
     coat: 'Pelagem',
+    color: 'Cor',
     createpet: 'Inserir Novo Pet',
     editpet: 'Editar as Informações do Pet',
     female: 'Fêmea',

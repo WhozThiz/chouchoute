@@ -10,8 +10,9 @@ class Pet extends Model
         'name',
         'breed',
         'coat',
-        'birthday',
+        'birthdate',
         'gender',
+        'color',
         'neutered',
         'registration',
     ];

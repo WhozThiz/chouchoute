@@ -137,7 +137,7 @@ export default {
     add: 'Add',
     address: 'Address',
     back: 'Back',
-    birthday: 'Birthday',
+    birthdate: 'Birthdate',
     cancel: 'Cancel',
     city: 'City',
     confirm: 'Confirm',
@@ -211,6 +211,7 @@ export default {
   pet: {
     breed: 'Breed',
     coat: 'Coat',
+    color: 'Color',
     createpet: 'Create New Pet',
     editpet: 'Edit Pet Profile',
     female: 'Female',

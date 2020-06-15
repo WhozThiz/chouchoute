@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Crm;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Crm\PetResource;
 use App\Laravue\Models\Crm\Pet;
+use App\Laravue\Models\Settings\Category;
 use App\Http\Requests\Crm\PetRequest;
 use App\Laravue\JsonResponse;
 use Illuminate\Http\Request;
@@ -52,7 +53,8 @@ class PetController extends Controller
                 'breed' => $params['breed'],
                 'coat' => $params['coat'],
                 'gender' => $params['gender'],
-                'birthday' => $params['birthday'],
+                'color' => $params['color'],
+                'birthdate' => $params['birthdate'],
                 'neutered' => $params['neutered'],
                 'registration' => $params['registration'],
             ]);
@@ -112,7 +114,8 @@ class PetController extends Controller
             $pet->breed = $params['breed'];
             $pet->coat = $params['coat'];
             $pet->gender = $params['gender'];
-            $pet->birthday = $params['birthday'];
+            $pet->color = $params['color'];
+            $pet->birthdate = $params['birthdate'];
             $pet->neutered = $params['neutered'];
             $pet->registration = $params['registration'];
             $pet->save();
