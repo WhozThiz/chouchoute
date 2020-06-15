@@ -76,6 +76,7 @@
 <script>
 import Resource from '@/api/resource';
 import permission from '@/directive/permission'; // Import permission directive
+
 const categoryResource = new Resource('categories');
 
 export default {
