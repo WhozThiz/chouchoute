@@ -14,39 +14,33 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('general.name')">
+      <el-table-column align="left" :label="$t('general.name')">
         <template slot-scope="scope">
           <router-link v-show="scope.row.id !== null" :to="`/crm/pets/show/${scope.row.id}`">{{ scope.row.name }}</router-link>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('pet.breed')" width="200">
+      <el-table-column align="center" :label="$t('pet.breed')">
         <template slot-scope="scope">
           <span>{{ scope.row.breed }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('pet.coat')" width="200">
+      <el-table-column align="center" :label="$t('pet.coat')">
         <template slot-scope="scope">
           <span>{{ scope.row.coat }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('general.gender')" width="100">
+      <el-table-column align="center" :label="$t('pet.color')">
         <template slot-scope="scope">
-          <span>{{ scope.row.gender }}</span>
+          <span>{{ scope.row.color }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('pet.neutered')" width="100">
+      <el-table-column align="center" :label="$t('general.birthdate')">
         <template slot-scope="scope">
-          <span>{{ scope.row.neutered }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" :label="$t('general.birthday')" width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.birthday }}</span>
+          <span>{{ scope.row.birthdate }}</span>
         </template>
       </el-table-column>
 
@@ -68,19 +62,30 @@
           <el-input v-model="currentPet.name" />
         </el-form-item>
         <el-form-item :label="$t('pet.breed')" prop="breed">
-          <el-input v-model="currentPet.breed" />
+          <el-select v-model="currentPet.breed" placeholder="Select Breed">
+            <el-option v-for="item in breeds" :key="item.id" :label="item.name" :value="item.name">
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item :label="$t('pet.coat')" prop="coat">
-          <el-input v-model="currentPet.coat" />
+          <el-select v-model="currentPet.coat" placeholder="Select Coat">
+            <el-option v-for="item in coats" :key="item.id" :label="item.name" :value="item.name">
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('pet.color')" prop="color">
+          <el-input v-model="currentPet.color" />
         </el-form-item>
         <el-form-item :label="$t('general.gender')" prop="gender">
-          <el-input v-model="currentPet.gender" />
+          <el-switch v-model="currentPet.gender" active-color="#409EFF" inactive-color="#F56C6C" active-text="Male" inactive-text="Female" :active-value="1" :inactive-value="0" />
         </el-form-item>
-        <el-form-item :label="$t('general.birthday')" prop="birthday">
-          <el-input v-model="currentPet.birthday" />
+        <el-form-item :label="$t('general.birthdate')" prop="birthdate">
+          <el-date-picker v-model="currentPet.birthdate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" />
         </el-form-item>
         <el-form-item :label="$t('pet.neutered')" prop="neutered">
-          <el-input v-model="currentPet.neutered" />
+          <el-switch v-model="currentPet.neutered" active-color="#409EFF" inactive-color="#F56C6C" :active-text="$t('general.yes')" :inactive-text="$t('general.no')" :active-value="1" :inactive-value="0" />
         </el-form-item>
         <el-form-item :label="$t('pet.registration')" prop="registration">
           <el-input v-model="currentPet.registration" />
@@ -100,6 +105,9 @@
 
 <script>
 import Resource from '@/api/resource';
+import CategoryResource from '@/api/category';
+
+const categoryResource = new CategoryResource();
 const petResource = new Resource('pets');
 
 export default {
@@ -107,14 +115,18 @@ export default {
   data() {
     return {
       list: [],
+      breeds: [],
+      coats: [],
       loading: true,
       petFormVisible: false,
       currentPet: {},
       formTitle: '',
+      disabled: false,
     };
   },
   created() {
     this.getList();
+    this.getCategories();
   },
   methods: {
     async getList() {
@@ -122,6 +134,11 @@ export default {
       const { data } = await petResource.list({});
       this.list = data;
       this.loading = false;
+    },
+    async getCategories() {
+      const { data } = await categoryResource.getPetCategories({});
+      this.coats = data.coats;
+      this.breeds = data.breeds;
     },
     handleSubmit() {
       if (this.currentPet.id !== undefined) {
@@ -151,7 +168,8 @@ export default {
               breed: '',
               coat: '',
               gender: '',
-              birthday: '',
+              color: '',
+              birthdate: '',
               neutered: '',
               registration: '',
             };
@@ -171,7 +189,8 @@ export default {
         breed: '',
         coat: '',
         gender: '',
-        birthday: '',
+        color: '',
+        birthdate: '',
         neutered: '',
         registration: '',
       };
