@@ -2,25 +2,24 @@
   <div class="app-container">
 
     <div class="filter-container">
-      <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreateForm">
-        {{ $t('general.add') }}
+      <el-input v-model="query.keyword" :placeholder="$t('table.keyword')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+        {{ $t('table.search') }}
+      </el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreateForm">
+        {{ $t('table.add') }}
       </el-button>
     </div>
 
-    <el-table v-loading="loading" :data="list" border fit highlight-current-row>
-      <el-table-column align="center" label="ID" width="80">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
+    <el-table v-loading="loading" :data="list" stripe highlight-current-row max-height="400" style="width: 100%">
 
-      <el-table-column align="left" :label="$t('general.name')">
+      <el-table-column fixed align="left" :label="$t('general.name')" prop="name" width="150">
         <template slot-scope="scope">
           <router-link v-show="scope.row.id !== null" :to="`/crm/pets/show/${scope.row.id}`">{{ scope.row.name }}</router-link>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('pet.breed')">
+      <el-table-column align="center" :label="$t('pet.breed')" prop="breed" min-width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.breed }}</span>
         </template>
@@ -44,7 +43,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="350">
+      <el-table-column fixed="right" align="center" label="Actions" width="200">
         <template slot-scope="scope">
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEditForm(scope.row.id);">
             {{ $t('general.edit') }}
@@ -55,6 +54,8 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <pagination v-show="total>0" :total="total" :page.sync="query.page" :limit.sync="query.limit" @pagination="getList" />
 
     <el-dialog :title="formTitle" :visible.sync="petFormVisible">
       <el-form ref="petForm" :model="currentPet" label-position="left" label-width="150px" style="max-width: 100%">
@@ -104,7 +105,9 @@
 </template>
 
 <script>
+import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
 import Resource from '@/api/resource';
+import waves from '@/directive/waves'; // Waves directive
 import CategoryResource from '@/api/category';
 
 const categoryResource = new CategoryResource();
@@ -112,9 +115,11 @@ const petResource = new Resource('pets');
 
 export default {
   name: 'PetList',
+  components: { Pagination },
+  directives: { waves },
   data() {
     return {
-      list: [],
+      list: null,
       breeds: [],
       coats: [],
       loading: true,
@@ -122,6 +127,12 @@ export default {
       currentPet: {},
       formTitle: '',
       disabled: false,
+      total: 0,
+      query: {
+        page: 1,
+        limit: 20,
+        keyword: '',
+      },
     };
   },
   created() {
@@ -129,10 +140,16 @@ export default {
     this.getCategories();
   },
   methods: {
+
     async getList() {
+      const { limit, page } = this.query;
       this.loading = true;
-      const { data } = await petResource.list({});
+      const { data, meta } = await petResource.list(this.query);
       this.list = data;
+      this.list.forEach((element, index) => {
+        element['index'] = (page - 1) * limit + index + 1;
+      });
+      this.total = meta.total;
       this.loading = false;
     },
     async getCategories() {
@@ -140,6 +157,12 @@ export default {
       this.coats = data.coats;
       this.breeds = data.breeds;
     },
+
+    handleFilter() {
+      this.query.page = 1;
+      this.getList();
+    },
+
     handleSubmit() {
       if (this.currentPet.id !== undefined) {
         petResource.update(this.currentPet.id, this.currentPet).then(response => {
@@ -181,6 +204,7 @@ export default {
           });
       }
     },
+
     handleCreateForm() {
       this.petFormVisible = true;
       this.formTitle = this.$t('pet.createpet');
@@ -195,6 +219,7 @@ export default {
         registration: '',
       };
     },
+
     handleDelete(id, name) {
       this.$confirm('This will permanently delete pet ' + name + '. Continue?', 'Warning', {
         confirmButtonText: 'OK',
@@ -217,6 +242,7 @@ export default {
         });
       });
     },
+
     handleEditForm(id) {
       this.petFormVisible = true;
       this.formTitle = this.$t('pet.editpet');

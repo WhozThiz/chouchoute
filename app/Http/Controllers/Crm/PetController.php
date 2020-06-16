@@ -9,18 +9,34 @@ use App\Laravue\Models\Settings\Category;
 use App\Http\Requests\Crm\PetRequest;
 use App\Laravue\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Validator;
 
 class PetController extends Controller
 {
+
+    const ITEM_PER_PAGE = 20;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return PetResource::collection(Pet::all());
+        // Get Pets
+        $searchParams = $request->all();
+        $petQuery = Pet::query();
+        $limit = Arr::get($searchParams, 'limit', static::ITEM_PER_PAGE);
+        $keyword = Arr::get($searchParams, 'keyword', '');
+
+        if (!empty($keyword)) {
+            $petQuery->where('name', 'LIKE', '%' . $keyword . '%');
+            $petQuery->where('breed', 'LIKE', '%' . $keyword . '%');
+        }
+
+        // Return collection of articles as a resource
+        return PetResource::collection($petQuery->orderBy('name', 'asc')->paginate($limit));
     }
 
     /**
@@ -43,7 +59,7 @@ class PetController extends Controller
     {
 
         $validator = $request->validated();
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 403);
         } else {
@@ -58,7 +74,7 @@ class PetController extends Controller
                 'neutered' => $params['neutered'],
                 'registration' => $params['registration'],
             ]);
-            
+
             return new PetResource($pet);
         }
     }
@@ -90,7 +106,7 @@ class PetController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Laravue\Models\Crm\Pet  $pet
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Pet $pet)
