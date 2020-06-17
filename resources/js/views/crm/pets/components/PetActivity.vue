@@ -4,25 +4,10 @@
       <el-tab-pane :label="$t('pet.vaccines')" name="Vaccines">
 
         <div>
-          <el-form ref="vaccineForm" :model="currentVaccine" :inline="true" label-width="100px" width="100%">
-            <el-form-item :label="$t('general.date')" prop="'vaccinedate'">
-              <el-date-picker v-model="currentVaccine.vaccinedate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" :picker-options="pickerOptions" />
-            </el-form-item>
-            <el-form-item :label="$t('pet.vaccine')" prop="vaccine">
-              <el-select v-model="currentVaccine.vaccine" placeholder="Select Vaccine">
-                <el-option v-for="item in vaccinecategories" :key="item.id" :label="item.name" :value="item.id">
-                  <span style="float: left">{{ item.name }}</span>
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item :label="$t('pet.batch')" prop="batch">
-              <el-input v-model="currentVaccine.batch" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="handleVaccine()">{{ $t('general.confirm') }}</el-button>
-            </el-form-item>
-          </el-form>
-          <p v-for="(vaccine, index) in vaccines" :key="index">{{ vaccine.vaccinedate }} - {{ vaccine.vaccine }} - {{ vaccine.batch }}
+          <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreateForm">
+            {{ $t('table.add') }}
+          </el-button>
+          <p v-for="(vaccine, index) in vaccines" :key="index">{{ vaccine.vaccinedate }} - {{ vaccine.vaccine }} - {{ vaccine.vaccinebatch }}
             <template>
               <el-button type="text" @click="handleEditForm(vaccine.id);">Edit</el-button>
             </template>
@@ -108,7 +93,30 @@
         </el-form-item>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog :title="formTitle" :visible.sync="vaccineFormVisible">
+      <el-form ref="vaccineForm" :model="currentVaccine" :inline="true" label-width="100px" width="100%">
+        <el-form-item :label="$t('general.date')" prop="'vaccinedate'">
+          <el-date-picker v-model="currentVaccine.vaccinedate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" :picker-options="pickerOptions" />
+        </el-form-item>
+        <el-form-item :label="$t('pet.vaccine')" prop="vaccine">
+          <el-select v-model="currentVaccine.vaccine" placeholder="Select Vaccine">
+            <el-option v-for="item in vaccinecategories" :key="item.id" :label="item.name" :value="item.id">
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('pet.batch')" prop="batch">
+          <el-input v-model="currentVaccine.vaccinebatch" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleVaccine()">{{ $t('general.confirm') }}</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
   </el-card>
+
 </template>
 
 <script>
@@ -118,6 +126,7 @@ import CategoryResource from '@/api/category';
 import { mask } from 'vue-the-mask';
 
 const petResource = new Resource('pets');
+const vaccinesResource = new Resource('vaccines');
 const vaccineResource = new VaccineResource();
 const categoryResource = new CategoryResource();
 
@@ -147,11 +156,13 @@ export default {
       vaccines: [{
         vaccinedate: '',
         vaccine: '',
-        batch: '',
+        vaccinebatch: '',
       }],
       breeds: [],
       coats: [],
       vaccinecategories: [],
+      formTitle: '',
+      vaccineFormVisible: false,
       currentVaccine: {},
       activeActivity: 'Vaccines',
       updating: false,
@@ -210,37 +221,48 @@ export default {
       console.log(tab, event);
     },
 
+    handleCreateForm() {
+      this.vaccineFormVisible = true;
+      this.currentVaccine = {
+        vaccinedate: '',
+        vaccine: '',
+        vaccinebatch: '',
+      };
+    },
+
     handleEditForm(id) {
       this.currentVaccine = this.vaccines.find(vaccine => vaccine.id === id);
     },
 
     handleVaccine() {
-      this.currentVaccine.pet_id = this.pet.id;
       if (this.currentVaccine.id !== undefined) {
-        vaccineResource.update(this.currentVaccine.id, this.currentVaccine).then(response => {
+        vaccinesResource.update(this.currentVaccine.id, this.currentVaccine).then(response => {
           this.$message({
             type: 'success',
             message: this.$t('pet.petprofile') + ' ' + this.$t('general.hasbeenupdatedsucessfully'),
             duration: 5 * 1000,
           });
+          this.vaccineFormVisible = false;
           this.getVaccines(this.pet.id);
         }).catch(error => {
           console.log(error);
         });
       } else {
-        vaccineResource
+        this.currentVaccine.pet_id = this.pet.id;
+        vaccinesResource
           .store(this.currentVaccine)
           .then(response => {
             this.$message({
-              message: this.$t('pet.newpet') + ' ' + this.currentPet.name + ' ' + this.$t('general.hasbeenupdatedsucessfully'),
+              message: 'Added Successfully',
               type: 'success',
               duration: 5 * 1000,
             });
             this.currentVaccine = {
               vaccinedate: '',
               vaccine: '',
-              batch: '',
+              vaccinebatch: '',
             };
+            this.vaccineFormVisible = false;
             this.getVaccines(this.pet.id);
           })
           .catch(error => {
@@ -256,7 +278,7 @@ export default {
         .then(response => {
           this.updating = false;
           this.$message({
-            message: this.$t('pet.petprofile') + ' ' + this.$t('general.hasbeenupdatedsucessfully'),
+            message: 'Added Successfully',
             type: 'success',
             duration: 5 * 1000,
           });

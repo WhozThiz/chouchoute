@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Crm\VaccineResource;
 use App\Laravue\Models\Crm\Vaccine;
 use Illuminate\Http\Request;
+use Validator;
 
 class VaccineController extends Controller
 {
@@ -42,21 +43,14 @@ class VaccineController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $request->validated();
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 403);
-        } else {
-            $params = $request->all();
-            $vaccine = Vaccine::create([
-                'pet_id' => $params['pet_id'],
-                'vaccinedate' => $params['vaccinedate'],
-                'vaccine' => $params['vaccine'],
-                'batch' => $params['batch'],
-            ]);
-
-            return new VaccineResource($vaccine);
-        }
+        $params = $request->all();
+        $vaccine = Vaccine::create([
+            'pet_id' => $params['pet_id'],
+            'vaccinedate' => $params['vaccinedate'],
+            'vaccine' => $params['vaccine'],
+            'vaccinebatch' => $params['vaccinebatch'],
+        ]);
+        return new VaccineResource($vaccine);
     }
 
     /**
@@ -94,7 +88,7 @@ class VaccineController extends Controller
         $vaccine->pet_id = $params['pet_id'];
         $vaccine->vaccinedate = $params['vaccinedate'];
         $vaccine->vaccine = $params['vaccine'];
-        $vaccine->batch = $params['batch'];
+        $vaccine->vaccinebatch = $params['vaccinebatch'];
         $vaccine->save();
 
         return new VaccineResource($vaccine);
