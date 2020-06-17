@@ -159,6 +159,7 @@ export default {
     no: 'Não',
     profile: 'Perfil',
     state: 'Estado',
+    update: 'Atualizar',
     yes: 'Sim',
     zipcode: 'CEP',
   },
@@ -208,6 +209,7 @@ export default {
     cancel: 'Cancel',
   },
   pet: {
+    batch: 'Batch',
     breed: 'Raça',
     coat: 'Pelagem',
     color: 'Cor',

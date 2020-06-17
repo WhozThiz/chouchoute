@@ -143,4 +143,13 @@ class CategoryController extends Controller
 
     }
 
+    public function vaccinecategories()
+    {
+
+        $vaccines = Category::where('parent_id', 4)->get();
+
+        return response()->json(new JsonResponse($vaccines));
+
+    }
+
 }

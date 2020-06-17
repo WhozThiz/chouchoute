@@ -160,6 +160,7 @@ export default {
     no: 'No',
     profile: 'Profile',
     state: 'State',
+    update: 'Update',
     yes: 'Yes',
     zipcode: 'ZIP Code',
   },
@@ -209,6 +210,7 @@ export default {
     cancel: 'Cancel',
   },
   pet: {
+    batch: 'Batch',
     breed: 'Breed',
     coat: 'Coat',
     color: 'Color',

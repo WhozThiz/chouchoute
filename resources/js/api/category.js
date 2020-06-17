@@ -9,6 +9,13 @@ class CategoryResource extends Resource {
       params: query,
     });
   }
+  getVaccineCategories(query) {
+    return request({
+      url: '/vaccinecategories',
+      method: 'get',
+      params: query,
+    });
+  }
 }
 
 export { CategoryResource as default };
