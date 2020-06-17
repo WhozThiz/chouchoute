@@ -11,7 +11,7 @@
       </el-button>
     </div>
 
-    <el-table v-loading="loading" :data="list" stripe highlight-current-row max-height="400" style="width: 100%">
+    <el-table v-loading="loading" :data="list.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" stripe highlight-current-row max-height="400" style="width: 100%">
 
       <el-table-column fixed align="left" :label="$t('general.name')" prop="name" width="150">
         <template slot-scope="scope">
@@ -43,7 +43,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" align="center" label="Actions" width="200">
+      <el-table-column fixed="right" align="center" width="200">
+        <template slot="header" :slot-scope="scope">
+          <el-input v-model="search" placeholder="Type to Search" />
+        </template>
         <template slot-scope="scope">
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEditForm(scope.row.id);">
             {{ $t('general.edit') }}
@@ -119,7 +122,7 @@ export default {
   directives: { waves },
   data() {
     return {
-      list: null,
+      list: [],
       breeds: [],
       coats: [],
       loading: true,
@@ -133,6 +136,7 @@ export default {
         limit: 20,
         keyword: '',
       },
+      search: '',
     };
   },
   created() {
@@ -152,6 +156,7 @@ export default {
       this.total = meta.total;
       this.loading = false;
     },
+
     async getCategories() {
       const { data } = await categoryResource.getPetCategories({});
       this.coats = data.coats;
