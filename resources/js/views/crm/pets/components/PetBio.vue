@@ -13,8 +13,12 @@
           <span>{{ $t('pet.coat') }}: </span>
           {{ pet.coat }}
         </div>
+        <div class="text-muted">
+          <span>{{ $t('pet.color') }}: </span>
+          {{ pet.color }}
+        </div>
         <div v-show="pet.birthdate !== null" class="text-muted">
-          <span>{{ $t('general.birthday') }}: </span>
+          <span>{{ $t('general.birthdate') }}: </span>
           {{ pet.birthdate }}
         </div>
         <div class="text-muted">
@@ -82,7 +86,7 @@ export default {
           name: '',
           breed: '',
           coat: '',
-          birthday: '',
+          birthdate: '',
           gender: '',
           neutered: '',
           registration_id: '',

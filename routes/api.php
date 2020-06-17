@@ -113,6 +113,7 @@ Route::group(['middleware' => 'api'], function () {
     // Listing category will require "view category" or "manage category"
     Route::get('categories', 'Settings\CategoryController@index')->name('categories.index')->middleware('permission:view category|manage category');
     Route::get('petcategories', 'Settings\CategoryController@petcategories');
+    Route::get('vaccinecategories', 'Settings\CategoryController@vaccinecategories');
 
     // All api requests to leads need "manage lead" permission
     Route::apiResource('leads', 'Crm\LeadController')->middleware('permission:manage lead');
@@ -130,9 +131,9 @@ Route::group(['middleware' => 'api'], function () {
     Route::apiResource('posts', 'Cms\PostController');
 
     // All api requests to vaccines need "manage vaccine" permission
-    Route::apiResource('vaccines', 'VaccineController');
+    Route::apiResource('vaccines', 'Crm\VaccineController');
     // Listing pet will require "view pet" or "manage pet"
-    Route::get('vaccines', 'VaccineController@vaccines')->name('vaccines.list');
+    Route::get('vaccines', 'Crm\VaccineController@vaccines')->name('vaccines.list');
 
     // Fake APIs
     Route::get('/table/list', function () {

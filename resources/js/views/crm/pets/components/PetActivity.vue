@@ -1,32 +1,35 @@
 <template>
   <el-card>
     <el-tabs v-model="activeActivity" @tab-click="handleClick">
-      <el-tab-pane :label="$t('pet.vaccines')" name="first">
+      <el-tab-pane :label="$t('pet.vaccines')" name="Vaccines">
+
         <div>
-          <el-form :inline="true">
-            <el-form-item :label="$t('general.date')" prop="'date'">
-              <el-date-picker type="date" placeholder="Pick a day" :picker-options="pickerOptions" />
+          <el-form ref="vaccineForm" :model="currentVaccine" :inline="true" label-width="100px" width="100%">
+            <el-form-item :label="$t('general.date')" prop="'vaccinedate'">
+              <el-date-picker v-model="currentVaccine.vaccinedate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" :picker-options="pickerOptions" />
             </el-form-item>
-            <el-form-item
-              :label="$t('pet.vaccine')"
-              :prop="vaccine"
-              :rules="{
-                required: true, message: 'vaccine can not be null', trigger: 'blur'
-              }"
-            >
-              <el-input v-model="vaccine" />
+            <el-form-item :label="$t('pet.vaccine')" prop="vaccine">
+              <el-select v-model="currentVaccine.vaccine" placeholder="Select Vaccine">
+                <el-option v-for="item in vaccinecategories" :key="item.id" :label="item.name" :value="item.id">
+                  <span style="float: left">{{ item.name }}</span>
+                </el-option>
+              </el-select>
             </el-form-item>
-            <el-form-item :label="$t('pet.validation')" prop="validation">
-              <el-date-picker v-model="validation" type="date" placeholder="Pick a day" />
+            <el-form-item :label="$t('pet.batch')" prop="batch">
+              <el-input v-model="currentVaccine.batch" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-add" @click="addVaccine">Add Vaccine</el-button>
+              <el-button type="primary" @click="handleVaccine()">{{ $t('general.confirm') }}</el-button>
             </el-form-item>
           </el-form>
-          <p v-for="(vaccine, index) in vaccines" :key="index">{{ vaccine.vaccinedate }} - {{ vaccine.vaccine }} - {{ vaccine.batch }}</p>
+          <p v-for="(vaccine, index) in vaccines" :key="index">{{ vaccine.vaccinedate }} - {{ vaccine.vaccine }} - {{ vaccine.batch }}
+            <template>
+              <el-button type="text" @click="handleEditForm(vaccine.id);">Edit</el-button>
+            </template>
+          </p>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="Timeline" name="second">
+      <el-tab-pane label="Timeline" name="Timeline">
         <div class="block">
           <el-timeline>
             <el-timeline-item timestamp="2019/4/17" placement="top">
@@ -57,43 +60,50 @@
           </el-timeline>
         </div>
       </el-tab-pane>
-      <el-tab-pane v-loading="updating" :label="$t('general.profile')" name="third">
-        <el-form ref="updatePet" :model="updatePet">
+      <el-tab-pane v-loading="updating" :label="$t('general.profile')" name="Update">
+        <el-form ref="petForm" :model="pet" label-width="100px">
           <el-form-item :label="$t('general.name')" prop="name">
             <el-input v-model="pet.name" />
           </el-form-item>
           <el-form-item :label="$t('pet.breed')" prop="breed">
-            <el-input v-model="pet.breed" />
+            <el-select v-model="pet.breed" placeholder="Select Breed">
+              <el-option v-for="item in breeds" :key="item.id" :label="item.name" :value="item.name">
+                <span style="float: left">{{ item.name }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item :label="$t('pet.coat')" prop="coat">
-            <el-input v-model="pet.coat" />
+            <el-select v-model="pet.coat" placeholder="Select Coat">
+              <el-option v-for="item in coats" :key="item.id" :label="item.name" :value="item.name">
+                <span style="float: left">{{ item.name }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('pet.color')" prop="color">
+            <el-input v-model="pet.color" />
+          </el-form-item>
+          <el-form-item :label="$t('general.birthdate')" prop="birthdate">
+            <el-date-picker v-model="pet.birthdate" type="date" placeholder="Pick a day" />
           </el-form-item>
           <el-form-item>
-            <el-col :span="8">
-              <el-form-item :label="$t('general.birthday')" prop="birthdate">
-                <el-date-picker v-model="pet.birthdate" type="date" placeholder="Pick a day" />
-              </el-form-item>
-            </el-col>
-            <el-col class="line" :span="1">-</el-col>
-            <el-col :span="7">
+            <el-col :span="12">
               <el-form-item :label="$t('general.gender')" prop="gender">
-                <el-switch v-model="pet.gender" active-color="#409EFF" inactive-color="#F56C6C" :active-text="$t('pet.male')" :inactive-text="$t('pet.female')" />
+                <el-switch v-model="pet.gender" active-color="#409EFF" inactive-color="#F56C6C" :active-text="$t('pet.male')" :inactive-text="$t('pet.female')" :active-value="1" :inactive-value="0" />
               </el-form-item>
             </el-col>
-            <el-col class="line" :span="1">-</el-col>
-            <el-col :span="7">
+            <el-col :span="12">
               <el-form-item :label="$t('pet.neutered')" prop="neutered">
-                <el-switch v-model="pet.neutered" active-color="#13ce66" inactive-color="#ff4949" :active-text="$t('general.yes')" :inactive-text="$t('general.no')" />
+                <el-switch v-model="pet.neutered" active-color="#13ce66" inactive-color="#ff4949" :active-text="$t('general.yes')" :inactive-text="$t('general.no')" :active-value="1" :inactive-value="0" />
               </el-form-item>
             </el-col>
           </el-form-item>
-          <el-form-item :label="$t('pet.registration')" prop="registration_id">
-            <el-input v-model="pet.registration_id" />
+          <el-form-item :label="$t('pet.registration')" prop="registration">
+            <el-input v-model="pet.registration" />
           </el-form-item>
         </el-form>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">
-            Update
+          <el-button type="primary" @click="handleSubmit">
+            {{ $t('general.update') }}
           </el-button>
         </el-form-item>
       </el-tab-pane>
@@ -104,10 +114,12 @@
 <script>
 import Resource from '@/api/resource';
 import VaccineResource from '@/api/vaccines';
+import CategoryResource from '@/api/category';
 import { mask } from 'vue-the-mask';
 
 const petResource = new Resource('pets');
 const vaccineResource = new VaccineResource();
+const categoryResource = new CategoryResource();
 
 export default {
   directives: {
@@ -121,21 +133,27 @@ export default {
           name: '',
           breed: '',
           coat: '',
-          avatar: '',
+          gender: '',
+          color: '',
+          birthdate: '',
+          neutered: '',
+          registration: '',
         };
       },
     },
   },
   data() {
     return {
-      vaccines: [],
-      activeActivity: 'first',
-      carouselImages: [
-        'https://cdn.laravue.dev/photo1.png',
-        'https://cdn.laravue.dev/photo2.png',
-        'https://cdn.laravue.dev/photo3.jpg',
-        'https://cdn.laravue.dev/photo4.jpg',
-      ],
+      vaccines: [{
+        vaccinedate: '',
+        vaccine: '',
+        batch: '',
+      }],
+      breeds: [],
+      coats: [],
+      vaccinecategories: [],
+      currentVaccine: {},
+      activeActivity: 'Vaccines',
       updating: false,
       pickerOptions: {
         disabledDate(time) {
@@ -167,23 +185,78 @@ export default {
   created() {
     const id = this.$route.params && this.$route.params.id;
     this.getVaccines(id);
+    this.getVaccineCategories();
+    this.getPetCategories();
   },
   methods: {
+
     async getVaccines(id) {
       const { data } = await vaccineResource.vaccines({ pet_id: id });
       this.vaccines = data;
     },
-    handleClick(tab, event) {
-      console.log('Switching tab ', tab, event);
+
+    async getVaccineCategories() {
+      const { data } = await categoryResource.getVaccineCategories({});
+      this.vaccinecategories = data;
     },
-    onSubmit() {
+
+    async getPetCategories() {
+      const { data } = await categoryResource.getPetCategories({});
+      this.coats = data.coats;
+      this.breeds = data.breeds;
+    },
+
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
+
+    handleEditForm(id) {
+      this.currentVaccine = this.vaccines.find(vaccine => vaccine.id === id);
+    },
+
+    handleVaccine() {
+      this.currentVaccine.pet_id = this.pet.id;
+      if (this.currentVaccine.id !== undefined) {
+        vaccineResource.update(this.currentVaccine.id, this.currentVaccine).then(response => {
+          this.$message({
+            type: 'success',
+            message: this.$t('pet.petprofile') + ' ' + this.$t('general.hasbeenupdatedsucessfully'),
+            duration: 5 * 1000,
+          });
+          this.getVaccines(this.pet.id);
+        }).catch(error => {
+          console.log(error);
+        });
+      } else {
+        vaccineResource
+          .store(this.currentVaccine)
+          .then(response => {
+            this.$message({
+              message: this.$t('pet.newpet') + ' ' + this.currentPet.name + ' ' + this.$t('general.hasbeenupdatedsucessfully'),
+              type: 'success',
+              duration: 5 * 1000,
+            });
+            this.currentVaccine = {
+              vaccinedate: '',
+              vaccine: '',
+              batch: '',
+            };
+            this.getVaccines(this.pet.id);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+
+    handleSubmit() {
       this.updating = true;
       petResource
         .update(this.pet.id, this.pet)
         .then(response => {
           this.updating = false;
           this.$message({
-            message: 'Pet information has been updated successfully',
+            message: this.$t('pet.petprofile') + ' ' + this.$t('general.hasbeenupdatedsucessfully'),
             type: 'success',
             duration: 5 * 1000,
           });
