@@ -83,13 +83,13 @@
           <el-input v-model="currentPet.color" />
         </el-form-item>
         <el-form-item :label="$t('general.gender')" prop="gender">
-          <el-switch v-model="currentPet.gender" active-color="#409EFF" inactive-color="#F56C6C" active-text="Male" inactive-text="Female" :active-value="1" :inactive-value="0" />
+          <el-switch v-model="currentPet.gender" active-color="#409EFF" inactive-color="#F56C6C" active-icon-class="el-icon-male" inactive-icon-class="el-icon-female" :active-value="1" :inactive-value="0" />
         </el-form-item>
         <el-form-item :label="$t('general.birthdate')" prop="birthdate">
           <el-date-picker v-model="currentPet.birthdate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" />
         </el-form-item>
         <el-form-item :label="$t('pet.neutered')" prop="neutered">
-          <el-switch v-model="currentPet.neutered" active-color="#409EFF" inactive-color="#F56C6C" :active-text="$t('general.yes')" :inactive-text="$t('general.no')" :active-value="1" :inactive-value="0" />
+          <el-switch v-model="currentPet.neutered" active-color="#13ce66" inactive-color="#ff4949" active-icon-class="el-icon-circle-check" inactive-icon-class="el-icon-circle-close" :active-value="1" :inactive-value="0" />
         </el-form-item>
         <el-form-item :label="$t('pet.registration')" prop="registration">
           <el-input v-model="currentPet.registration" />

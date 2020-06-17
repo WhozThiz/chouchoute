@@ -20,4 +20,8 @@ class Category extends Model
         return $this->hasMany('App\Laravue\Models\Settings\Category', 'parent_id');
     }
 
+    public function vaccines() {
+        return $this->hasMany('App\Laravue\Models\Crm\Vaccine', 'vaccine');
+    }
+
 }

@@ -23,11 +23,13 @@
         </div>
         <div class="text-muted">
           <span>{{ $t('general.gender') }}: </span>
-          {{ pet.gender }}
+          <span v-if="pet.gender === 1">{{ $t('pet.male') }}</span>
+          <span v-else>{{ $t('pet.female') }}</span>
         </div>
         <div class="text-muted">
           <span>{{ $t('pet.neutered') }}: </span>
-          {{ pet.neutered }}
+          <span v-if="pet.neutered === 1">{{ $t('general.yes') }}</span>
+          <span v-else>{{ $t('general.no') }}</span>
         </div>
         <div v-show="pet.registration_id !== null" class="text-muted">
           <span>{{ $t('pet.registration') }}:</span>

@@ -133,6 +133,11 @@ class CategoryController extends Controller
         return response()->json(null, 204);
     }
 
+    public function name($id) {
+        $name = Category::findOrFail($id);
+        return $name;
+    }
+
     public function petcategories()
     {
 

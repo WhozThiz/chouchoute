@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Crm\VaccineResource;
 use App\Laravue\Models\Crm\Vaccine;
 use Illuminate\Http\Request;
-use Validator;
 
 class VaccineController extends Controller
 {
@@ -19,7 +18,7 @@ class VaccineController extends Controller
     public function index()
     {
         // Get vaccines
-        $vaccines = Vaccine::all();
+        $vaccines = Vaccine::with('category')->get();
 
         // Return collection of vaccines as a resource
         return VaccineResource::collection($vaccines);
@@ -102,7 +101,18 @@ class VaccineController extends Controller
      */
     public function destroy(Vaccine $vaccine)
     {
-        //
+        try {
+            $vaccine->delete();
+        } catch (\Exception $ex) {
+            response()->json(['error' => $ex->getMessage()], 403);
+        }
+    
+        return response()->json(null, 204);
+    }
+
+    public function name($id) {
+        $name = Vaccine::findOrFail($id);
+        return $name;
     }
 
     /**
@@ -114,7 +124,7 @@ class VaccineController extends Controller
     public function vaccines(Request $request)
     {
         // Get vaccines
-        $vaccines = Vaccine::where($_REQUEST)->get();
+        $vaccines = Vaccine::where($_REQUEST)->orderBy('vaccinedate', 'desc')->with('category')->get();
 
         // Return collection of vaccines as a resource
         return VaccineResource::collection($vaccines);

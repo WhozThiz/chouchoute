@@ -2,16 +2,21 @@
   <el-card>
     <el-tabs v-model="activeActivity" @tab-click="handleClick">
       <el-tab-pane :label="$t('pet.vaccines')" name="Vaccines">
-
         <div>
-          <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreateForm">
+          <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreateForm">
             {{ $t('table.add') }}
           </el-button>
-          <p v-for="(vaccine, index) in vaccines" :key="index">{{ vaccine.vaccinedate }} - {{ vaccine.vaccine }} - {{ vaccine.vaccinebatch }}
-            <template>
-              <el-button type="text" @click="handleEditForm(vaccine.id);">Edit</el-button>
-            </template>
-          </p>
+          <el-table :data="vaccines" style="width: 100%">
+            <el-table-column prop="vaccinedate" label="Date" width="180" />
+            <el-table-column prop="category.name" label="Vaccine" width="180" />
+            <el-table-column prop="vaccinebatch" label="Batch" />
+            <el-table-column fixed="right" label="Action">
+              <template slot-scope="scope">
+                <el-button type="text" @click="handleEditForm(scope.row.id);">Edit</el-button>
+                <el-button type="text" @click="handleDelete(scope.row.id, scope.row.vaccine);">{{ $t('general.delete') }}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
       </el-tab-pane>
       <el-tab-pane label="Timeline" name="Timeline">
@@ -68,17 +73,17 @@
             <el-input v-model="pet.color" />
           </el-form-item>
           <el-form-item :label="$t('general.birthdate')" prop="birthdate">
-            <el-date-picker v-model="pet.birthdate" type="date" placeholder="Pick a day" />
+            <el-date-picker v-model="pet.birthdate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" />
           </el-form-item>
           <el-form-item>
             <el-col :span="12">
               <el-form-item :label="$t('general.gender')" prop="gender">
-                <el-switch v-model="pet.gender" active-color="#409EFF" inactive-color="#F56C6C" :active-text="$t('pet.male')" :inactive-text="$t('pet.female')" :active-value="1" :inactive-value="0" />
+                <el-switch v-model="pet.gender" active-color="#409EFF" inactive-color="#F56C6C" active-icon-class="el-icon-male" inactive-icon-class="el-icon-female" :active-value="1" :inactive-value="0" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('pet.neutered')" prop="neutered">
-                <el-switch v-model="pet.neutered" active-color="#13ce66" inactive-color="#ff4949" :active-text="$t('general.yes')" :inactive-text="$t('general.no')" :active-value="1" :inactive-value="0" />
+                <el-switch v-model="pet.neutered" active-color="#13ce66" inactive-color="#ff4949" active-icon-class="el-icon-circle-check" inactive-icon-class="el-icon-circle-close" :active-value="1" :inactive-value="0" />
               </el-form-item>
             </el-col>
           </el-form-item>
@@ -100,7 +105,7 @@
           <el-date-picker v-model="currentVaccine.vaccinedate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" :picker-options="pickerOptions" />
         </el-form-item>
         <el-form-item :label="$t('pet.vaccine')" prop="vaccine">
-          <el-select v-model="currentVaccine.vaccine" placeholder="Select Vaccine">
+          <el-select v-model="currentVaccine.category" placeholder="Select Vaccine">
             <el-option v-for="item in vaccinecategories" :key="item.id" :label="item.name" :value="item.id">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
@@ -157,6 +162,9 @@ export default {
         vaccinedate: '',
         vaccine: '',
         vaccinebatch: '',
+        category: {
+          name: '',
+        },
       }],
       breeds: [],
       coats: [],
@@ -227,10 +235,14 @@ export default {
         vaccinedate: '',
         vaccine: '',
         vaccinebatch: '',
+        category: {
+          name: '',
+        },
       };
     },
 
     handleEditForm(id) {
+      this.vaccineFormVisible = true;
       this.currentVaccine = this.vaccines.find(vaccine => vaccine.id === id);
     },
 
@@ -269,6 +281,29 @@ export default {
             console.log(error);
           });
       }
+    },
+
+    handleDelete(id, vaccine) {
+      this.$confirm('This will permanently delete pet ' + name + '. Continue?', 'Warning', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      }).then(() => {
+        vaccinesResource.destroy(id).then(response => {
+          this.$message({
+            type: 'success',
+            message: this.$t('general.deletecompleted'),
+          });
+          this.getVaccines(this.pet.id);
+        }).catch(error => {
+          console.log(error);
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: this.$t('general.deletecanceled'),
+        });
+      });
     },
 
     handleSubmit() {

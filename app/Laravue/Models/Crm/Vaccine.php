@@ -12,4 +12,9 @@ class Vaccine extends Model
         'vaccine',
         'vaccinebatch',
     ];
+
+    public function category() {
+        return $this->belongsTo('App\Laravue\Models\Settings\Category', 'vaccine');
+    }
+
 }
