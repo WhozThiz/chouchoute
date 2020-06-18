@@ -44,7 +44,7 @@
       </el-table-column>
 
       <el-table-column fixed="right" align="center" width="200">
-        <template slot="header" :slot-scope="scope">
+        <template #header>
           <el-input v-model="search" placeholder="Type to Search" />
         </template>
         <template slot-scope="scope">
