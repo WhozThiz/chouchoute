@@ -22,7 +22,7 @@ class LeadController extends Controller
     public function index()
     {
 
-        return LeadResource::collection(Lead::all());
+        return LeadResource::collection(Lead::with('pets')->get());
         /**
         $leads = Lead::where('status', 'Lead')->orderBy('name', 'asc')->paginate(20);
 		$total = Lead::where('status', 'Lead')->count();

@@ -6,11 +6,10 @@
         {{ $t('general.add') }}
       </el-button>
     </div>
-
-    <el-table v-loading="loading" :data="list" border fit highlight-current-row>
-      <el-table-column align="center" label="ID" width="60">
+    <el-table v-loading="loading" :data="list.filter(data => !filter|| data.name.toLowerCase().includes(filter.toLowerCase()))" stripe fit highlight-current-row max-height="600" style="width: 100%">
+      <el-table-column align="center" type="expand" width="60">
         <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
+          <p>Address: <span>{{ scope.row.address }} - {{ scope.row.neighborhood }}</span><br><span style="margin-left: 60px;">{{ scope.row.zipcode }}, {{ scope.row.city }} -  {{ scope.row.state }}</span></p>
         </template>
       </el-table-column>
 
@@ -32,13 +31,14 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('general.address')">
+      <el-table-column align="center" :label="$t('general.email')">
         <template slot-scope="scope">
-          <span>{{ scope.row.address }}</span>
+          <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="350">
+      <el-table-column fixed="right" align="center" width="250">
+        <template #header><el-input v-model="filter" :placeholder="$t('general.name')" style="width: 200px;" class="filter-item" prefix-icon="el-icon-search" /></template>
         <template slot-scope="scope">
           <el-button v-permission="['manage lead']" type="primary" size="small" icon="el-icon-edit" @click="handleEditForm(scope.row.id);">
             {{ $t('general.edit') }}
@@ -114,11 +114,25 @@ export default {
   }, // use permission directive
   data() {
     return {
-      list: [],
+      list: [{
+        name: '',
+        zipcode: '',
+        address: '',
+        neighborhood: '',
+        city: '',
+        state: '',
+        homephone: '',
+        mobile: '',
+        email: '',
+        registratio_id: '',
+        tax_id: '',
+        pet: [],
+      }],
       loading: true,
       leadFormVisible: false,
       formTitle: '',
       zipcode: '',
+      filter: '',
       currentLead: {},
       rules: {
         name: [{
@@ -161,9 +175,16 @@ export default {
       this.list = data;
       this.loading = false;
     },
+
     isEmailValid() {
       return (this.email === '') ? '' : (this.reg.test(this.email)) ? 'has-success' : 'has-error';
     },
+
+    handleFilter() {
+      this.query.page = 1;
+      this.getList();
+    },
+
     handleSubmit() {
       if (this.currentLead.id !== undefined) {
         leadResource.update(this.currentLead.id, this.currentLead).then(response => {
@@ -209,6 +230,7 @@ export default {
           });
       }
     },
+
     handleCreateForm() {
       this.leadFormVisible = true;
       this.formTitle = this.$t('lead.createlead');
@@ -226,6 +248,7 @@ export default {
         tax_id: '',
       };
     },
+
     handleDelete(id, name) {
       this.$confirm('This will permanently delete lead ' + name + '. Continue?', 'Warning', {
         confirmButtonText: 'OK',
@@ -248,11 +271,13 @@ export default {
         });
       });
     },
+
     handleEditForm(id) {
       this.leadFormVisible = true;
       this.formTitle = this.$t('lead.editlead');
       this.currentLead = this.list.find(lead => lead.id === id);
     },
+
     searchZipcode() {
       if (/^[0-9]{5}-[0-9]{3}$/.test(this.currentLead.zipcode)) {
         // axios.get(url_cep).then(function (response) {

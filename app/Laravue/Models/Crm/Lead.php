@@ -3,7 +3,6 @@
 namespace App\Laravue\Models\Crm;
 
 use Illuminate\Database\Eloquent\Model;
-//use Illuminate\Database\Query\Builder;
 
 class Lead extends Model
 {
@@ -26,5 +25,10 @@ class Lead extends Model
         'registration_id', 
         'tax_id',
     ];
+
+    public function pets()
+    {
+        return $this->hasMany('App\Laravue\Models\Crm\Pet', 'lead_id');
+    }
 	
 }
