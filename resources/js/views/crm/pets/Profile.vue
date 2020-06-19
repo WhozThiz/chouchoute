@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <pet-card :pet="pet" />
-          <pet-bio :pet="pet" :lead="lead" />
+          <pet-bio :pet="pet" />
         </el-col>
         <el-col :span="18">
           <pet-activity :pet="pet" />
@@ -21,7 +21,6 @@ import PetCard from './components/PetCard';
 import PetActivity from './components/PetActivity';
 
 const petResource = new Resource('pets');
-const leadResource = new Resource('leads');
 
 export default {
   name: 'ShowPet',
@@ -29,7 +28,6 @@ export default {
   data() {
     return {
       pet: {},
-      lead: {},
     };
   },
   watch: {
@@ -43,13 +41,6 @@ export default {
     async getPet(id) {
       const { data } = await petResource.get(id);
       this.pet = data;
-      if (this.pet.lead_id) {
-        this.getLead(this.pet.lead_id);
-      }
-    },
-    async getLead(id) {
-      const { data } = await leadResource.get(id);
-      this.lead = data;
     },
   },
 };

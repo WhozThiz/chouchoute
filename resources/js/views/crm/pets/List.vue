@@ -2,18 +2,14 @@
   <div class="app-container">
 
     <div class="filter-container">
-      <el-input v-model="query.keyword" :placeholder="$t('table.keyword')" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-        {{ $t('table.search') }}
-      </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-plus" @click="handleCreateForm">
+      <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreateForm">
         {{ $t('table.add') }}
       </el-button>
     </div>
 
-    <el-table v-loading="loading" :data="list.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" stripe highlight-current-row max-height="400" style="width: 100%">
+    <el-table v-loading="loading" :data="list.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" :default-sort="{prop: 'name', order: 'ascending'}" stripe highlight-current-row max-height="600" style="width: 100%">
 
-      <el-table-column fixed align="left" :label="$t('general.name')" prop="name" width="150">
+      <el-table-column fixed align="left" :label="$t('general.name')" prop="name" sortable width="150">
         <template slot-scope="scope">
           <router-link v-show="scope.row.id !== null" :to="`/crm/pets/show/${scope.row.id}`">{{ scope.row.name }}</router-link>
         </template>
@@ -57,8 +53,6 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <pagination v-show="total>0" :total="total" :page.sync="query.page" :limit.sync="query.limit" @pagination="getList" />
 
     <el-dialog :title="formTitle" :visible.sync="petFormVisible">
       <el-form ref="petForm" :model="currentPet" label-position="left" label-width="150px" style="max-width: 100%">
@@ -108,7 +102,6 @@
 </template>
 
 <script>
-import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
 import Resource from '@/api/resource';
 import waves from '@/directive/waves'; // Waves directive
 import CategoryResource from '@/api/category';
@@ -118,7 +111,6 @@ const petResource = new Resource('pets');
 
 export default {
   name: 'PetList',
-  components: { Pagination },
   directives: { waves },
   data() {
     return {
@@ -130,12 +122,6 @@ export default {
       currentPet: {},
       formTitle: '',
       disabled: false,
-      total: 0,
-      query: {
-        page: 1,
-        limit: 20,
-        keyword: '',
-      },
       search: '',
     };
   },
@@ -146,14 +132,9 @@ export default {
   methods: {
 
     async getList() {
-      const { limit, page } = this.query;
       this.loading = true;
-      const { data, meta } = await petResource.list(this.query);
+      const { data } = await petResource.list();
       this.list = data;
-      this.list.forEach((element, index) => {
-        element['index'] = (page - 1) * limit + index + 1;
-      });
-      this.total = meta.total;
       this.loading = false;
     },
 
@@ -161,11 +142,6 @@ export default {
       const { data } = await categoryResource.getPetCategories({});
       this.coats = data.coats;
       this.breeds = data.breeds;
-    },
-
-    handleFilter() {
-      this.query.page = 1;
-      this.getList();
     },
 
     handleSubmit() {

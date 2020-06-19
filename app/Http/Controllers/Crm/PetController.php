@@ -15,8 +15,6 @@ use Validator;
 class PetController extends Controller
 {
 
-    const ITEM_PER_PAGE = 20;
-
     /**
      * Display a listing of the resource.
      *
@@ -24,19 +22,8 @@ class PetController extends Controller
      */
     public function index(Request $request)
     {
-        // Get Pets
-        $searchParams = $request->all();
-        $petQuery = Pet::query();
-        $limit = Arr::get($searchParams, 'limit', static::ITEM_PER_PAGE);
-        $keyword = Arr::get($searchParams, 'keyword', '');
-
-        if (!empty($keyword)) {
-            $petQuery->where('name', 'LIKE', '%' . $keyword . '%');
-            $petQuery->where('breed', 'LIKE', '%' . $keyword . '%');
-        }
-
-        // Return collection of articles as a resource
-        return PetResource::collection($petQuery->orderBy('name', 'asc')->paginate($limit));
+        $pets = Pet::with('lead')->get();
+        return response()->json(new JsonResponse($pets));
     }
 
     /**
@@ -87,7 +74,8 @@ class PetController extends Controller
      */
     public function show(Pet $pet)
     {
-        return new PetResource($pet);
+        $info = Pet::with('lead')->find($pet)->first();
+        return response()->json(new JsonResponse($info));
     }
 
     /**

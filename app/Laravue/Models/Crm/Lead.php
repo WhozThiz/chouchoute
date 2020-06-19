@@ -28,7 +28,7 @@ class Lead extends Model
 
     public function pets()
     {
-        return $this->hasMany('App\Laravue\Models\Crm\Pet', 'lead_id');
+        return $this->hasMany(Pet::class, 'lead_id');
     }
 	
 }

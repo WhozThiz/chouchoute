@@ -2,7 +2,7 @@
   <el-card v-if="pet.name">
     <div class="user-profile">
       <div class="user-avatar box-center">
-        <pan-thumb :image="pet.avatar" :height="'100px'" :width="'100px'" :hoverable="false" />
+        <pan-thumb image="https://i.pravatar.cc" :height="'100px'" :width="'100px'" :hoverable="false" />
       </div>
       <div class="box-center">
         <div class="user-name text-center">
@@ -28,8 +28,6 @@ export default {
         return {
           name: '',
           breed: '',
-          coat: '',
-          avatar: '',
         };
       },
     },

@@ -15,8 +15,14 @@ class Pet extends Model
         'color',
         'neutered',
         'registration',
+        'lead_id',
     ];
 
+    public function lead()
+    {
+        return $this->belongsTo(Lead::class, 'lead_id');
+    }
+    
     public function vaccines() {
         return $this->hasMany('App\Laravue\Models\Crm\Vaccine');
     }

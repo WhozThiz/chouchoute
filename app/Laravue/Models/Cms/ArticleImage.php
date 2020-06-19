@@ -15,6 +15,6 @@ class ArticleImage extends Model
 
     public function article()
     {
-        return $this->belongsTo('Laravue\Models\Cms\Article');
+        return $this->belongsTo('Laravue\Models\Cms\Article', 'article_id');
     }
 }

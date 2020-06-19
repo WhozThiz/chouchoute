@@ -27,6 +27,6 @@ class Article extends Model
 
     public function article_images()
     {
-        return $this->hasMany('App\Laravue\Models\Cms\ArticleImage');
+        return $this->hasMany('App\Laravue\Models\Cms\ArticleImage', 'article_id');
     }
 }

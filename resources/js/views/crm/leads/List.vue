@@ -6,14 +6,19 @@
         {{ $t('general.add') }}
       </el-button>
     </div>
-    <el-table v-loading="loading" :data="list.filter(data => !filter|| data.name.toLowerCase().includes(filter.toLowerCase()))" stripe fit highlight-current-row max-height="600" style="width: 100%">
+
+    <el-table v-loading="loading" :data="list.filter(data => !filter|| data.name.toLowerCase().includes(filter.toLowerCase()))" :default-sort="{prop: 'name', order: 'ascending'}" stripe fit highlight-current-row max-height="600" style="width: 100%">
       <el-table-column align="center" type="expand" width="60">
         <template slot-scope="scope">
-          <p>Address: <span>{{ scope.row.address }} - {{ scope.row.neighborhood }}</span><br><span style="margin-left: 60px;">{{ scope.row.zipcode }}, {{ scope.row.city }} -  {{ scope.row.state }}</span></p>
+          <el-row>
+            <el-col :span="12"><p>Address: <span>{{ scope.row.address }} - {{ scope.row.neighborhood }}</span><br><span style="margin-left: 60px;">{{ scope.row.zipcode }}, {{ scope.row.city }} -  {{ scope.row.state }}</span></p></el-col>
+            <el-col :span="6"><p>{{ $t('lead.registration_id') }}: <span>{{ scope.row.registration_id }}</span><br><span>{{ $t('lead.tax_id') }}:{{ scope.row.tax_id }}</span></p></el-col>
+            <el-col :span="6"><ul><li v-for="pet in scope.row.pets" :key="pet.id"><router-link v-show="pet.id !== null" :to="`/crm/pets/show/${pet.id}`">{{ pet.name }}</router-link></li></ul></el-col>
+          </el-row>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" :label="$t('general.name')" width="300">
+      <el-table-column align="center" :label="$t('general.name')" prop="name" sortable width="300">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
@@ -126,7 +131,7 @@ export default {
         email: '',
         registratio_id: '',
         tax_id: '',
-        pet: [],
+        pet: [{}],
       }],
       loading: true,
       leadFormVisible: false,

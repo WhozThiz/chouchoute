@@ -45,33 +45,33 @@
       <div class="user-bio-section-body">
         <div class="progress-item">
           <span>Name: </span>
-          {{ lead.name }}
+          {{ pet.lead.name }}
         </div>
-        <div v-show="lead.homephone !== null" class="progress-item">
+        <div v-show="pet.lead.homephone !== ''" class="progress-item">
           <span>Home Phone: </span>
-          {{ lead.homephone }}
+          {{ pet.lead.homephone }}
         </div>
         <div class="progress-item">
           <span>Mobile: </span>
-          {{ lead.mobile }}
+          {{ pet.lead.mobile }}
         </div>
         <div class="progress-item">
           <span>Email:</span>
-          {{ lead.email }}
+          {{ pet.lead.email }}
         </div>
-        <div v-show="lead.tax_id !== null" class="progress-item">
+        <div v-show="pet.lead.tax_id !== null" class="progress-item">
           <span>Tax Id:</span>
-          {{ lead.tax_id }}
+          {{ pet.lead.tax_id }}
         </div>
-        <div v-show="lead.registration_id !== null" class="progress-item">
+        <div v-show="pet.lead.registration_id !== null" class="progress-item">
           <span>Registration:</span>
-          {{ lead.registration_id }}
+          {{ pet.lead.registration_id }}
         </div>
         <div class="text-muted">
           <span>Address:<br></span>
-          <span>{{ lead.address }}<br></span>
-          <span>{{ lead.neighborhood }}<br></span>
-          <span>{{ lead.zipcode }}, {{ lead.city }} {{ lead.state }}</span>
+          <span>{{ pet.lead.address }}<br></span>
+          <span>{{ pet.lead.neighborhood }}<br></span>
+          <span>{{ pet.lead.zipcode }}, {{ pet.lead.city }} {{ pet.lead.state }}</span>
         </div>
       </div>
     </div>
@@ -93,25 +93,19 @@ export default {
           neutered: '',
           registration_id: '',
           lead_id: '',
-          avatar: '',
-        };
-      },
-    },
-    lead: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          zipcode: '',
-          address: '',
-          neighborhood: '',
-          city: '',
-          state: '',
-          homephone: '',
-          mobile: '',
-          email: '',
-          registration_id: '',
-          tax_id: '',
+          lead: {
+            name: '',
+            zipcode: '',
+            address: '',
+            neighborhood: '',
+            city: '',
+            state: '',
+            homephone: '',
+            mobile: '',
+            email: '',
+            registration_id: '',
+            tax_id: '',
+          },
         };
       },
     },

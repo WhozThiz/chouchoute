@@ -21,36 +21,8 @@ class LeadController extends Controller
      */
     public function index()
     {
-
-        return LeadResource::collection(Lead::with('pets')->get());
-        /**
-        $leads = Lead::where('status', 'Lead')->orderBy('name', 'asc')->paginate(20);
-		$total = Lead::where('status', 'Lead')->count();
-
-		$data = [];
-
-		foreach ($leads as $item) {
-			$row = [
-                'id' => $item->id,
-                'name' => $item->name,
-                'address' => $item->address,
-                'neighborhood' => $item->neighborhood,
-                'city' => $item->city,
-                'state' => $item->content,
-                'zipcode' => $item->zipcode,
-                'homephone' => $item->homephone,
-                'mobile' => $item->mobile,
-                'email' => $item->email,
-                'registration_id' => $item->registration_id,
-                'tax_id' => $item->tax_id,
-                'status' => $item->status,
-            ];
-
-            $data[] = $row;
-		}
-
-        return response()->json(new JsonResponse(['items' => $data, 'total' => $total]));
-        */
+        $leads = Lead::with('pets')->get();
+        return response()->json(new JsonResponse($leads));
 
     }
 
