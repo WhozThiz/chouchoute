@@ -22,7 +22,7 @@ class PetController extends Controller
      */
     public function index(Request $request)
     {
-        $pets = Pet::with('lead')->get();
+        $pets = Pet::with('lead')->orderBy('name')->get();
         return response()->json(new JsonResponse($pets));
     }
 
@@ -45,25 +45,21 @@ class PetController extends Controller
     public function store(Request $request)
     {
 
-        $validator = $request->validated();
+        $params = $request->all();
+        $pet = Pet::create([
+            'name' => $params['name'],
+            'breed' => $params['breed'],
+            'coat' => $params['coat'],
+            'gender' => $params['gender'],
+            'color' => $params['color'],
+            'birthdate' => $params['birthdate'],
+            'neutered' => $params['neutered'],
+            'registration' => $params['registration'],
+            'lead_id' => $params['lead_id'],
+        ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 403);
-        } else {
-            $params = $request->all();
-            $pet = Pet::create([
-                'name' => $params['name'],
-                'breed' => $params['breed'],
-                'coat' => $params['coat'],
-                'gender' => $params['gender'],
-                'color' => $params['color'],
-                'birthdate' => $params['birthdate'],
-                'neutered' => $params['neutered'],
-                'registration' => $params['registration'],
-            ]);
+        return new PetResource($pet);
 
-            return new PetResource($pet);
-        }
     }
 
     /**
@@ -74,7 +70,7 @@ class PetController extends Controller
      */
     public function show(Pet $pet)
     {
-        $info = Pet::with('lead')->find($pet)->first();
+        $info = Pet::where('id', $pet->id)->with('lead')->get()->first();
         return response()->json(new JsonResponse($info));
     }
 

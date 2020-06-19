@@ -56,6 +56,13 @@
 
     <el-dialog :title="formTitle" :visible.sync="petFormVisible">
       <el-form ref="petForm" :model="currentPet" label-position="left" label-width="150px" style="max-width: 100%">
+        <el-form-item :label="$t('route.leads')" prop="lead_id">
+          <el-select v-model="currentPet.lead_id" placeholder="Select Owner">
+            <el-option v-for="item in leads" :key="item.id" :label="item.name" :value="item.id">
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item :label="$t('general.name')" prop="name">
           <el-input v-model="currentPet.name" />
         </el-form-item>
@@ -107,6 +114,7 @@ import waves from '@/directive/waves'; // Waves directive
 import CategoryResource from '@/api/category';
 
 const categoryResource = new CategoryResource();
+const leadResource = new Resource('leads');
 const petResource = new Resource('pets');
 
 export default {
@@ -117,6 +125,7 @@ export default {
       list: [],
       breeds: [],
       coats: [],
+      leads: [],
       loading: true,
       petFormVisible: false,
       currentPet: {},
@@ -142,6 +151,11 @@ export default {
       const { data } = await categoryResource.getPetCategories({});
       this.coats = data.coats;
       this.breeds = data.breeds;
+    },
+
+    async getLeads() {
+      const { data } = await leadResource.list({});
+      this.leads = data;
     },
 
     handleSubmit() {
@@ -176,6 +190,7 @@ export default {
               birthdate: '',
               neutered: '',
               registration: '',
+              lead_id: '',
             };
             this.petFormVisible = false;
             this.getList();
@@ -187,17 +202,19 @@ export default {
     },
 
     handleCreateForm() {
+      this.getLeads();
       this.petFormVisible = true;
       this.formTitle = this.$t('pet.createpet');
       this.currentPet = {
         name: '',
         breed: '',
         coat: '',
-        gender: '',
+        gender: false,
         color: '',
         birthdate: '',
-        neutered: '',
+        neutered: false,
         registration: '',
+        lead_id: '',
       };
     },
 

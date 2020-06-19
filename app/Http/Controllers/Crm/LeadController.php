@@ -21,7 +21,7 @@ class LeadController extends Controller
      */
     public function index()
     {
-        $leads = Lead::with('pets')->get();
+        $leads = Lead::with('pets')->orderBy('name')->get();
         return response()->json(new JsonResponse($leads));
 
     }
