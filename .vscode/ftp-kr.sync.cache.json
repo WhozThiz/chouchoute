@@ -1,0 +1,226 @@
+{
+  "ftp://ftp.manjatudo.com.br:21@manjatudo": {
+    "public_html": {
+      "Companies": {
+        "chouchoute": {
+          "genesis": {
+            ".DS_Store": {
+              "type": "-",
+              "size": 6148,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".babelrc": {
+              "type": "-",
+              "size": 340,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".dockerignore": {
+              "type": "-",
+              "size": 7,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".editorconfig": {
+              "type": "-",
+              "size": 237,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".env": {
+              "type": "-",
+              "size": 1022,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".env.example": {
+              "type": "-",
+              "size": 842,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".eslintrc.js": {
+              "type": "-",
+              "size": 3838,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".git": {},
+            ".gitattributes": {
+              "type": "-",
+              "size": 111,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".gitignore": {
+              "type": "-",
+              "size": 345,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".gitlab-ci.yml": {
+              "type": "-",
+              "size": 880,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".htaccess": {
+              "type": "-",
+              "size": 593,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".postcssrc.js": {
+              "type": "-",
+              "size": 197,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".prettierrc.js": {
+              "type": "-",
+              "size": 95,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".styleci.yml": {
+              "type": "-",
+              "size": 242,
+              "lmtime": 0,
+              "modified": false
+            },
+            ".vscode": {},
+            "CODE_OF_CONDUCT.md": {
+              "type": "-",
+              "size": 3350,
+              "lmtime": 0,
+              "modified": false
+            },
+            "CONTRIBUTING.md": {
+              "type": "-",
+              "size": 4213,
+              "lmtime": 0,
+              "modified": false
+            },
+            "Dockerfile": {
+              "type": "-",
+              "size": 922,
+              "lmtime": 0,
+              "modified": false
+            },
+            "Envoy.blade.php": {
+              "type": "-",
+              "size": 2177,
+              "lmtime": 0,
+              "modified": false
+            },
+            "LICENSE": {
+              "type": "-",
+              "size": 1067,
+              "lmtime": 0,
+              "modified": false
+            },
+            "README.md": {
+              "type": "-",
+              "size": 46,
+              "lmtime": 0,
+              "modified": false
+            },
+            "_notes": {},
+            "app": {},
+            "artisan": {
+              "type": "-",
+              "size": 1686,
+              "lmtime": 0,
+              "modified": false
+            },
+            "bootstrap": {},
+            "composer.json": {
+              "type": "-",
+              "size": 2055,
+              "lmtime": 0,
+              "modified": false
+            },
+            "composer.lock": {
+              "type": "-",
+              "size": 238703,
+              "lmtime": 0,
+              "modified": false
+            },
+            "config": {},
+            "dashboard.js": {
+              "type": "-",
+              "size": 410,
+              "lmtime": 0,
+              "modified": false
+            },
+            "database": {},
+            "docker": {},
+            "docker-compose.yml": {
+              "type": "-",
+              "size": 566,
+              "lmtime": 0,
+              "modified": false
+            },
+            "laravue-entrypoint.sh": {
+              "type": "-",
+              "size": 117,
+              "lmtime": 0,
+              "modified": false
+            },
+            "node_modules": {},
+            "package-lock.json": {
+              "type": "-",
+              "size": 576210,
+              "lmtime": 0,
+              "modified": false
+            },
+            "package.json": {
+              "type": "-",
+              "size": 3410,
+              "lmtime": 0,
+              "modified": false
+            },
+            "phpunit.xml": {
+              "type": "-",
+              "size": 1669,
+              "lmtime": 0,
+              "modified": false
+            },
+            "public": {},
+            "resources": {},
+            "routes": {},
+            "server.php": {
+              "type": "-",
+              "size": 563,
+              "lmtime": 0,
+              "modified": false
+            },
+            "storage": {},
+            "tests": {},
+            "vendor": {},
+            "webpack.config.js": {
+              "type": "-",
+              "size": 896,
+              "lmtime": 0,
+              "modified": false
+            },
+            "webpack.mix.js": {
+              "type": "-",
+              "size": 1646,
+              "lmtime": 0,
+              "modified": false
+            },
+            "yarn.lock": {
+              "type": "-",
+              "size": 411837,
+              "lmtime": 0,
+              "modified": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "$version": 1
+}
