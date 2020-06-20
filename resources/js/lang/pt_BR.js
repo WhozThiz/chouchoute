@@ -97,6 +97,7 @@ export default {
     postList: 'Posts',
     productivity: 'Produtividade',
     selectExcel: 'Export Selected',
+    settings: 'Configurações',
     tab: 'Tab',
     task: 'Tarefa',
     tasks: 'Tarefas',
