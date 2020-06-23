@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Crm;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Crm\LeadResource;
 use App\Laravue\Models\Crm\Lead;
-use App\Http\Requests\Crm\LeadRequest;
-use App\Laravue\JsonResponse;
 use Illuminate\Http\Request;
-use Validator;
+use App\Laravue\JsonResponse;
+use Illuminate\Validation\Validator;
 
 class LeadController extends Controller
 {
@@ -45,47 +44,22 @@ class LeadController extends Controller
     public function store(Request $request)
     {
 
-        $validator = $request->validated();
-    
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 403);
-        } else {
-            $params = $request->all();
-            $lead = Lead::create([
-                'name' => $params['name'],
-                'address' => $params['logradouro'], 
-                'neighborhood' => $params['bairro'],
-                'city' => $params['localidade'],
-                'state' => $params['uf'],
-                'zipcode' => $params['cep'],
-                'homephone' => $params['homephone'],
-                'mobile' => $params['mobile'],
-                'email' => $params['email'],
-                'tax_id' => $params['tax_id'],
-                'registration_id' => $params['registration_id'],
-            ]);
-            
-            return new LeadResource($lead);
-        }
-        /**
-        $lead = $request->isMethod('put') ? Lead::findOrFail($request->lead_id) : new Lead;
-        $lead->id = $request->input('lead_id');
-        $lead->name = $request->input('name');
-		$lead->address = $request->input('address');
-		$lead->neighborhood = $request->input('neighborhood');
-		$lead->city = $request->input('city');
-		$lead->state = $request->input('state');
-		$lead->zip = $request->input('zip');
-		$lead->homephone = $request->input('homephone');
-		$lead->mobile = $request->input('mobile');
-		$lead->email = $request->input('email');
-		$lead->registration_id = $request->input('registration_id');
-        $lead->tax_id = $request->input('tax_id');
-
-        if($lead->save()) {
-            return new LeadResource($lead);
-        }
-        */
+        $params = $request->all();
+        $lead = Lead::create([
+            'name' => $params['leadname'],
+            'address' => $params['address'], 
+            'neighborhood' => $params['neighborhood'],
+            'city' => $params['city'],
+            'state' => $params['state'],
+            'zipcode' => $params['zipcode'],
+            'homephone' => $params['homephone'],
+            'mobile' => $params['mobile'],
+            'email' => $params['email'],
+            'tax_id' => $params['tax_id'],
+            'registration_id' => $params['registration_id'],
+        ]);
+        
+        return new LeadResource($lead);
 
     }
 
@@ -130,6 +104,10 @@ class LeadController extends Controller
             return response()->json(['error' => 'Lead not found'], 404);
         }
 
+        if ($request->leadname != null) {
+            $request->name = $request->leadname;
+        }
+
         $validator = Validator::make(
             $request->all(),
             [
@@ -166,7 +144,6 @@ class LeadController extends Controller
      */
     public function destroy(Lead $lead)
     {
-
         try {
             $lead->delete();
         } catch (\Exception $ex) {
@@ -174,15 +151,6 @@ class LeadController extends Controller
         }
     
         return response()->json(null, 204);
-        /**
-		// Get lead
-        $lead = Lead::findOrFail($id);
-
-        if($lead->delete()) {
-            return new LeadResource($lead);
-        }
-        */
-
     }
 
      /**

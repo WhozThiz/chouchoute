@@ -9,6 +9,14 @@ class VaccinesResource extends Resource {
       params: query,
     });
   }
+
+  multistore(query) {
+    return request({
+      url: '/vaccines',
+      method: 'get',
+      params: query,
+    });
+  }
 }
 
 export { VaccinesResource as default };

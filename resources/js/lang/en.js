@@ -224,7 +224,7 @@ export default {
     owner: 'Pet Owner',
     petdetails: 'Pet Details',
     petprofile: 'Pet Profle',
-    petwizardform: 'Start CRM Wizard',
+    petwizardform: 'Create New Lead & Pet Wizard Form',
     registration: 'Registration',
     validation: 'Validation',
     vaccinationinfo: 'Vaccination Infos',

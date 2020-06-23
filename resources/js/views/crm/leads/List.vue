@@ -57,8 +57,8 @@
 
     <el-dialog :title="formTitle" :visible.sync="leadFormVisible">
       <el-form ref="leadForm" :model="currentLead" label-position="left" label-width="150px" style="max-width: 100%;">
-        <el-form-item :label="$t('general.name')" prop="name">
-          <el-input v-model="currentLead.name" placeholder="John Snow" />
+        <el-form-item :label="$t('general.name')" prop="leadname">
+          <el-input v-model="currentLead.leadname" placeholder="John Snow" />
         </el-form-item>
         <el-form-item :label="$t('general.zipcode')" prop="zipcode">
           <el-input v-model="currentLead.zipcode" v-mask="'#####-###'" placeholder="00000-000" @keyup.enter.native="searchZipcode()" />
@@ -140,7 +140,7 @@ export default {
       filter: '',
       currentLead: {},
       rules: {
-        name: [{
+        leadname: [{
           required: true,
           min: 10,
           max: 254,
@@ -214,7 +214,7 @@ export default {
               duration: 5 * 1000,
             });
             this.currentLead = {
-              name: '',
+              leadname: '',
               zipcode: '',
               address: '',
               neighborhood: '',
@@ -240,7 +240,7 @@ export default {
       this.leadFormVisible = true;
       this.formTitle = this.$t('lead.createlead');
       this.currentLead = {
-        name: '',
+        leadname: '',
         zipcode: '',
         address: '',
         neighborhood: '',
@@ -281,6 +281,7 @@ export default {
       this.leadFormVisible = true;
       this.formTitle = this.$t('lead.editlead');
       this.currentLead = this.list.find(lead => lead.id === id);
+      this.currentLead.leadname = this.currentLead.name;
     },
 
     searchZipcode() {
