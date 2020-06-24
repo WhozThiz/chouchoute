@@ -20,6 +20,7 @@ export default {
   route: {
     accounting: 'Bookkepping',
     banking: 'Banking',
+    calendar: 'Calendar',
     documentation: 'Documentation',
     expense: 'Expense',
     income: 'Income',

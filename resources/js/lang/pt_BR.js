@@ -20,6 +20,7 @@ export default {
   route: {
     accounting: 'Escrituração',
     banking: 'Financeira',
+    calendar: 'Calendário',
     documentation: 'Documentation',
     expense: 'Despesa',
     income: 'Receita',

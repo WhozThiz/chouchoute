@@ -12,16 +12,22 @@ const productivityRoutes = {
   },
   children: [
     {
-      path: 'todo',
-      component: () => import('@/views/productivity/todo/index'),
-      name: 'ToDo',
-      meta: { title: 'todo', icon: 'todo' },
+      path: 'calendar',
+      component: () => import('@/views/productivity/calendar/index'),
+      name: 'Calendar',
+      meta: { title: 'calendar', icon: 'calendar' },
     },
     {
       path: 'task',
       component: () => import('@/views/productivity/task/index'),
       name: 'Task',
       meta: { title: 'tasks', icon: 'tasks' },
+    },
+    {
+      path: 'todo',
+      component: () => import('@/views/productivity/todo/index'),
+      name: 'ToDo',
+      meta: { title: 'todo', icon: 'todo' },
     },
   ],
 };
