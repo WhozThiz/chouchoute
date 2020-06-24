@@ -105,7 +105,7 @@
           <el-date-picker v-model="currentVaccine.vaccinedate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" :picker-options="pickerOptions" />
         </el-form-item>
         <el-form-item :label="$t('pet.vaccine')" prop="vaccine">
-          <el-select v-model="currentVaccine.category" placeholder="Select Vaccine">
+          <el-select v-model="currentVaccine.vaccine" placeholder="Select Vaccine">
             <el-option v-for="item in vaccinecategories" :key="item.id" :label="item.name" :value="item.id">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
@@ -159,12 +159,10 @@ export default {
   data() {
     return {
       vaccines: [{
+        pet_id: '',
         vaccinedate: '',
         vaccine: '',
         vaccinebatch: '',
-        category: {
-          name: '',
-        },
       }],
       breeds: [],
       coats: [],
@@ -232,12 +230,10 @@ export default {
     handleCreateForm() {
       this.vaccineFormVisible = true;
       this.currentVaccine = {
+        pet_id: this.pet.id,
         vaccinedate: '',
         vaccine: '',
         vaccinebatch: '',
-        category: {
-          name: '',
-        },
       };
     },
 

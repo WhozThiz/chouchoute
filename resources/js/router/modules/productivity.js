@@ -8,7 +8,7 @@ const productivityRoutes = {
   name: 'Productivity',
   meta: {
     title: 'productivity',
-    icon: 'task',
+    icon: 'task-list',
     permissions: ['view menu productivity routes'],
   },
   children: [

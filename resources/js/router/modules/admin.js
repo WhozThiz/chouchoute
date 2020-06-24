@@ -34,12 +34,25 @@ const adminRoutes = {
       name: 'RoleList',
       meta: { title: 'rolePermission', icon: 'role', permissions: ['manage permission'] },
     },
-    /** Categories */
     {
-      path: 'categories',
-      component: () => import('@/views/settings/categories/List'),
-      name: 'CategoryList',
-      meta: { title: 'categories', icon: 'category', permissions: ['view category', 'manage category'] },
+      path: 'page',
+      component: () => import('@/views/permission/Page'),
+      name: 'PagePermission',
+      meta: {
+        title: 'pagePermission',
+        icon: 'lock',
+        permissions: ['manage permission'],
+      },
+    },
+    {
+      path: 'directive',
+      component: () => import('@/views/permission/Directive'),
+      name: 'directivePermission',
+      meta: {
+        title: 'directivePermission',
+        icon: 'user_role',
+        // if do not set roles neither permissions, means: this page does not require permission
+      },
     },
   ],
 };

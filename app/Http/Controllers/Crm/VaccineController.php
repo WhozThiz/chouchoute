@@ -40,15 +40,53 @@ class VaccineController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function multistore(Request $request)
+    {
+        $pet_id = $request->pet_id;
+        $vaccines = $request->vaccines;
+
+        foreach($vaccines as $vaccine){
+            Vaccine::create([
+                'pet_id' => $pet_id,
+                'vaccinedate' => $vaccine['vaccinedate'],
+                'vaccine' => $vaccine['vaccine'],
+                'vaccinebatch' => $vaccine['vaccinebatch'],
+            ]);
+        }
+        return new VaccineResource($vaccine);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $params = $request->all();
-        $vaccine = Vaccine::create([
+        $pet_id = $request->pet_id;
+        
+        $vaccines = $request->vaccines;
+
+        if ($vaccines == null) {
+            $params = $request->all();
+            $vaccine = Vaccine::create([
             'pet_id' => $params['pet_id'],
             'vaccinedate' => $params['vaccinedate'],
             'vaccine' => $params['vaccine'],
             'vaccinebatch' => $params['vaccinebatch'],
-        ]);
+            ]);
+        } else {
+            foreach($vaccines as $vaccine){
+                Vaccine::create([
+                    'pet_id' => $pet_id,
+                    'vaccinedate' => $vaccine['vaccinedate'],
+                    'vaccine' => $vaccine['vaccine'],
+                    'vaccinebatch' => $vaccine['vaccinebatch'],
+                ]);
+            }
+        }
+
         return new VaccineResource($vaccine);
     }
 

@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Crm;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Crm\PetResource;
 use App\Laravue\Models\Crm\Pet;
-use App\Laravue\Models\Settings\Category;
-use App\Http\Requests\Crm\PetRequest;
-use App\Laravue\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Validator;
+use App\Laravue\JsonResponse;
+use Illuminate\Validation\Validator;
 
 class PetController extends Controller
 {
@@ -47,7 +44,7 @@ class PetController extends Controller
 
         $params = $request->all();
         $pet = Pet::create([
-            'name' => $params['name'],
+            'name' => $params['petname'],
             'breed' => $params['breed'],
             'coat' => $params['coat'],
             'gender' => $params['gender'],
@@ -132,7 +129,13 @@ class PetController extends Controller
      */
     public function destroy(Pet $pet)
     {
-        //
+        try {
+            $pet->delete();
+        } catch (\Exception $ex) {
+            response()->json(['error' => $ex->getMessage()], 403);
+        }
+    
+        return response()->json(null, 204);
     }
 
     /**

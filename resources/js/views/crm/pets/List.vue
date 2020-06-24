@@ -63,8 +63,8 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('general.name')" prop="name">
-          <el-input v-model="currentPet.name" />
+        <el-form-item :label="$t('general.name')" prop="petname">
+          <el-input v-model="currentPet.petname" />
         </el-form-item>
         <el-form-item :label="$t('pet.breed')" prop="breed">
           <el-select v-model="currentPet.breed" placeholder="Select Breed">
@@ -137,6 +137,7 @@ export default {
   created() {
     this.getList();
     this.getCategories();
+    this.getLeads();
   },
   methods: {
 
@@ -182,7 +183,7 @@ export default {
               duration: 5 * 1000,
             });
             this.currentPet = {
-              name: '',
+              petname: '',
               breed: '',
               coat: '',
               gender: '',
@@ -206,7 +207,7 @@ export default {
       this.petFormVisible = true;
       this.formTitle = this.$t('pet.createpet');
       this.currentPet = {
-        name: '',
+        petname: '',
         breed: '',
         coat: '',
         gender: false,
@@ -245,6 +246,7 @@ export default {
       this.petFormVisible = true;
       this.formTitle = this.$t('pet.editpet');
       this.currentPet = this.list.find(pet => pet.id === id);
+      this.currentPet.petname = this.currentPet.name;
     },
   },
 };
