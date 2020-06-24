@@ -18,8 +18,12 @@ export default {
     title: 'Title',
   },
   route: {
-    introduction: 'Introduction',
+    accounting: 'Bookkepping',
+    banking: 'Banking',
     documentation: 'Documentation',
+    expense: 'Expense',
+    income: 'Income',
+    introduction: 'Introduction',
     guide: 'Guide',
     permission: 'Permission',
     pagePermission: 'Page Permission',

@@ -13,6 +13,7 @@ Vue.use(Router);
 import Layout from '@/layout';
 
 /* Router for modules */
+import accountingRoutes from './modules/accounting';
 import cmsRoutes from './modules/cms';
 import crmRoutes from './modules/crm';
 import productivityRoutes from './modules/productivity';
@@ -91,6 +92,7 @@ export const constantRoutes = [
 ];
 
 export const asyncRoutes = [
+  accountingRoutes,
   crmRoutes,
   cmsRoutes,
   productivityRoutes,
