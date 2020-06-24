@@ -1,7 +1,25 @@
 <template>
-  <div style="padding:30px;">
-    <el-alert :closable="false" title="todo">
-      <router-view />
-    </el-alert>
+  <div class="app-container">
+    <label>{{ todo.title }}</label>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Todo',
+  props: {
+  },
+  data() {
+    return {
+      todo: {
+        title: 'Hello World',
+      },
+    };
+  },
+  methods: {
+  },
+};
+</script>
+
+<style scoped>
+</style>
