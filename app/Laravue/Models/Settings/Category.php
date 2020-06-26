@@ -17,7 +17,7 @@ class Category extends Model
     }
 
     public function children() {
-        return $this->hasMany('App\Laravue\Models\Settings\Category', 'parent_id');
+        return $this->hasMany('App\Laravue\Models\Settings\Category', 'parent_id')->with('children');
     }
 
     public function vaccines() {

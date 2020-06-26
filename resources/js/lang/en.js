@@ -1,4 +1,12 @@
 export default {
+  accounting: {
+    account: 'Account',
+    customer: 'Customer',
+    newrevenue: 'New Revenue',
+    paymentmethod: 'Payment Method',
+    recurring: 'Recurring',
+    revenue: 'Revenue',
+  },
   articles: {
     abstract: 'Abstract',
     article: 'Article',
@@ -145,6 +153,8 @@ export default {
     back: 'Back',
     birthdate: 'Birthdate',
     cancel: 'Cancel',
+    category: 'Category',
+    child: 'Child',
     city: 'City',
     confirm: 'Confirm',
     create: 'Create',
@@ -165,8 +175,10 @@ export default {
     new: 'New',
     no: 'No',
     profile: 'Profile',
+    reference: 'Reference',
     state: 'State',
     update: 'Update',
+    value: 'Value',
     yes: 'Yes',
     zipcode: 'ZIP Code',
   },

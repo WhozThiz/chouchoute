@@ -1,4 +1,12 @@
 export default {
+  accounting: {
+    account: 'Conta',
+    customer: 'Cliente',
+    newrevenue: 'Nova Receita',
+    paymentmethod: 'Forma de Pagamento',
+    recurring: 'Recorrente',
+    revenue: 'Receita',
+  },
   articles: {
     abstract: 'Abstract',
     article: 'Texto',
@@ -144,6 +152,8 @@ export default {
     back: 'Voltar',
     birthdate: 'Aniversário',
     cancel: 'Cancelar',
+    category: 'Categoria',
+    child: 'Sub-Categoria',
     city: 'Cidade',
     confirm: 'Confirmar',
     create: 'Criar',
@@ -164,8 +174,10 @@ export default {
     new: 'Novo',
     no: 'Não',
     profile: 'Perfil',
+    reference: 'Referência',
     state: 'Estado',
     update: 'Atualizar',
+    value: 'Montante',
     yes: 'Sim',
     zipcode: 'CEP',
   },

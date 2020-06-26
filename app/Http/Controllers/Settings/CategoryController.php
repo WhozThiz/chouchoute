@@ -18,11 +18,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //$categories = Category::with('children')->get();
+        $parent = Category::with('parent')->get();
+        $children = Category::whereNull('parent_id')->has('children')->with('children')->get();
 
         // Return collection of categories as a resource
-        return CategoryResource::collection(Category::with('parent')->orderBy('parent_id', 'asc')->get());
-        //return response()->json(new JsonResponse($categories));
+        // return CategoryResource::collection(Category::with('parent')->orderBy('parent_id', 'asc')->get());
+        return response()->json(new JsonResponse(['parent' => $parent, 'children' => $children]));
     }
 
     /**

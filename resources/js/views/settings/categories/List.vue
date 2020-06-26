@@ -6,42 +6,26 @@
         {{ $t('table.add') }}
       </el-button>
     </div>
-    <el-table v-loading="loading" :data="list" border fit stripe highlight-current-row>
-      <el-table-column align="center" label="ID" width="80">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
 
-      <el-table-column align="center" label="Parent" width="200">
-        <template slot-scope="scope">
-          <span v-if="scope.row.parent !== null">{{ scope.row.parent.name }}</span>
-        </template>
-      </el-table-column>
+    <el-table v-loading="loading" :data="children" row-key="name" stripe style="width: 100%">
 
-      <el-table-column align="center" label="Name" width="200">
+      <el-table-column align="center" :label="$t('general.name')" prop="name" />
+      <el-table-column align="left" label="Description" prop="description" />
+      <el-table-column align="center" label="Actions">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="left" label="Description">
-        <template slot-scope="scope">
-          <span>{{ scope.row.description }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="Actions" width="350">
-        <template slot-scope="scope">
+          <el-button v-permission="['manage category']" type="primary" size="small" icon="el-icon-plus" disabled @click="handleCreateForm(scope.row.id)">
+            {{ $t('general.child') }}
+          </el-button>
           <el-button v-permission="['manage category']" type="primary" size="small" icon="el-icon-edit" @click="handleEditForm(scope.row.id);">
-            Edit
+            {{ $t('table.edit') }}
           </el-button>
           <el-button v-permission="['manage category']" type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id, scope.row.name);">
-            Delete
+            {{ $t('table.delete') }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+
     <el-dialog :title="formTitle" :visible.sync="categoryFormVisible">
       <div class="form-container">
         <el-form ref="categoryForm" :model="currentCategory" label-position="left" label-width="150px" style="max-width: 500px;">
@@ -50,7 +34,7 @@
           </el-form-item>
           <el-form-item label="Parent" prop="parent_id">
             <el-select v-model="currentCategory.parent_id" placeholder="Select Parent">
-              <el-option v-for="item in list" :key="item.id" :label="item.name" :value="item.id">
+              <el-option v-for="item in parent" :key="item.id" :label="item.name" :value="item.id">
                 <span style="float: left">{{ item.name }}</span>
                 <span v-if="item.parent !== null" style="float: right">{{ item.parent.name }}</span>
               </el-option>
@@ -70,6 +54,7 @@
         </div>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -84,7 +69,13 @@ export default {
   directives: { permission }, // use permission directive
   data() {
     return {
-      list: [],
+      children: [{
+        id: '',
+        name: '',
+        description: '',
+        children: [{}],
+      }],
+      parent: [],
       loading: true,
       categoryFormVisible: false,
       currentCategory: {},
@@ -98,7 +89,8 @@ export default {
     async getList() {
       this.loading = true;
       const { data } = await categoryResource.list({});
-      this.list = data;
+      this.children = data.children;
+      this.parent = data.parent;
       this.loading = false;
     },
     handleSubmit() {
@@ -174,3 +166,6 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+</style>
