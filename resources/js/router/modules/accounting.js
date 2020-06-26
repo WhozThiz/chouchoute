@@ -19,7 +19,7 @@ const accountingRoutes = {
         /** Accounts Managements */
         {
           path: 'account',
-          component: () => import('@/views/accounting/account'),
+          component: () => import('@/views/accounting/banking/account'),
           name: 'Account',
           meta: { title: 'account', icon: 'account' },
         },
