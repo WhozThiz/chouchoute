@@ -26,7 +26,7 @@ const accountingRoutes = {
     /** Income Managements */
     {
       path: 'income',
-      // component: () => import('@/views/accounting/income'),
+      component: () => import('@/views/accounting/income/index'),
       name: 'Income',
       meta: { title: 'income', icon: 'income' },
     },
