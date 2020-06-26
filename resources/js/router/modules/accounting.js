@@ -23,6 +23,13 @@ const accountingRoutes = {
           name: 'Account',
           meta: { title: 'account', icon: 'account' },
         },
+        /** Transfers Managements */
+        {
+          path: 'transfer',
+          component: () => import('@/views/accounting/banking/transfer'),
+          name: 'Transfer',
+          meta: { title: 'transfer', icon: 'transfer' },
+        },
       ],
     },
     /** Expense Managements */
@@ -64,7 +71,7 @@ const accountingRoutes = {
         },
         /** Revenue Managements */
         {
-          path: '/accounting/income/revenue',
+          path: 'revenue',
           component: () => import('@/views/accounting/income/revenue'),
           name: 'Revenue',
           meta: { title: 'revenue', icon: 'revenue' },

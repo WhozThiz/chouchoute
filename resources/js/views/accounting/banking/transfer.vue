@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
-    <label>{{ account.title }}</label>
+    <label>{{ transfer.title }}</label>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Account',
+  name: 'Transfer',
   props: {
   },
   data() {
     return {
-      account: {
+      transfer: {
         title: 'Hello World',
       },
     };
