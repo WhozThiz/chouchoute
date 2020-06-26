@@ -22,7 +22,6 @@ class LeadController extends Controller
     {
         $leads = Lead::with('pets')->orderBy('name')->get();
         return response()->json(new JsonResponse($leads));
-
     }
 
     /**

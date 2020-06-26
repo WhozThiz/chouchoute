@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <label>{{ calendar.title }}</label>
+    <el-calendar v-model="calendar.value" />
   </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       calendar: {
-        title: 'Hello World',
+        value: new Date(),
       },
     };
   },
