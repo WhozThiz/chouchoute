@@ -112,7 +112,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::apiResource('categories', 'Settings\CategoryController')->middleware('permission:manage category');
     // Listing category will require "view category" or "manage category"
     Route::get('categories', 'Settings\CategoryController@index')->name('categories.index')->middleware('permission:view category|manage category');
-    Route::get('currenciecategories', 'Settings\CategoryController@currencycategories');
+    Route::get('currencycategories', 'Settings\CategoryController@currencycategories');
     Route::get('medicationcategories', 'Settings\CategoryController@medicationcategories');
     Route::get('petcategories', 'Settings\CategoryController@petcategories');
     Route::get('vaccinecategories', 'Settings\CategoryController@vaccinecategories');
@@ -124,7 +124,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('countleads', 'Crm\LeadController@countleads');
 
     // All api requests to medication need "manage medication" permission
-    Route::apiResource('medication', 'Crm\MedicationController');
+    Route::apiResource('medications', 'Crm\MedicationController');
     Route::get('medications', 'Crm\MedicationController@medications')->name('medications.list');
 
     // All api requests to pets need "manage pet" permission
@@ -135,6 +135,9 @@ Route::group(['middleware' => 'api'], function () {
 
     // All api requests to leads need "manage post" permission
     Route::apiResource('posts', 'Cms\PostController');
+
+    // All api requests to settings need "manage setting" permission
+    Route::apiResource('settings', 'Settings\SettingController');
 
     // All api requests to vaccines need "manage vaccine" permission
     Route::apiResource('vaccines', 'Crm\VaccineController');
