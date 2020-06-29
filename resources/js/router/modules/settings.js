@@ -20,6 +20,13 @@ const settingsRoutes = {
       name: 'CategoryList',
       meta: { title: 'categories', icon: 'category', permissions: ['view category', 'manage category'] },
     },
+    /** Settings */
+    {
+      path: 'configuration',
+      component: () => import('@/views/settings/index'),
+      name: 'Configuration',
+      meta: { title: 'configuration', icon: 'config', permissions: ['view category', 'manage category'] },
+    },
   ],
 };
 
