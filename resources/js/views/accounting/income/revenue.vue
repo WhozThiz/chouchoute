@@ -36,7 +36,7 @@
         <el-form-item :label="$t('table.description')" prop="description">
           <el-input v-model="currentRevenue.desc" type="textarea" :placeholder="$t('table.description')" />
         </el-form-item>
-        <el-form-item :label="$t('general.reference')" prop="lead_id">
+        <el-form-item :label="$t('general.reference')" prop="reference">
           <el-input v-model="currentRevenue.reference" :placeholder="$t('general.reference')"><template slot="prepend"><svg-icon icon-class="reference" /></template></el-input>
         </el-form-item>
         <el-form-item :label="$t('general.value')" prop="value">
@@ -122,7 +122,7 @@ export default {
 
     handleCreateForm() {
       this.revenueFormVisible = true;
-      this.formTitle = this.$t('accounting.newrevenue');
+      this.formTitle = this.$t('general.new') + ' ' + this.$t('accounting.revenue');
       this.currentRevenue = {
       };
     },

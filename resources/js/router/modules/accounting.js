@@ -12,13 +12,13 @@ const accountingRoutes = {
     /** Banking Managements */
     {
       path: 'banking',
-      // component: () => import('@/views/accounting/banking/index'),
+      component: () => import('@/views/accounting/banking/index'),
       name: 'Banking',
       meta: { title: 'banking', icon: 'bank' },
       children: [
         /** Accounts Managements */
         {
-          path: 'account',
+          path: '/accounting/banking/account',
           component: () => import('@/views/accounting/banking/account'),
           name: 'Account',
           meta: { title: 'account', icon: 'account' },
@@ -35,7 +35,7 @@ const accountingRoutes = {
     /** Expense Managements */
     {
       path: 'expense',
-      // component: () => import('@/views/accounting/expense/index'),
+      component: () => import('@/views/accounting/expense/index'),
       name: 'Expense',
       meta: { title: 'expense', icon: 'expense' },
       children: [
@@ -58,7 +58,7 @@ const accountingRoutes = {
     /** Income Managements */
     {
       path: 'income',
-      // component: () => import('@/views/accounting/income/index'),
+      component: () => import('@/views/accounting/income/index'),
       name: 'Income',
       meta: { title: 'income', icon: 'income' },
       children: [
