@@ -4,7 +4,7 @@ import Resource from '@/api/resource';
 class CategoryResource extends Resource {
   getCurrencyCategories(query) {
     return request({
-      url: '/currencies',
+      url: '/currencycategories',
       method: 'get',
       params: query,
     });
