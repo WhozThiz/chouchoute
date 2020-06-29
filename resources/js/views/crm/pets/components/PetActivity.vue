@@ -12,8 +12,8 @@
             <el-table-column prop="vaccinebatch" label="Batch" />
             <el-table-column fixed="right" label="Action">
               <template slot-scope="scope">
-                <el-button type="text" @click="handleEditForm(scope.row.id);">Edit</el-button>
-                <el-button type="text" @click="handleDelete(scope.row.id, scope.row.vaccine);">{{ $t('general.delete') }}</el-button>
+                <el-button type="text" @click="handleEditForm(scope.row.id, 'vaccination');">Edit</el-button>
+                <el-button type="text" @click="handleDelete(scope.row.id, scope.row.vaccine, 'vaccination');">{{ $t('general.delete') }}</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -31,8 +31,8 @@
             <el-table-column prop="validation" label="Validation" />
             <el-table-column fixed="right" label="Action">
               <template slot-scope="scope">
-                <el-button type="text" @click="handleEditForm(scope.row.id);">Edit</el-button>
-                <el-button type="text" @click="handleDelete(scope.row.id, scope.row.vaccine);">{{ $t('general.delete') }}</el-button>
+                <el-button type="text" @click="handleEditForm(scope.row.id, 'medication');">Edit</el-button>
+                <el-button type="text" @click="handleDelete(scope.row.id, scope.row.medication, 'medication');">{{ $t('general.delete') }}</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -176,7 +176,7 @@ import CategoryResource from '@/api/category';
 import { mask } from 'vue-the-mask';
 
 const categoryResource = new CategoryResource();
-// const medicationResource = new Resource('medication');
+const medicationResource = new Resource('medications');
 const petResource = new Resource('pets');
 const crmResource = new CrmResource();
 const vaccinesResource = new Resource('vaccines');
@@ -210,13 +210,7 @@ export default {
         vaccine: '',
         vaccinebatch: '',
       }],
-      medications: [{
-        pet_id: '',
-        application: '',
-        medication: '',
-        validation: '',
-        batch: '',
-      }],
+      medications: null,
       breeds: [],
       coats: [],
       vaccinecategories: [],
@@ -229,9 +223,11 @@ export default {
       activeActivity: 'Vaccines',
       updating: false,
       pickerOptions: {
+        /*
         disabledDate(time) {
           return time.getTime() > Date.now();
         },
+        */
         shortcuts: [{
           text: 'Today',
           onClick(picker) {
@@ -245,10 +241,17 @@ export default {
             picker.$emit('pick', date);
           },
         }, {
-          text: 'A week ago',
+          text: 'A Week Ago',
           onClick(picker) {
             const date = new Date();
             date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          },
+        }, {
+          text: 'A Year Later',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 365);
             picker.$emit('pick', date);
           },
         }],
@@ -258,20 +261,21 @@ export default {
   created() {
     const id = this.$route.params && this.$route.params.id;
     this.getVaccines(id);
+    this.getMedications(id);
     this.getVaccineCategories();
     this.getPetCategories();
     this.getMedicationCategories();
   },
   methods: {
 
-    async getVaccines(id) {
-      const { data } = await crmResource.vaccines({ pet_id: id });
-      this.vaccines = data;
-    },
-
     async getMedications(id) {
       const { data } = await crmResource.medications({ pet_id: id });
       this.medications = data;
+    },
+
+    async getVaccines(id) {
+      const { data } = await crmResource.vaccines({ pet_id: id });
+      this.vaccines = data;
     },
 
     async getVaccineCategories() {
@@ -315,9 +319,14 @@ export default {
       }
     },
 
-    handleEditForm(id) {
-      this.vaccineFormVisible = true;
-      this.currentVaccine = this.vaccines.find(vaccine => vaccine.id === id);
+    handleEditForm(id, form) {
+      if (form === 'vaccination') {
+        this.vaccineFormVisible = true;
+        this.currentVaccine = this.vaccines.find(vaccine => vaccine.id === id);
+      } else if (form === 'medication') {
+        this.medicationFormVisible = true;
+        this.currentMedication = this.medications.find(medication => medication.id === id);
+      }
     },
 
     handleVaccine() {
@@ -357,27 +366,88 @@ export default {
       }
     },
 
-    handleDelete(id, vaccine) {
-      this.$confirm('This will permanently delete pet ' + name + '. Continue?', 'Warning', {
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel',
-        type: 'warning',
-      }).then(() => {
-        vaccinesResource.destroy(id).then(response => {
+    handleMedication() {
+      if (this.currentMedication.id !== undefined) {
+        medicationResource.update(this.currentMedication.id, this.currentMedication).then(response => {
           this.$message({
             type: 'success',
-            message: this.$t('general.deletecompleted'),
+            message: this.$t('pet.petprofile') + ' ' + this.$t('general.hasbeenupdatedsucessfully'),
+            duration: 5 * 1000,
           });
-          this.getVaccines(this.pet.id);
+          this.medicationFormVisible = false;
+          this.getMedication(this.pet.id);
         }).catch(error => {
           console.log(error);
         });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: this.$t('general.deletecanceled'),
+      } else {
+        this.currentMedication.pet_id = this.pet.id;
+        medicationResource
+          .store(this.currentMedication)
+          .then(response => {
+            this.$message({
+              message: 'Added Successfully',
+              type: 'success',
+              duration: 5 * 1000,
+            });
+            this.currentMedication = {
+              application: '',
+              medication: '',
+              batch: '',
+              validation: '',
+            };
+            this.medicationFormVisible = false;
+            this.getMedications(this.pet.id);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+
+    handleDelete(id, name, form) {
+      if (form === 'vaccination') {
+        this.$confirm('This will permanently delete. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }).then(() => {
+          vaccinesResource.destroy(id).then(response => {
+            this.$message({
+              type: 'success',
+              message: this.$t('general.deletecompleted'),
+            });
+            this.getVaccines(this.pet.id);
+          }).catch(error => {
+            console.log(error);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: this.$t('general.deletecanceled'),
+          });
         });
-      });
+      } else if (form === 'medication') {
+        this.$confirm('This will permanently delete. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }).then(() => {
+          medicationResource.destroy(id).then(response => {
+            this.$message({
+              type: 'success',
+              message: this.$t('general.deletecompleted'),
+            });
+            this.getMedications(this.pet.id);
+          }).catch(error => {
+            console.log(error);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: this.$t('general.deletecanceled'),
+          });
+        });
+      }
     },
 
     handleSubmit() {
