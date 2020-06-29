@@ -41,7 +41,32 @@ class MedicationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pet_id = $request->pet_id;
+        
+        $medications = $request->medications;
+
+        if ($medications == null) {
+            $params = $request->all();
+            $medication = Medication::create([
+            'pet_id' => $params['pet_id'],
+            'application' => $params['application'],
+            'medication' => $params['medication'],
+            'batch' => $params['batch'],
+            'validation' => $params['validation'],
+            ]);
+        } else {
+            foreach($medications as $medication){
+                Medication::create([
+                    'pet_id' => $pet_id,
+                    'application' => $medication['application'],
+                    'medication' => $medication['medication'],
+                    'batch' => $medication['batch'],
+                    'validation' => $medication['validation'],
+                ]);
+            }
+        }
+
+        return new MedicationResource($medication);
     }
 
     /**
@@ -75,7 +100,15 @@ class MedicationController extends Controller
      */
     public function update(Request $request, Medication $medication)
     {
-        //
+        $params = $request->all();
+        $medication->pet_id = $params['pet_id'];
+        $medication->application = $params['application'];
+        $medication->medication = $params['medication'];
+        $medication->batch = $params['batch'];
+        $medication->validation = $params['validation'];
+        $medication->save();
+
+        return new MedicationResource($medication);
     }
 
     /**

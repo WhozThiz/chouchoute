@@ -13,7 +13,7 @@ class CreateMedicationTable extends Migration
      */
     public function up()
     {
-        Schema::create('medication', function (Blueprint $table) {
+        Schema::create('medications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('pet_id');
             $table->string('medication', 100);
@@ -33,6 +33,6 @@ class CreateMedicationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medication');
+        Schema::dropIfExists('medications');
     }
 }
