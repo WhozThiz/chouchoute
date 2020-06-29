@@ -45,6 +45,7 @@ export default {
     components: 'Componentes',
     componentIndex: 'Introdução',
     componentMixin: 'Mixin',
+    configuration: 'Configuração',
     contract: 'Contrato',
     countTo: 'CountTo',
     createArticle: 'Create Artigo',
