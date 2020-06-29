@@ -3,13 +3,32 @@
     <el-tabs v-model="activeActivity" @tab-click="handleClick">
       <el-tab-pane :label="$t('pet.vaccines')" name="Vaccines">
         <div>
-          <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreateForm">
+          <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreateForm('vaccination')">
             {{ $t('table.add') }}
           </el-button>
           <el-table :data="vaccines" style="width: 100%">
             <el-table-column prop="vaccinedate" label="Date" width="180" />
             <el-table-column prop="category.name" label="Vaccine" width="180" />
             <el-table-column prop="vaccinebatch" label="Batch" />
+            <el-table-column fixed="right" label="Action">
+              <template slot-scope="scope">
+                <el-button type="text" @click="handleEditForm(scope.row.id);">Edit</el-button>
+                <el-button type="text" @click="handleDelete(scope.row.id, scope.row.vaccine);">{{ $t('general.delete') }}</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane :label="$t('pet.medication')" name="Medications">
+        <div>
+          <el-button class="filter-item" type="primary" icon="el-icon-plus" @click="handleCreateForm('medication')">
+            {{ $t('table.add') }}
+          </el-button>
+          <el-table :data="medications" style="width: 100%">
+            <el-table-column prop="application" label="Application" />
+            <el-table-column prop="category.name" label="Medication" />
+            <el-table-column prop="batch" label="Batch" />
+            <el-table-column prop="validation" label="Validation" />
             <el-table-column fixed="right" label="Action">
               <template slot-scope="scope">
                 <el-button type="text" @click="handleEditForm(scope.row.id);">Edit</el-button>
@@ -100,7 +119,7 @@
     </el-tabs>
 
     <el-dialog :title="formTitle" :visible.sync="vaccineFormVisible">
-      <el-form ref="vaccineForm" :model="currentVaccine" :inline="true" label-width="100px" width="100%">
+      <el-form ref="vaccineForm" :model="currentVaccine" label-width="100px" width="100%">
         <el-form-item :label="$t('general.date')" prop="'vaccinedate'">
           <el-date-picker v-model="currentVaccine.vaccinedate" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" :picker-options="pickerOptions" />
         </el-form-item>
@@ -108,6 +127,7 @@
           <el-select v-model="currentVaccine.vaccine" placeholder="Select Vaccine">
             <el-option v-for="item in vaccinecategories" :key="item.id" :label="item.name" :value="item.id">
               <span style="float: left">{{ item.name }}</span>
+              <span style="float: right">{{ item.description }}</span>
             </el-option>
           </el-select>
         </el-form-item>
@@ -120,20 +140,46 @@
       </el-form>
     </el-dialog>
 
+    <el-dialog :title="formTitle" :visible.sync="medicationFormVisible">
+      <el-form ref="medicationForm" :model="currentMedication" label-width="100px" width="100%">
+        <el-form-item :label="$t('general.date')" prop="'application'">
+          <el-date-picker v-model="currentMedication.application" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" :picker-options="pickerOptions" />
+        </el-form-item>
+        <el-form-item :label="$t('pet.medication')" prop="medication">
+          <el-select v-model="currentMedication.medication" placeholder="Select Medication">
+            <el-option v-for="item in medicationcategories" :key="item.id" :label="item.name" :value="item.id">
+              <span style="float: left">{{ item.name }}</span>
+              <span style="float: right">{{ item.description }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('pet.batch')" prop="batch">
+          <el-input v-model="currentMedication.batch" />
+        </el-form-item>
+        <el-form-item :label="$t('general.date')" prop="'validation'">
+          <el-date-picker v-model="currentMedication.validation" type="date" value-format="yyyy-MM-dd" placeholder="Pick a day" :picker-options="pickerOptions" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleMedication()">{{ $t('general.confirm') }}</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
   </el-card>
 
 </template>
 
 <script>
 import Resource from '@/api/resource';
-import VaccineResource from '@/api/vaccines';
+import CrmResource from '@/api/crm';
 import CategoryResource from '@/api/category';
 import { mask } from 'vue-the-mask';
 
-const petResource = new Resource('pets');
-const vaccinesResource = new Resource('vaccines');
-const vaccineResource = new VaccineResource();
 const categoryResource = new CategoryResource();
+// const medicationResource = new Resource('medication');
+const petResource = new Resource('pets');
+const crmResource = new CrmResource();
+const vaccinesResource = new Resource('vaccines');
 
 export default {
   directives: {
@@ -164,12 +210,22 @@ export default {
         vaccine: '',
         vaccinebatch: '',
       }],
+      medications: [{
+        pet_id: '',
+        application: '',
+        medication: '',
+        validation: '',
+        batch: '',
+      }],
       breeds: [],
       coats: [],
       vaccinecategories: [],
+      medicationcategories: [],
       formTitle: '',
       vaccineFormVisible: false,
+      medicationFormVisible: false,
       currentVaccine: {},
+      currentMedication: {},
       activeActivity: 'Vaccines',
       updating: false,
       pickerOptions: {
@@ -204,17 +260,28 @@ export default {
     this.getVaccines(id);
     this.getVaccineCategories();
     this.getPetCategories();
+    this.getMedicationCategories();
   },
   methods: {
 
     async getVaccines(id) {
-      const { data } = await vaccineResource.vaccines({ pet_id: id });
+      const { data } = await crmResource.vaccines({ pet_id: id });
       this.vaccines = data;
+    },
+
+    async getMedications(id) {
+      const { data } = await crmResource.medications({ pet_id: id });
+      this.medications = data;
     },
 
     async getVaccineCategories() {
       const { data } = await categoryResource.getVaccineCategories({});
       this.vaccinecategories = data;
+    },
+
+    async getMedicationCategories() {
+      const { data } = await categoryResource.getMedicationCategories({});
+      this.medicationcategories = data;
     },
 
     async getPetCategories() {
@@ -227,14 +294,25 @@ export default {
       console.log(tab, event);
     },
 
-    handleCreateForm() {
-      this.vaccineFormVisible = true;
-      this.currentVaccine = {
-        pet_id: this.pet.id,
-        vaccinedate: '',
-        vaccine: '',
-        vaccinebatch: '',
-      };
+    handleCreateForm(form) {
+      if (form === 'vaccination') {
+        this.vaccineFormVisible = true;
+        this.currentVaccine = {
+          pet_id: this.pet.id,
+          vaccinedate: '',
+          vaccine: '',
+          vaccinebatch: '',
+        };
+      } else if (form === 'medication') {
+        this.medicationFormVisible = true;
+        this.currentMedication = {
+          pet_id: this.pet.id,
+          application: '',
+          medication: '',
+          validation: '',
+          batch: '',
+        };
+      }
     },
 
     handleEditForm(id) {

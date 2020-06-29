@@ -1,7 +1,15 @@
 import request from '@/utils/request';
 import Resource from '@/api/resource';
 
-class VaccinesResource extends Resource {
+class CrmResource extends Resource {
+  medications(query) {
+    return request({
+      url: '/medications',
+      method: 'get',
+      params: query,
+    });
+  }
+
   vaccines(query) {
     return request({
       url: '/vaccines',
@@ -19,4 +27,4 @@ class VaccinesResource extends Resource {
   }
 }
 
-export { VaccinesResource as default };
+export { CrmResource as default };

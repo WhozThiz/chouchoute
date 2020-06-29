@@ -9,7 +9,7 @@
 
     <el-table v-loading="loading" :data="children" row-key="name" stripe style="width: 100%">
 
-      <el-table-column align="center" :label="$t('general.name')" prop="name" />
+      <el-table-column align="left" :label="$t('general.name')" prop="name" />
       <el-table-column align="left" label="Description" prop="description" />
       <el-table-column align="center" label="Actions">
         <template slot-scope="scope">
@@ -94,6 +94,9 @@ export default {
       this.loading = false;
     },
     handleSubmit() {
+      if (this.currentCategory.parent_id === undefined) {
+        this.currentCategory.parent_id = null;
+      }
       if (this.currentCategory.id !== undefined) {
         categoryResource.update(this.currentCategory.id, this.currentCategory).then(response => {
           this.$message({
@@ -130,7 +133,7 @@ export default {
     },
     handleCreateForm() {
       this.categoryFormVisible = true;
-      this.formTitle = 'Create new category';
+      this.formTitle = this.$t('general.create') + ' ' + this.$t('general.category');
       this.currentCategory = {
         name: '',
         description: '',
@@ -160,7 +163,7 @@ export default {
     },
     handleEditForm(id) {
       this.formTitle = 'Edit category';
-      this.currentCategory = this.list.find(category => category.id === id);
+      this.currentCategory = this.children.find(category => category.id === id);
       this.categoryFormVisible = true;
     },
   },

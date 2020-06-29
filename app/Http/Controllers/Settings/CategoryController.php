@@ -139,6 +139,24 @@ class CategoryController extends Controller
         return $name;
     }
 
+    public function currencycategories()
+    {
+
+        $currencies = Category::where('parent_id', 203)->get();
+
+        return response()->json(new JsonResponse($currencies));
+
+    }
+
+    public function medicationcategories()
+    {
+
+        $medications = Category::where('parent_id', 204)->get();
+
+        return response()->json(new JsonResponse($medications));
+
+    }
+
     public function petcategories()
     {
 

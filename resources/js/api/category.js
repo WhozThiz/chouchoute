@@ -2,6 +2,22 @@ import request from '@/utils/request';
 import Resource from '@/api/resource';
 
 class CategoryResource extends Resource {
+  getCurrencyCategories(query) {
+    return request({
+      url: '/currencies',
+      method: 'get',
+      params: query,
+    });
+  }
+
+  getMedicationCategories(query) {
+    return request({
+      url: '/medicationcategories',
+      method: 'get',
+      params: query,
+    });
+  }
+
   getPetCategories(query) {
     return request({
       url: '/petcategories',
@@ -9,6 +25,7 @@ class CategoryResource extends Resource {
       params: query,
     });
   }
+
   getVaccineCategories(query) {
     return request({
       url: '/vaccinecategories',

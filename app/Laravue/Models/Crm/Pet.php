@@ -22,7 +22,11 @@ class Pet extends Model
     {
         return $this->belongsTo(Lead::class, 'lead_id');
     }
-    
+
+    public function medications() {
+        return $this->hasMany('App\Laravue\Models\Crm\Medication');
+    }
+
     public function vaccines() {
         return $this->hasMany('App\Laravue\Models\Crm\Vaccine');
     }

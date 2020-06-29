@@ -20,6 +20,14 @@ class Category extends Model
         return $this->hasMany('App\Laravue\Models\Settings\Category', 'parent_id')->with('children');
     }
 
+    public function currency() {
+        return $this->hasMany('App\Laravue\Models\Settings\Category', 'currency');
+    }
+
+    public function medications() {
+        return $this->hasMany('App\Laravue\Models\Crm\Medication', 'medication');
+    }
+
     public function vaccines() {
         return $this->hasMany('App\Laravue\Models\Crm\Vaccine', 'vaccine');
     }
