@@ -7,15 +7,12 @@
       </el-button>
     </div>
 
-    <el-table v-loading="loading" :data="children" row-key="name" stripe style="width: 100%">
+    <el-table v-loading="loading" :data="list" row-key="id" lazy :load="load" :tree-props="{ children: 'children' }" stripe style="width: 100%">
 
       <el-table-column align="left" :label="$t('general.name')" prop="name" />
       <el-table-column align="left" label="Description" prop="description" />
       <el-table-column align="center" label="Actions">
         <template slot-scope="scope">
-          <el-button v-permission="['manage category']" type="primary" size="small" icon="el-icon-plus" disabled @click="handleCreateForm(scope.row.id)">
-            {{ $t('general.child') }}
-          </el-button>
           <el-button v-permission="['manage category']" type="primary" size="small" icon="el-icon-edit" @click="handleEditForm(scope.row.id);">
             {{ $t('table.edit') }}
           </el-button>
@@ -69,7 +66,7 @@ export default {
   directives: { permission }, // use permission directive
   data() {
     return {
-      children: [{
+      list: [{
         id: '',
         name: '',
         description: '',
@@ -78,7 +75,11 @@ export default {
       parent: [],
       loading: true,
       categoryFormVisible: false,
-      currentCategory: {},
+      currentCategory: {
+        parent_id: '',
+        name: '',
+        description: '',
+      },
       formTitle: '',
     };
   },
@@ -89,10 +90,19 @@ export default {
     async getList() {
       this.loading = true;
       const { data } = await categoryResource.list({});
-      this.children = data.children;
+      this.list = data.children;
       this.parent = data.parent;
       this.loading = false;
     },
+
+    load(tree, treeNode, resolve) {
+      setTimeout(() => {
+        resolve(
+          this.list,
+        );
+      }, 1000);
+    },
+
     handleSubmit() {
       if (this.currentCategory.parent_id === undefined) {
         this.currentCategory.parent_id = null;
@@ -134,11 +144,15 @@ export default {
     handleCreateForm() {
       this.categoryFormVisible = true;
       this.formTitle = this.$t('general.create') + ' ' + this.$t('general.category');
-      this.currentCategory = {
-        name: '',
-        description: '',
-      };
+      this.currentCategory = {};
     },
+
+    handleEditForm(id) {
+      this.categoryFormVisible = true;
+      this.formTitle = 'Edit Category';
+      this.currentCategory = this.parent.find(category => category.id === id);
+    },
+
     handleDelete(id, name) {
       this.$confirm('This will permanently delete category ' + name + '. Continue?', 'Warning', {
         confirmButtonText: 'OK',
@@ -160,11 +174,6 @@ export default {
           message: 'Delete canceled',
         });
       });
-    },
-    handleEditForm(id) {
-      this.formTitle = 'Edit category';
-      this.currentCategory = this.children.find(category => category.id === id);
-      this.categoryFormVisible = true;
     },
   },
 };
