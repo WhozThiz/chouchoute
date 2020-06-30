@@ -84,4 +84,15 @@ class SettingController extends Controller
     {
         //
     }
+
+    public function default()
+    {
+        $setting = Setting::prefix('default')->get()->transform(function ($s) {
+            $s->key = str_replace('default.', '', $s->key);
+
+            return $s;
+        })->pluck('value', 'key');
+
+        return $this->setting;
+    }
 }

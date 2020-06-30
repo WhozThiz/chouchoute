@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Accounting\Banking;
 
 use App\Http\Controllers\Controller;
 use App\Laravue\Models\Accounting\Banking\Account;
+use App\Http\Resources\Accounting\Banking\AccountResource;
 use Illuminate\Http\Request;
+use App\Laravue\JsonResponse;
 
 class AccountController extends Controller
 {
@@ -15,9 +17,8 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::collect();
-
-        return view('banking.accounts.index', compact('accounts'));
+        $accounts = Account::all();
+        return response()->json(new JsonResponse($accounts));
     }
 
     /**
@@ -39,6 +40,7 @@ class AccountController extends Controller
      */
     public function disable(Account $account)
     {
+        /*
         $response = $this->ajaxDispatch(new Account::update($account, request()->merge(['enabled' => 0])));
 
         if ($response['success']) {
@@ -46,6 +48,7 @@ class AccountController extends Controller
         }
 
         return response()->json($response);
+        */
     }
 
     /**
@@ -56,17 +59,21 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        \DB::transaction(function () {
-            $this->account = Account::create($this->request->all());
 
-            // Set default account
-            if ($this->request['default_account']) {
-                setting()->set('default.account', $this->account->id);
-                setting()->save();
-            }
-        });
+        $params = $request->all();
+        $account = Account::create([
+            'name' => $params['name'],
+            'number' => $params['number'],
+            'currency' => $params['currency'],
+            'opening_balance' => $params['opening_balance'],
+            'bank_name' => $params['bank_name'],
+            'bank_phone' => $params['bank_phone'],
+            'bank_address' => $params['bank_address'],
+            'enabled' => $params['enabled'],
+        ]);
 
-        return $this->account;
+        return new AccountResource($account);
+
     }
 
     /**
@@ -100,17 +107,22 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        \DB::transaction(function () {
-            $this->account->update($this->request->all());
 
-            // Set default account
-            if ($this->request['default_account']) {
-                setting()->set('default.account', $this->account->id);
-                setting()->save();
-            }
-        });
+        if ($account === null) {
+            return response()->json(['error' => 'Account not Found'], 404);
+        } else {
+            $params = $request->all();
+            $account->name = $params['name'];
+            $account->number = $params['number'];
+            $account->opening_balance = $params['opening_balance'];
+            $account->bank_name = $params['bank_name'];
+            $account->bank_phone = $params['bank_phone'];
+            $account->bank_address = $params['bank_address'];
+            $account->enabled = $params['enabled'];
+            $account->save();
+        }
 
-        return $this->account;
+        return new AccountResource($account);
     }
 
     /**
@@ -121,6 +133,12 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        //
+        try {
+            $account->delete();
+        } catch (\Exception $ex) {
+            response()->json(['error' => $ex->getMessage()], 403);
+        }
+    
+        return response()->json(null, 204);
     }
 }

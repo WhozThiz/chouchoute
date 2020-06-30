@@ -4,7 +4,7 @@ export default {
     bank: 'Bank ',
     currency: 'Currency',
     customer: 'Customer',
-    openbalance: 'Open Balance',
+    openbalance: 'Opening Balance',
     paymentmethod: 'Payment Method',
     recurring: 'Recurring',
     revenue: 'Revenue',

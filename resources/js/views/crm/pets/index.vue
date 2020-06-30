@@ -54,7 +54,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="formTitle" :visible.sync="petFormVisible">
+    <el-dialog :title="formTitle" :visible.sync="petFormVisible" :before-close="handleClose">
       <el-form ref="petForm" :model="currentPet" label-position="left" label-width="150px" style="max-width: 100%">
         <el-form-item :label="$t('route.leads')" prop="lead_id">
           <el-select v-model="currentPet.lead_id" placeholder="Select Owner">
@@ -159,6 +159,30 @@ export default {
       this.leads = data;
     },
 
+    handleCreateForm() {
+      this.getLeads();
+      this.petFormVisible = true;
+      this.formTitle = this.$t('pet.createpet');
+      this.currentPet = {
+        petname: '',
+        breed: '',
+        coat: '',
+        gender: false,
+        color: '',
+        birthdate: '',
+        neutered: false,
+        registration: '',
+        lead_id: '',
+      };
+    },
+
+    handleEditForm(id) {
+      this.petFormVisible = true;
+      this.formTitle = this.$t('pet.editpet');
+      this.currentPet = this.list.find(pet => pet.id === id);
+      this.currentPet.petname = this.currentPet.name;
+    },
+
     handleSubmit() {
       if (this.currentPet.id !== undefined) {
         petResource.update(this.currentPet.id, this.currentPet).then(response => {
@@ -202,23 +226,6 @@ export default {
       }
     },
 
-    handleCreateForm() {
-      this.getLeads();
-      this.petFormVisible = true;
-      this.formTitle = this.$t('pet.createpet');
-      this.currentPet = {
-        petname: '',
-        breed: '',
-        coat: '',
-        gender: false,
-        color: '',
-        birthdate: '',
-        neutered: false,
-        registration: '',
-        lead_id: '',
-      };
-    },
-
     handleDelete(id, name) {
       this.$confirm('This will permanently delete pet ' + name + '. Continue?', 'Warning', {
         confirmButtonText: 'OK',
@@ -242,11 +249,12 @@ export default {
       });
     },
 
-    handleEditForm(id) {
-      this.petFormVisible = true;
-      this.formTitle = this.$t('pet.editpet');
-      this.currentPet = this.list.find(pet => pet.id === id);
-      this.currentPet.petname = this.currentPet.name;
+    handleClose(done) {
+      this.$confirm('Are You Want to Leave?')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     },
   },
 };

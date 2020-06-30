@@ -142,7 +142,7 @@ class CategoryController extends Controller
     public function currencycategories()
     {
 
-        $currencies = Category::where('parent_id', 203)->get();
+        $currencies = Category::where('parent_id', 201)->get();
 
         return response()->json(new JsonResponse($currencies));
 

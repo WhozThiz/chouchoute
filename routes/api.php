@@ -105,6 +105,8 @@ Route::group(['middleware' => 'api'], function () {
     });
     */
 
+    Route::apiResource('accounts', 'Accounting\Banking\AccountController');
+
     Route::apiResource('articles', 'Cms\ArticleController');
     Route::get('countarticles', 'Cms\ArticleController@countarticles');
 
