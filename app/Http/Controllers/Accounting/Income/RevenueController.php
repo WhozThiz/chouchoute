@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Accounting\Income;
 
 use App\Http\Controllers\Controller;
 use App\Laravue\Models\Accounting\Income\Revenue;
+use App\Http\Resources\Accounting\Income\RevenueResource;
 use Illuminate\Http\Request;
+use App\Laravue\JsonResponse;
 
 class RevenueController extends Controller
 {
@@ -15,7 +17,8 @@ class RevenueController extends Controller
      */
     public function index()
     {
-        //
+        $revenues = Revenue::all();
+        return response()->json(new JsonResponse($revenues));
     }
 
     /**

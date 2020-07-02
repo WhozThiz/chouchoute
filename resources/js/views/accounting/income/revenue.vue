@@ -12,9 +12,9 @@
         <el-form-item :label="$t('general.date')" prop="date">
           <el-date-picker v-model="currentRevenue.date" type="date" value-format="yyyy-MM-dd" clear-icon="el-icon-circle-close" placeholder="Pick a day" />
         </el-form-item>
-        <el-form-item :label="$t('accounting.account')" prop="bank">
+        <el-form-item :label="$t('accounting.account')" prop="account_id">
           <el-select v-model="currentRevenue.account" :placeholder="'Select ' + $t('accounting.account')">
-            <el-option v-for="item in currentRevenue.accounts" :key="item.id" :label="item.name" :value="item.name">
+            <el-option v-for="item in accounts" :key="item.id" :label="item.name" :value="item.name">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
           </el-select>
@@ -26,9 +26,12 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('general.category')" prop="category">
+        <el-form-item :label="$t('general.category')" prop="category_id">
           <el-select v-model="currentRevenue.category" :placeholder="'Select ' + $t('general.category')">
-            <el-option v-for="item in category" :key="item.id" :label="item.name" :value="item.name">
+            <el-option v-for="item in operatings" :key="item.id" :label="item.name" :value="item.name">
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
+            <el-option v-for="item in non_operatings" :key="item.id" :label="item.name" :value="item.name">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
           </el-select>
@@ -42,9 +45,9 @@
         <el-form-item :label="$t('general.value')" prop="value">
           <el-input v-model.lazy="currentRevenue.value" v-money="money" placeholder="Enter Amount"><template slot="prepend"><svg-icon icon-class="moneyncoin" /></template></el-input>
         </el-form-item>
-        <el-form-item :label="$t('accounting.paymentmethod')" prop="bank">
+        <el-form-item :label="$t('accounting.paymentmethod')" prop="payment_method">
           <el-select v-model="currentRevenue.account" :placeholder="'Select ' + $t('accounting.paymentmethod')">
-            <el-option v-for="item in paymentmethod" :key="item.id" :label="item.name" :value="item.name">
+            <el-option v-for="item in payment_methods" :key="item.id" :label="item.name" :value="item.name">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
           </el-select>
@@ -71,9 +74,12 @@
 
 <script>
 import Resource from '@/api/resource';
+import CategoryResource from '@/api/category';
 import { mask } from 'vue-the-mask';
 import { VMoney } from 'v-money';
 
+const accountResource = new Resource('accounts');
+const categoryResource = new CategoryResource();
 const leadResource = new Resource('leads');
 
 export default {
@@ -94,11 +100,14 @@ export default {
       category: [],
       currentRevenue: {
         date: '',
-        accounts: [],
+        account: '',
         value: '',
       },
+      accounts: [],
       leads: [],
-      paymentmethod: [],
+      non_operatings: [],
+      operatings: [],
+      payment_methods: [],
       recurring: [],
       money: {
         decimal: ',',
@@ -111,9 +120,23 @@ export default {
     };
   },
   created() {
+    this.getAccounts();
+    this.getCategories();
     this.getLeads();
   },
   methods: {
+
+    async getAccounts() {
+      const { data } = await accountResource.list({});
+      this.accounts = data;
+    },
+
+    async getCategories() {
+      const { data } = await categoryResource.getRevenueCategories({});
+      this.operatings = data.operatings;
+      this.non_operatings = data.non_operatings;
+      this.payment_methods = data.payment_methods;
+    },
 
     async getLeads() {
       const { data } = await leadResource.list({});

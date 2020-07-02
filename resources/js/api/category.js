@@ -26,6 +26,14 @@ class CategoryResource extends Resource {
     });
   }
 
+  getRevenueCategories(query) {
+    return request({
+      url: '/revenuecategories',
+      method: 'get',
+      params: query,
+    });
+  }
+
   getVaccineCategories(query) {
     return request({
       url: '/vaccinecategories',

@@ -117,6 +117,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('currencycategories', 'Settings\CategoryController@currencycategories');
     Route::get('medicationcategories', 'Settings\CategoryController@medicationcategories');
     Route::get('petcategories', 'Settings\CategoryController@petcategories');
+    Route::get('revenuecategories', 'Settings\CategoryController@revenuecategories');
     Route::get('vaccinecategories', 'Settings\CategoryController@vaccinecategories');
 
     // All api requests to leads need "manage lead" permission

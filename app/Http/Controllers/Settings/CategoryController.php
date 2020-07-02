@@ -167,6 +167,17 @@ class CategoryController extends Controller
 
     }
 
+    public function revenuecategories()
+    {
+
+        $non_operatings = Category::where('parent_id', 223)->orderBy('name')->get();
+        $payment_methods = Category::where('parent_id', 214)->orderBy('name')->get();
+        $operatings = Category::where('parent_id', 222)->orderBy('name')->get();
+
+        return response()->json(new JsonResponse(['operatings' => $operatings, 'payment_methods' => $payment_methods, 'non_operatings' => $non_operatings]));
+
+    }
+
     public function vaccinecategories()
     {
 
