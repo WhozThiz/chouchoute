@@ -108,7 +108,7 @@ class CreateAccountsTable extends Migration
             $table->double('currency_rate', 15, 8);
             $table->unsignedInteger('account_id');
             $table->integer('document_id')->nullable();
-            $table->integer('contact_id')->nullable();
+            $table->unsignedBigInteger('lead_id')->nullable();
             $table->unsignedBigInteger('category_id')->default(1);
             $table->text('description')->nullable();
             $table->string('payment_method');
@@ -119,6 +119,7 @@ class CreateAccountsTable extends Migration
             $table->softDeletes();
             $table->foreign('account_id')->references('id')->on('accounts');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('lead_id')->references('id')->on('leads');
         });
     }
 
