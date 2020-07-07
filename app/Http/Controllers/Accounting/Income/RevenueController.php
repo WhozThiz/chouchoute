@@ -39,7 +39,22 @@ class RevenueController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->all();
+        $revenue = Revenue::create([
+            'account_id' => $params['account_id'],
+            'paid_at' => $params['paid_at'],
+            'amount' => $params['amount'],
+            'currency_code' => $params['currency_code'],
+            'currency_rate' => $params['bank_name'],
+            'lead_id' => $params['lead_id'],
+            'description' => $params['description'],
+            'category_id' => $params['category_id'],
+            'payment_method' => $params['payment_method'],
+            'reference' => $params['reference'],
+            'attachment' => $params['attachment'],
+        ]);
+
+        return new RevenueResource($revenue);
     }
 
     /**

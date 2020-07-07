@@ -7,6 +7,24 @@
       </el-button>
     </div>
 
+    <el-table v-loading="loading" :data="list" stripe style="width: 100%">
+
+      <el-table-column align="left" :label="$t('general.date')" prop="paid_at" />
+      <el-table-column align="left" :label="$t('general.name')" prop="lead_id" />
+      <el-table-column align="left" :label="$t('general.value')" prop="amount" />
+      <el-table-column align="left" :label="$t('general.category')" prop="category_id" />
+      <el-table-column align="center" label="Actions">
+        <template slot-scope="scope">
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEditForm(scope.row.id);">
+            {{ $t('table.edit') }}
+          </el-button>
+          <el-button type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id, scope.row.name);">
+            {{ $t('table.delete') }}
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
     <el-dialog :title="formTitle" :visible.sync="contractFormVisible" :before-close="handleClose">
       <el-form ref="revenueForm" :model="currentContract" label-position="left" label-width="150px" style="max-width: 100%">
         <el-form-item :label="$t('general.date')" prop="date">
@@ -79,6 +97,7 @@ import { mask } from 'vue-the-mask';
 import { VMoney } from 'v-money';
 
 const accountResource = new Resource('accounts');
+const contractResource = new Resource('contracts');
 const categoryResource = new CategoryResource();
 const leadResource = new Resource('leads');
 
@@ -101,6 +120,7 @@ export default {
       currentContract: {},
       accounts: [],
       leads: [],
+      list: [],
       non_operatings: [],
       operatings: [],
       payment_methods: [],
@@ -116,11 +136,19 @@ export default {
     };
   },
   created() {
+    this.getList();
     this.getAccounts();
     this.getCategories();
     this.getLeads();
   },
   methods: {
+
+    async getList() {
+      this.loading = true;
+      const { data } = await contractResource.list();
+      this.list = data;
+      this.loading = false;
+    },
 
     async getAccounts() {
       const { data } = await accountResource.list({});
@@ -147,9 +175,48 @@ export default {
     },
 
     handleSubmit() {
-      this.contractFormVisible = false;
-      this.currentContract = {
-      };
+      if (this.currentContact.id !== undefined) {
+        accountResource.update(this.currentContact.id, this.currentContact).then(response => {
+          this.$message({
+            type: 'success',
+            message: this.$t('general.hasbeenupdatedsucessfully'),
+            duration: 5 * 1000,
+          });
+          this.getList();
+        }).catch(error => {
+          console.log(error);
+        }).finally(() => {
+          this.contractFormVisible = false;
+        });
+      } else {
+        contractResource
+          .store(this.currentContact)
+          .then(response => {
+            this.$message({
+              message: this.$t('general.hasbeenupdatedsucessfully'),
+              type: 'success',
+              duration: 5 * 1000,
+            });
+            this.currentContact = {
+              account_id: '',
+              paid_at: '',
+              amount: '',
+              currency_code: '',
+              currency_rate: '',
+              lead_id: '',
+              description: '',
+              category_id: '',
+              payment_method: '',
+              reference: '',
+              attachment: '',
+            };
+            this.contractFormVisible = false;
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
 
     handleClose(done) {
@@ -164,13 +231,4 @@ export default {
 </script>
 
 <style scoped>
-.el-row {
-  margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-.el-col {
-  border-radius: 4px;
-}
 </style>

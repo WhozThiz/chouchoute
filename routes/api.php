@@ -120,6 +120,8 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('revenuecategories', 'Settings\CategoryController@revenuecategories');
     Route::get('vaccinecategories', 'Settings\CategoryController@vaccinecategories');
 
+    Route::apiResource('contracts', 'Accounting\Income\ContractController');
+
     // All api requests to leads need "manage lead" permission
     Route::apiResource('leads', 'Crm\LeadController')->middleware('permission:manage lead');
     // Listing lead will require "view lead" or "manage lead"
