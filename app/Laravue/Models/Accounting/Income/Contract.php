@@ -19,4 +19,19 @@ class Contract extends Model
         'reference',
         'attachment',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo('App\Laravue\Models\Settings\Category');
+    }
+
+    public function lead()
+    {
+        return $this->belongsTo('App\Laravue\Models\Crm\Lead');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo('App\Laravue\Models\Accounting\Banking\Account');
+    }
 }

@@ -50,7 +50,7 @@
     "vue-template-compiler": "2.6.10",
     "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.8.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
@@ -79,18 +79,19 @@
     "sortablejs": "^1.10.2",
     "tui-editor": "^1.4.6",
     "v-money": "^0.8.1",
-    "vee-validate": "^3.3.0",
+    "vee-validate": "^3.3.7",
     "vue": "2.6.10",
     "vue-count-to": "^1.0.13",
-    "vue-ctk-date-time-picker": "^2.4.0",
+    "vue-ctk-date-time-picker": "^2.5.0",
+    "vue-currency-input": "^1.20.0",
     "vue-form-wizard": "^0.8.4",
-    "vue-full-calendar": "^2.7.0",
+    "vue-full-calendar": "^2.8.0",
     "vue-i18n": "^8.18.1",
     "vue-router": "^3.3.1",
     "vue-splitpane": "^1.0.4",
     "vue-the-mask": "^0.11.1",
     "vue-viacep": "^1.0.3",
-    "vuedraggable": "^2.23.0",
+    "vuedraggable": "^2.24.0",
     "vuex": "3.1.1",
     "xlsx": "^0.15.6"
   }

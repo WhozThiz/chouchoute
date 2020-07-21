@@ -170,11 +170,12 @@ class CategoryController extends Controller
     public function revenuecategories()
     {
 
+        $currencies = Category::where('parent_id', 201)->orderBy('name')->get();
         $non_operatings = Category::where('parent_id', 223)->orderBy('name')->get();
         $payment_methods = Category::where('parent_id', 214)->orderBy('name')->get();
         $operatings = Category::where('parent_id', 222)->orderBy('name')->get();
 
-        return response()->json(new JsonResponse(['operatings' => $operatings, 'payment_methods' => $payment_methods, 'non_operatings' => $non_operatings]));
+        return response()->json(new JsonResponse(['currencies' => $currencies, 'operatings' => $operatings, 'payment_methods' => $payment_methods, 'non_operatings' => $non_operatings]));
 
     }
 

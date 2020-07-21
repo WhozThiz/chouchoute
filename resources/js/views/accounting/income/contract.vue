@@ -6,13 +6,11 @@
         {{ $t('table.add') }}
       </el-button>
     </div>
-
     <el-table v-loading="loading" :data="list" stripe style="width: 100%">
-
       <el-table-column align="left" :label="$t('general.date')" prop="paid_at" />
-      <el-table-column align="left" :label="$t('general.name')" prop="lead_id" />
+      <el-table-column align="left" :label="$t('general.name')" prop="lead.name" />
       <el-table-column align="left" :label="$t('general.value')" prop="amount" />
-      <el-table-column align="left" :label="$t('general.category')" prop="category_id" />
+      <el-table-column align="left" :label="$t('general.category')" prop="category.name" />
       <el-table-column align="center" label="Actions">
         <template slot-scope="scope">
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleEditForm(scope.row.id);">
@@ -27,12 +25,12 @@
 
     <el-dialog :title="formTitle" :visible.sync="contractFormVisible" :before-close="handleClose">
       <el-form ref="revenueForm" :model="currentContract" label-position="left" label-width="150px" style="max-width: 100%">
-        <el-form-item :label="$t('general.date')" prop="date">
-          <el-date-picker v-model="currentContract.date" type="date" value-format="yyyy-MM-dd" clear-icon="el-icon-circle-close" placeholder="Pick a day" />
+        <el-form-item :label="$t('general.date')" prop="paid_at">
+          <el-date-picker v-model="currentContract.paid_at" type="date" value-format="yyyy-MM-dd" clear-icon="el-icon-circle-close" placeholder="Pick a day" />
         </el-form-item>
         <el-form-item :label="$t('accounting.account')" prop="account_id">
-          <el-select v-model="currentContract.account" :placeholder="'Select ' + $t('accounting.account')">
-            <el-option v-for="item in accounts" :key="item.id" :label="item.name" :value="item.name">
+          <el-select v-model="currentContract.account_id" :placeholder="'Select ' + $t('accounting.account')">
+            <el-option v-for="item in accounts" :key="item.id" :label="item.name" :value="item.id">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
           </el-select>
@@ -45,36 +43,47 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('general.category')" prop="category_id">
-          <el-select v-model="currentContract.category" :placeholder="'Select ' + $t('general.category')">
-            <el-option v-for="item in operatings" :key="item.id" :label="item.name" :value="item.name">
+          <el-select v-model="currentContract.category_id" :placeholder="'Select ' + $t('general.category')">
+            <el-option v-for="item in operatings" :key="item.id" :label="item.name" :value="item.id">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
-            <el-option v-for="item in non_operatings" :key="item.id" :label="item.name" :value="item.name">
+            <el-option v-for="item in non_operatings" :key="item.id" :label="item.name" :value="item.id">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('table.description')" prop="description">
-          <el-input v-model="currentContract.desc" type="textarea" :placeholder="$t('table.description')" />
+          <el-input v-model="currentContract.description" type="textarea" :placeholder="$t('table.description')" />
         </el-form-item>
         <el-form-item :label="$t('general.reference')" prop="reference">
           <el-input v-model="currentContract.reference" :placeholder="$t('general.reference')"><template slot="prepend"><svg-icon icon-class="reference" /></template></el-input>
         </el-form-item>
-        <el-form-item :label="$t('general.value')" prop="value">
-          <el-input v-model.lazy="currentContract.value" v-money="money" placeholder="Enter Amount"><template slot="prepend"><svg-icon icon-class="moneyncoin" /></template></el-input>
+        <el-form-item :label="$t('accounting.currency')" prop="currency_id">
+          <el-select v-model="currency" :placeholder="'Select ' + $t('accounting.currency')">
+            <el-option v-for="item in currencies" :key="item.id" :label="item.name" :value="{ code: item.id, description: item.description }">
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('general.value')" prop="amount">
+          <el-input v-model="currentContract.amount" v-money="money" placeholder="Enter Amount">
+            <template slot="prepend">{{ currency.description }}</template>
+            <template slot="append"><svg-icon icon-class="moneyncoin" /></template>
+          </el-input>
         </el-form-item>
         <el-form-item :label="$t('accounting.paymentmethod')" prop="payment_method">
-          <el-select v-model="currentContract.account" :placeholder="'Select ' + $t('accounting.paymentmethod')">
-            <el-option v-for="item in payment_methods" :key="item.id" :label="item.name" :value="item.name">
+          <el-select v-model="currentContract.payment_method" :placeholder="'Select ' + $t('accounting.paymentmethod')">
+            <el-option v-for="item in payment_methods" :key="item.id" :label="item.name" :value="item.id">
               <span style="float: left">{{ item.name }}</span>
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('accounting.recurring')" prop="recurring">
           <el-select v-model="currentContract.recurring" :placeholder="'Select ' + $t('accounting.recurring')">
-            <el-option v-for="item in recurring" :key="item.id" :label="item.name" :value="item.id">
-              <span style="float: left">{{ item.name }}</span>
-            </el-option>
+            <el-option value="form_1">Form 1</el-option>
+          </el-select>
+          <el-select id="form_1" name="form_1" style="display:nome">
+            <el-option value="form_1">Form 1</el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -95,10 +104,11 @@ import Resource from '@/api/resource';
 import CategoryResource from '@/api/category';
 import { mask } from 'vue-the-mask';
 import { VMoney } from 'v-money';
+import { CurrencyDirective } from 'vue-currency-input';
 
 const accountResource = new Resource('accounts');
-const contractResource = new Resource('contracts');
 const categoryResource = new CategoryResource();
+const contractResource = new Resource('contracts');
 const leadResource = new Resource('leads');
 
 export default {
@@ -106,19 +116,19 @@ export default {
   directives: {
     mask,
     money: VMoney,
+    currency: CurrencyDirective,
   },
   props: {
   },
   data() {
     return {
-      income: {
-        title: 'Hello World',
-      },
       contractFormVisible: false,
       formTitle: '',
       category: [],
+      currency: '',
       currentContract: {},
       accounts: [],
+      currencies: [],
       leads: [],
       list: [],
       non_operatings: [],
@@ -126,9 +136,9 @@ export default {
       payment_methods: [],
       recurring: [],
       money: {
-        decimal: ',',
-        thousands: '.',
-        prefix: 'R$ ',
+        decimal: '.',
+        thousands: '',
+        prefix: '',
         suffix: '',
         precision: 2,
         masked: false,
@@ -157,6 +167,7 @@ export default {
 
     async getCategories() {
       const { data } = await categoryResource.getRevenueCategories({});
+      this.currencies = data.currencies;
       this.operatings = data.operatings;
       this.non_operatings = data.non_operatings;
       this.payment_methods = data.payment_methods;
@@ -175,8 +186,8 @@ export default {
     },
 
     handleSubmit() {
-      if (this.currentContact.id !== undefined) {
-        accountResource.update(this.currentContact.id, this.currentContact).then(response => {
+      if (this.currentContract.id !== undefined) {
+        contractResource.update(this.currentContract.id, this.currentContract).then(response => {
           this.$message({
             type: 'success',
             message: this.$t('general.hasbeenupdatedsucessfully'),
@@ -189,15 +200,16 @@ export default {
           this.contractFormVisible = false;
         });
       } else {
+        this.currentContract.currency_code = this.currency.code;
         contractResource
-          .store(this.currentContact)
+          .store(this.currentContract)
           .then(response => {
             this.$message({
               message: this.$t('general.hasbeenupdatedsucessfully'),
               type: 'success',
               duration: 5 * 1000,
             });
-            this.currentContact = {
+            this.currentContract = {
               account_id: '',
               paid_at: '',
               amount: '',
@@ -226,9 +238,16 @@ export default {
         })
         .catch(_ => {});
     },
+
   },
 };
 </script>
 
 <style scoped>
+  .el-select .el-input {
+    width: 110px;
+  }
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
 </style>

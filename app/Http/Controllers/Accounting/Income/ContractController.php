@@ -17,7 +17,7 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $contracts = Contract::with('accounts', 'leads', 'categories')->get();
+        $contracts = Contract::with('account', 'lead', 'category')->get();
         return response()->json(new JsonResponse($contracts));
     }
 
@@ -45,13 +45,13 @@ class ContractController extends Controller
             'paid_at' => $params['paid_at'],
             'amount' => $params['amount'],
             'currency_code' => $params['currency_code'],
-            'currency_rate' => $params['bank_name'],
+            'currency_rate' => '1',
             'lead_id' => $params['lead_id'],
             'description' => $params['description'],
             'category_id' => $params['category_id'],
             'payment_method' => $params['payment_method'],
             'reference' => $params['reference'],
-            'attachment' => $params['attachment'],
+            'attachment' => '',
         ]);
 
         return new ContractResource($contract);
