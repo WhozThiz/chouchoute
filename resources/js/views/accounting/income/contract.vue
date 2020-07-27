@@ -79,11 +79,12 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('accounting.recurring')" prop="recurring">
-          <el-select v-model="currentContract.recurring" :placeholder="'Select ' + $t('accounting.recurring')">
+          <el-select v-model="currentContract.recurring" :placeholder="'Select ' + $t('accounting.recurring')" @change="getRecurringForm()">
             <el-option value="form_1">Form 1</el-option>
+            <el-option value="form_2">Form 2</el-option>
           </el-select>
-          <el-select id="form_1" name="form_1" style="display:nome">
-            <el-option value="form_1">Form 1</el-option>
+          <el-select id="form_1" name="form_1" :visible.sync="contractRecurringFormVisible">
+            <el-option :value="Option">{{ Option }}</el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -123,6 +124,8 @@ export default {
   data() {
     return {
       contractFormVisible: false,
+      contractRecurringFormVisible1: false,
+      contractRecurringFormVisible2: false,
       formTitle: '',
       category: [],
       currency: '',
@@ -228,6 +231,15 @@ export default {
           .catch(error => {
             console.log(error);
           });
+      }
+    },
+
+    getRecurringForm() {
+      this.contractRecurringFormVisible = true;
+      if (this.currentContract.recurring === 'form_1') {
+        this.Option = 'Hello World 1';
+      } else if (this.currentContract.recurring === 'form_2') {
+        this.Option = 'Hello World 2';
       }
     },
 
