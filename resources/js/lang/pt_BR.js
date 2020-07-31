@@ -4,10 +4,13 @@ export default {
     bank: 'Banco',
     currency: 'Moeda',
     customer: 'Cliente',
+    every: 'Todo(a)',
     openbalance: 'Balanço Inicial',
     paymentmethod: 'Forma de Pagamento',
+    period: 'Período',
     recurring: 'Recorrente',
     revenue: 'Receita',
+    times: 'Vezes',
   },
   articles: {
     abstract: 'Abstract',

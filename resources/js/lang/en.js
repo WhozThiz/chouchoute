@@ -4,10 +4,13 @@ export default {
     bank: 'Bank ',
     currency: 'Currency',
     customer: 'Customer',
+    every: 'Every',
     openbalance: 'Opening Balance',
     paymentmethod: 'Payment Method',
+    period: 'Period',
     recurring: 'Recurring',
     revenue: 'Revenue',
+    times: 'Times',
   },
   articles: {
     abstract: 'Abstract',
