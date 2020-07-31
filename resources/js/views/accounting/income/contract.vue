@@ -79,13 +79,31 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('accounting.recurring')" prop="recurring">
-          <el-select v-model="currentContract.recurring" :placeholder="'Select ' + $t('accounting.recurring')" @change="getRecurringForm()">
-            <el-option value="form_1">Form 1</el-option>
-            <el-option value="form_2">Form 2</el-option>
+          <el-select v-model="currentContract.recurrence" :placeholder="'Select ' + $t('accounting.recurring')" @change="getRecurringForm()">
+            <el-option v-for="item in recurrence" :key="item.id" :label="item.name" :value="item.name">
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
           </el-select>
-          <el-select id="form_1" name="form_1" :visible.sync="contractRecurringFormVisible">
-            <el-option :value="Option">{{ Option }}</el-option>
-          </el-select>
+        </el-form-item>
+        <el-form-item v-if="isRecurrence" prop="times">
+          <el-input v-model="currentContract.times" :placeholder="$t('accounting.times')" />
+        </el-form-item>
+        <el-form-item v-else-if="isRecurrenceCustom" prop="custom">
+          <el-col :span="5">
+            <el-input v-model="currentContract.recurring" :placeholder="$t('accounting.every')" />
+          </el-col>
+          <el-col class="line" :span="1" />
+          <el-col :span="12">
+            <el-select v-model="currentContract.period" :placeholder="'Select ' + $t('accounting.period')" @change="getRecurringForm()">
+              <el-option v-for="item in period" :key="item.name" :label="item.name" :value="item.name">
+                <span style="float: left">{{ item.name }}</span>
+              </el-option>
+            </el-select>
+          </el-col>
+          <el-col class="line" :span="1" />
+          <el-col :span="5">
+            <el-input v-model="currentContract.times" :placeholder="$t('accounting.times')" />
+          </el-col>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -124,8 +142,8 @@ export default {
   data() {
     return {
       contractFormVisible: false,
-      contractRecurringFormVisible1: false,
-      contractRecurringFormVisible2: false,
+      isRecurrence: false,
+      isRecurrenceCustom: false,
       formTitle: '',
       category: [],
       currency: '',
@@ -137,7 +155,8 @@ export default {
       non_operatings: [],
       operatings: [],
       payment_methods: [],
-      recurring: [],
+      period: [{ name: 'Days' }, { name: 'Weeks' }, { name: 'Months' }, { name: 'Years' }],
+      recurrence: [],
       money: {
         decimal: '.',
         thousands: '',
@@ -174,6 +193,7 @@ export default {
       this.operatings = data.operatings;
       this.non_operatings = data.non_operatings;
       this.payment_methods = data.payment_methods;
+      this.recurrence = data.recurrence;
     },
 
     async getLeads() {
@@ -235,11 +255,15 @@ export default {
     },
 
     getRecurringForm() {
-      this.contractRecurringFormVisible = true;
-      if (this.currentContract.recurring === 'form_1') {
-        this.Option = 'Hello World 1';
-      } else if (this.currentContract.recurring === 'form_2') {
-        this.Option = 'Hello World 2';
+      if (this.currentContract.recurrence === 'Recorrência Personalizado') {
+        this.isRecurrence = false;
+        this.isRecurrenceCustom = true;
+      } else if (this.currentContract.recurrence === 'Sem Recorrência') {
+        this.isRecurrence = false;
+        this.isRecurrenceCustom = false;
+      } else {
+        this.isRecurrence = true;
+        this.isRecurrenceCustom = false;
       }
     },
 
