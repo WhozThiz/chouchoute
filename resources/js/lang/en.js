@@ -7,7 +7,7 @@ export default {
     every: 'Every',
     openbalance: 'Opening Balance',
     paymentmethod: 'Payment Method',
-    period: 'Period',
+    frequency: 'Frequency',
     recurring: 'Recurring',
     revenue: 'Revenue',
     times: 'Times',

@@ -7,7 +7,7 @@ export default {
     every: 'Todo(a)',
     openbalance: 'Balanço Inicial',
     paymentmethod: 'Forma de Pagamento',
-    period: 'Período',
+    frequency: 'Frequência',
     recurring: 'Recorrente',
     revenue: 'Receita',
     times: 'Vezes',

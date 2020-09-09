@@ -81,27 +81,38 @@
         <el-form-item :label="$t('accounting.recurring')" prop="recurring">
           <el-select v-model="currentContract.recurrence" :placeholder="'Select ' + $t('accounting.recurring')" @change="getRecurringForm()">
             <el-option v-for="item in recurrence" :key="item.id" :label="item.name" :value="item.name">
-              <span style="float: left">{{ item.name }}</span>
+              <span style="float: left">{{ item.description }}</span>
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item v-if="isRecurrence" prop="times">
           <el-input v-model="currentContract.times" :placeholder="$t('accounting.times')" />
         </el-form-item>
-        <el-form-item v-else-if="isRecurrenceCustom" prop="custom">
+        <el-form-item v-if="isRecurrenceCustom" prop="custom">
           <el-col :span="5">
             <el-input v-model="currentContract.recurring" :placeholder="$t('accounting.every')" />
           </el-col>
           <el-col class="line" :span="1" />
           <el-col :span="12">
-            <el-select v-model="currentContract.period" :placeholder="'Select ' + $t('accounting.period')" @change="getRecurringForm()">
-              <el-option v-for="item in period" :key="item.name" :label="item.name" :value="item.name">
+            <el-select v-model="currentContract.frequency" :placeholder="'Select ' + $t('accounting.frequency')" @change="getFrequencyForm()">
+              <el-option v-for="item in frequency" :key="item.name" :label="item.name" :value="item.name">
                 <span style="float: left">{{ item.name }}</span>
               </el-option>
             </el-select>
           </el-col>
           <el-col class="line" :span="1" />
-          <el-col :span="5">
+          <el-col v-if="isFrequencyDaily" :span="5">
+            <el-input v-model="currentContract.times" :placeholder="$t('accounting.times')" />
+          </el-col>
+          <el-col v-if="isFrequencyWeekly" :span="5">
+            <el-checkbox-group v-model="currentContract.frequencyWeekly">
+              <el-checkbox-button v-for="days in weekdays" :key="days" :label="days">{{ days }}</el-checkbox-button>
+            </el-checkbox-group>
+          </el-col>
+          <el-col v-if="isFrequencyMonthly" :span="5">
+            <el-input v-model="currentContract.times" :placeholder="$t('accounting.times')" />
+          </el-col>
+          <el-col v-if="isFrequencyYearly" :span="5">
             <el-input v-model="currentContract.times" :placeholder="$t('accounting.times')" />
           </el-col>
         </el-form-item>
@@ -129,6 +140,7 @@ const accountResource = new Resource('accounts');
 const categoryResource = new CategoryResource();
 const contractResource = new Resource('contracts');
 const leadResource = new Resource('leads');
+const frequencyWeekly = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export default {
   name: 'Income',
@@ -144,6 +156,10 @@ export default {
       contractFormVisible: false,
       isRecurrence: false,
       isRecurrenceCustom: false,
+      isFrequencyDaily: false,
+      isFrequencyWeekly: false,
+      isFrequencyMonthly: false,
+      isFrequencyYearly: false,
       formTitle: '',
       category: [],
       currency: '',
@@ -155,7 +171,7 @@ export default {
       non_operatings: [],
       operatings: [],
       payment_methods: [],
-      period: [{ name: 'Days' }, { name: 'Weeks' }, { name: 'Months' }, { name: 'Years' }],
+      frequency: [{ name: 'Daily' }, { name: 'Weekly' }, { name: 'Monthly' }, { name: 'Yearly' }],
       recurrence: [],
       money: {
         decimal: '.',
@@ -165,6 +181,7 @@ export default {
         precision: 2,
         masked: false,
       },
+      weekdays: frequencyWeekly,
     };
   },
   created() {
@@ -205,6 +222,18 @@ export default {
       this.contractFormVisible = true;
       this.formTitle = this.$t('general.new') + ' ' + this.$t('route.contract');
       this.currentContract = {
+        account_id: '',
+        paid_at: '',
+        amount: '',
+        currency_code: '',
+        currency_rate: '',
+        lead_id: '',
+        description: '',
+        category_id: '',
+        payment_method: '',
+        reference: '',
+        attachment: '',
+        recurrence: 'Never',
       };
     },
 
@@ -255,15 +284,39 @@ export default {
     },
 
     getRecurringForm() {
-      if (this.currentContract.recurrence === 'Recorrência Personalizado') {
+      if (this.currentContract.recurrence === 'Custom') {
         this.isRecurrence = false;
         this.isRecurrenceCustom = true;
-      } else if (this.currentContract.recurrence === 'Sem Recorrência') {
+      } else if (this.currentContract.recurrence === 'Never') {
         this.isRecurrence = false;
         this.isRecurrenceCustom = false;
       } else {
         this.isRecurrence = true;
         this.isRecurrenceCustom = false;
+      }
+    },
+
+    getFrequencyForm() {
+      if (this.currentContract.frequency === 'Daily') {
+        this.isFrequencyDaily = true;
+        this.isFrequencyWeekly = false;
+        this.isFrequencyMonthly = false;
+        this.isFrequencyYearly = false;
+      } else if (this.currentContract.frequency === 'Weekly') {
+        this.isFrequencyDaily = false;
+        this.isFrequencyWeekly = true;
+        this.isFrequencyMonthly = false;
+        this.isFrequencyYearly = false;
+      } else if (this.currentContract.frequency === 'Monthly') {
+        this.isFrequencyDaily = false;
+        this.isFrequencyWeekly = false;
+        this.isFrequencyMonthly = true;
+        this.isFrequencyYearly = false;
+      } else if (this.currentContract.frequency === 'Yearly') {
+        this.isFrequencyDaily = false;
+        this.isFrequencyWeekly = false;
+        this.isFrequencyMonthly = false;
+        this.isFrequencyYearly = true;
       }
     },
 
