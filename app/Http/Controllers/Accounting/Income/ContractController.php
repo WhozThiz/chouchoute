@@ -43,6 +43,7 @@ class ContractController extends Controller
     {
 
         $params = $request->all();
+        $contractperiod = $params['contractperiod'];
 
         $contract = Contract::create([
             'account_id' => $params['account_id'],
@@ -55,6 +56,8 @@ class ContractController extends Controller
             'category_id' => $params['category_id'],
             'payment_method' => $params['payment_method'],
             'reference' => $params['reference'],
+            'start_date' => $contractperiod['0'],
+            'end_date' => $contractperiod['1'],
             'attachment' => '',
         ]);
 
@@ -78,9 +81,6 @@ class ContractController extends Controller
             }
         }
 
-        $installment = $params['amount']/$params['times'];
-        $i = '0';
-
         if ($params['recurrence'] === 'Never') {
             Transaction::create([
                 'account_id' => $params['account_id'],
@@ -97,6 +97,8 @@ class ContractController extends Controller
                 'parent_id' => $contract->id,
             ]);
         } else if ($params['recurrence'] !== 'Custom') {
+            $installment = $params['amount']/$params['times'];
+            $i = '0';
             for ($i; $i < $params['times']; $i++) {
                 Transaction::create([
                     'account_id' => $params['account_id'],

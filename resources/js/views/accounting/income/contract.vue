@@ -24,6 +24,7 @@
     </el-table>
 
     <el-dialog :title="formTitle" :visible.sync="contractFormVisible" :before-close="handleClose">
+      {{ currentContract }}
       <el-form ref="revenueForm" :model="currentContract" label-position="left" label-width="150px" style="max-width: 100%">
         <el-form-item :label="$t('general.date')" prop="paid_at">
           <el-date-picker v-model="currentContract.paid_at" type="date" value-format="yyyy-MM-dd" clear-icon="el-icon-circle-close" placeholder="Pick a day" />
@@ -52,11 +53,14 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item :label="$t('general.reference')" prop="reference">
+          <el-input v-model="currentContract.reference" :placeholder="$t('general.reference')"><template slot="prepend"><svg-icon icon-class="reference" /></template></el-input>
+        </el-form-item>
         <el-form-item :label="$t('table.description')" prop="description">
           <el-input v-model="currentContract.description" type="textarea" :placeholder="$t('table.description')" />
         </el-form-item>
-        <el-form-item :label="$t('general.reference')" prop="reference">
-          <el-input v-model="currentContract.reference" :placeholder="$t('general.reference')"><template slot="prepend"><svg-icon icon-class="reference" /></template></el-input>
+        <el-form-item :label="$t('accounting.contractperiod')" prop="contractperiod">
+          <el-date-picker v-model="currentContract.contractperiod" type="daterange" range-separator="~" format="yyyy/MM/dd" value-format="yyyy-MM-dd" start-placeholder="Start" end-placeholder="End" />
         </el-form-item>
         <el-form-item :label="$t('accounting.currency')" prop="currency_id">
           <el-select v-model="currency" :placeholder="'Select ' + $t('accounting.currency')">

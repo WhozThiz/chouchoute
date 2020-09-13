@@ -2,6 +2,7 @@ export default {
   accounting: {
     account: 'Account',
     bank: 'Bank ',
+    contractperiod: 'Period',
     currency: 'Currency',
     customer: 'Customer',
     every: 'Every',
