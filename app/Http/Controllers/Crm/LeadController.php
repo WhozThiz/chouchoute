@@ -107,30 +107,19 @@ class LeadController extends Controller
             $request->name = $request->leadname;
         }
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => ['required']
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 403);
-        } else {
-            $params = $request->all();
-            $lead->name = $params['name'];
-            $lead->address = $params['address'];
-            $lead->neighborhood = $params['neighborhood'];
-            $lead->city = $params['city'];
-            $lead->state = $params['state'];
-            $lead->zipcode = $params['zipcode'];
-            $lead->homephone = $params['homephone'];
-            $lead->mobile = $params['mobile'];
-            $lead->email = $params['email'];
-            $lead->tax_id = $params['tax_id'];
-            $lead->registration_id = $params['registration_id'];
-            $lead->save();
-        }
+        $params = $request->all();
+        $lead->name = $params['name'];
+        $lead->address = $params['address'];
+        $lead->neighborhood = $params['neighborhood'];
+        $lead->city = $params['city'];
+        $lead->state = $params['state'];
+        $lead->zipcode = $params['zipcode'];
+        $lead->homephone = $params['homephone'];
+        $lead->mobile = $params['mobile'];
+        $lead->email = $params['email'];
+        $lead->tax_id = $params['tax_id'];
+        $lead->registration_id = $params['registration_id'];
+        $lead->save();
 
         return new LeadResource($lead);
     }
