@@ -24,7 +24,6 @@
     </el-table>
 
     <el-dialog :title="formTitle" :visible.sync="contractFormVisible" :before-close="handleClose">
-      {{ currentContract }}
       <el-form ref="revenueForm" :model="currentContract" label-position="left" label-width="150px" style="max-width: 100%">
         <el-form-item :label="$t('general.date')" prop="paid_at">
           <el-date-picker v-model="currentContract.paid_at" type="date" value-format="yyyy-MM-dd" clear-icon="el-icon-circle-close" placeholder="Pick a day" />
