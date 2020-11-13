@@ -43,6 +43,7 @@ class ContractController extends Controller
     {
 
         $params = $request->all();
+        $contractperiod = $params['contractperiod'];
 
         $contract = Contract::create([
             'account_id' => $params['account_id'],
@@ -55,19 +56,54 @@ class ContractController extends Controller
             'category_id' => $params['category_id'],
             'payment_method' => $params['payment_method'],
             'reference' => $params['reference'],
+            'start_date' => $contractperiod['0'],
+            'end_date' => $contractperiod['1'],
             'attachment' => '',
         ]);
 
-        $installment = $params['amount']/$params['times'];
-        $i = '0';
+        if ($params['recurrence'] === 'Daily') {
+            $addRecurrence = 'addDays';
+        } else if ($params['recurrence'] === 'Weekly') {
+            $addRecurrence = 'addWeeks';
+        } else if ($params['recurrence'] === 'Monthly') {
+            $addRecurrence = 'addMonths';
+        } else if ($params['recurrence'] === 'Yearly') {
+            $addRecurrence = 'addYears';
+        } else if ($params['recurrence'] === 'Custom') {
+            if ($params['recurrence'] === 'Date') {
+                $addRecurrence = 'addWeekdays';
+            } else if ($params['recurrence'] === 'Weekday') {
+                $addRecurrence = 'addWeeks';
+            } else if ($params['recurrence'] === 'Week') {
+                $addRecurrence = 'addMonths';
+            } else if ($params['recurrence'] === 'Month') {
+                $addRecurrence = 'addYears';
+            }
+        }
 
-        if ($params['recurrence'] === 'Sem Recorrência') {
-        } else if ($params['recurrence'] === 'Diário') {
+        if ($params['recurrence'] === 'Never') {
+            Transaction::create([
+                'account_id' => $params['account_id'],
+                'type' => 'credit',
+                'paid_at' => $params['paid_at'],
+                'amount' => $params['amount'],
+                'currency_code' => $params['currency_code'],
+                'currency_rate' => '1',
+                'lead_id' => $params['lead_id'],
+                'description' => $params['description'],
+                'category_id' => $params['category_id'],
+                'payment_method' => $params['payment_method'],
+                'reference' => $params['reference'],
+                'parent_id' => $contract->id,
+            ]);
+        } else if ($params['recurrence'] !== 'Custom') {
+            $installment = $params['amount']/$params['times'];
+            $i = '0';
             for ($i; $i < $params['times']; $i++) {
                 Transaction::create([
                     'account_id' => $params['account_id'],
                     'type' => 'credit',
-                    'paid_at' => Carbon::parse($params['paid_at'])->addDays($i),
+                    'paid_at' => Carbon::parse($params['paid_at'])->$addRecurrence($i),
                     'amount' => $installment,
                     'currency_code' => $params['currency_code'],
                     'currency_rate' => '1',
@@ -79,59 +115,6 @@ class ContractController extends Controller
                     'parent_id' => $contract->id,
                 ]);
             }
-        } else if ($params['recurrence'] === 'Semanalmene') {
-            for ($i; $i < $params['times']; $i++) {
-                Transaction::create([
-                    'account_id' => $params['account_id'],
-                    'type' => 'credit',
-                    'paid_at' => Carbon::parse($params['paid_at'])->addWeeks($i),
-                    'amount' => $installment,
-                    'currency_code' => $params['currency_code'],
-                    'currency_rate' => '1',
-                    'lead_id' => $params['lead_id'],
-                    'description' => $params['description'],
-                    'category_id' => $params['category_id'],
-                    'payment_method' => $params['payment_method'],
-                    'reference' => $params['reference'],
-                    'parent_id' => $contract->id,
-                ]);
-            }
-        } else if ($params['recurrence'] === 'Mensalmente') {
-            for ($i; $i < $params['times']; $i++) {
-                Transaction::create([
-                    'account_id' => $params['account_id'],
-                    'type' => 'credit',
-                    'paid_at' => Carbon::parse($params['paid_at'])->addMonths($i),
-                    'amount' => $installment,
-                    'currency_code' => $params['currency_code'],
-                    'currency_rate' => '1',
-                    'lead_id' => $params['lead_id'],
-                    'description' => $params['description'],
-                    'category_id' => $params['category_id'],
-                    'payment_method' => $params['payment_method'],
-                    'reference' => $params['reference'],
-                    'parent_id' => $contract->id,
-                ]);
-            }
-        } else if ($params['recurrence'] === 'Anualmente') {
-            for ($i; $i < $params['times']; $i++) {
-                Transaction::create([
-                    'account_id' => $params['account_id'],
-                    'type' => 'credit',
-                    'paid_at' => Carbon::parse($params['paid_at'])->addYears($i),
-                    'amount' => $installment,
-                    'currency_code' => $params['currency_code'],
-                    'currency_rate' => '1',
-                    'lead_id' => $params['lead_id'],
-                    'description' => $params['description'],
-                    'category_id' => $params['category_id'],
-                    'payment_method' => $params['payment_method'],
-                    'reference' => $params['reference'],
-                    'parent_id' => $contract->id,
-                ]);
-            }
-        } else if ($params['recurrence'] === 'Recorrência Personalizado') {
-
         }
 
         return new ContractResource($contract);

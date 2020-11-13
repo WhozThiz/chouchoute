@@ -160,8 +160,8 @@ class CategoryController extends Controller
     public function petcategories()
     {
 
-        $coats = Category::where('parent_id', 3)->get();
-        $breeds = Category::orderby('name')->where('parent_id', 2)->get();
+        $coats = Category::where('parent_id', 3)->orderby('name')->get();
+        $breeds = Category::where('parent_id', 2)->orderby('name')->get();
 
         return response()->json(new JsonResponse(['coats' => $coats, 'breeds' => $breeds]));
 
@@ -174,7 +174,7 @@ class CategoryController extends Controller
         $non_operatings = Category::where('parent_id', 223)->orderBy('name')->get();
         $payment_methods = Category::where('parent_id', 214)->orderBy('name')->get();
         $operatings = Category::where('parent_id', 222)->orderBy('name')->get();
-        $recurrence = Category::where('parent_id', 231)->orderBy('name')->get();
+        $recurrence = Category::where('parent_id', 231)->orderBy('description')->get();
 
         return response()->json(new JsonResponse(['currencies' => $currencies, 'operatings' => $operatings, 'payment_methods' => $payment_methods, 'non_operatings' => $non_operatings, 'recurrence' => $recurrence]));
 

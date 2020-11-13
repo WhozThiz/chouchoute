@@ -18,6 +18,8 @@ class Contract extends Model
         'payment_method',
         'reference',
         'attachment',
+        'start_date',
+        'end_date',
     ];
 
     public function category()
