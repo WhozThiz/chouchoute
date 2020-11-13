@@ -161,7 +161,7 @@ class CategoryController extends Controller
     {
 
         $coats = Category::where('parent_id', 3)->get();
-        $breeds = Category::where('parent_id', 2)->get();
+        $breeds = Category::orderby('name')->where('parent_id', 2)->get();
 
         return response()->json(new JsonResponse(['coats' => $coats, 'breeds' => $breeds]));
 
