@@ -9186,10 +9186,10 @@ vue-ctk-date-time-picker@^2.5.0:
     v-click-outside "^2.0.2"
     vue "^2.6.9"
 
-vue-currency-input@^1.20.0:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/vue-currency-input/-/vue-currency-input-1.20.0.tgz#2f56f0177b64abd527f26ff66c284ea726768786"
-  integrity sha512-GvOEd4LE6Xik+r0mHk4GJ8do3STKuPSHIHdUu44Jfb+3NI2wYWQ322bjsSlkQgOSG93m1+BbX5JJUxqcrarZ1w==
+vue-currency-input@^1.20.2:
+  version "1.22.3"
+  resolved "https://registry.yarnpkg.com/vue-currency-input/-/vue-currency-input-1.22.3.tgz#49d02fbe79e35d015b7c4762f669829701beec0c"
+  integrity sha512-vrOaaiCSG8Hh7Fw7CYROIymFvVprWKaze3h67sihqJ4QAI9F+YElTQYv0fJwFK1NkKUS8H/MvAL0mwg9qrUfgg==
 
 vue-eslint-parser@^5.0.0:
   version "5.0.0"
