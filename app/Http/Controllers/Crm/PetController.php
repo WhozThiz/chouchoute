@@ -7,7 +7,6 @@ use App\Http\Resources\Crm\PetResource;
 use App\Laravue\Models\Crm\Pet;
 use Illuminate\Http\Request;
 use App\Laravue\JsonResponse;
-use Illuminate\Validation\Validator;
 
 class PetController extends Controller
 {
@@ -96,27 +95,16 @@ class PetController extends Controller
             return response()->json(['error' => 'Pet not Found'], 404);
         }
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => ['required']
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 403);
-        } else {
-            $params = $request->all();
-            $pet->name = $params['name'];
-            $pet->breed = $params['breed'];
-            $pet->coat = $params['coat'];
-            $pet->gender = $params['gender'];
-            $pet->color = $params['color'];
-            $pet->birthdate = $params['birthdate'];
-            $pet->neutered = $params['neutered'];
-            $pet->registration = $params['registration'];
-            $pet->save();
-        }
+        $params = $request->all();
+        $pet->name = $params['name'];
+        $pet->breed = $params['breed'];
+        $pet->coat = $params['coat'];
+        $pet->gender = $params['gender'];
+        $pet->color = $params['color'];
+        $pet->birthdate = $params['birthdate'];
+        $pet->neutered = $params['neutered'];
+        $pet->registration = $params['registration'];
+        $pet->save();
 
         return new PetResource($pet);
     }
