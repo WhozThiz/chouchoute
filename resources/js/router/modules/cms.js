@@ -21,7 +21,7 @@ const cmsRoutes = {
     /** Post Managements */
     {
       path: 'posts',
-      component: () => import('@/views/cms/posts/list'),
+      component: () => import('@/views/cms/posts/List'),
       name: 'PostList',
       meta: { title: 'postList', icon: 'edit' },
     },
