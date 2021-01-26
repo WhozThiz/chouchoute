@@ -1,11 +1,11 @@
-@servers(['web' => ['humanos@wihz.com.br']])
+@servers(['web' => ['dragon@cipherpols.com']])
 
 @setup
     $now = new DateTime();
     $branch = isset($branch) ? $branch : 'staging';
-    $repository = 'git@github.com:WhozThiz/chouchoute.git';
-    $releases_dir = '/var/www/html/deploy/chouchoute/genesis';
-    $app_dir = '/var/www/html/deploy/chouchoute/';
+    $repository = 'git@github.com:tuandm/laravue.git';
+    $releases_dir = '/var/www/html/deploy/laravue/release';
+    $app_dir = '/var/www/html/deploy/laravue/';
     $release = $branch . '-' . date('YmdHis');
     $new_release_dir = $releases_dir .'/'. $release;
 @endsetup

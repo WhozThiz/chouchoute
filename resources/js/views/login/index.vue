@@ -1,47 +1,49 @@
 <template>
-  <div class="limiter">
-    <div class="container-login100">
-      <div class="wrap-login100">
-        <div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
-          <span class="login100-form-title-1">
-            {{ $t('login.title') }}
-          </span>
-          <span class="login100-form-title-2">{{ $t('login.description') }}</span>
-          <lang-select class="set-language" />
-        </div>
-        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login100-form validate-form" auto-complete="on" label-position="left">
-          <el-form-item prop="email" class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
-            <span class="label-input100">{{ $t('login.email') }}</span>
-            <el-input v-model="loginForm.email" class="input100" name="email" type="text" auto-complete="on" :placeholder="$t('login.enteruseremail')" prefix-icon="el-icon-user-solid" />
-          </el-form-item>
-          <el-form-item prop="password" class="wrap-input100 validate-input m-b-18" data-validate="Password is Required">
-            <span class="label-input100">{{ $t('login.password') }}</span>
-            <el-input
-              v-model="loginForm.password"
-              :type="pwdType"
-              name="password"
-              auto-complete="on"
-              :placeholder="$t('login.enteruserpassword')"
-              prefix-icon="el-icon-key"
-              @keyup.enter.native="handleLogin"
-            >
-              <el-button slot="append" icon="el-icon-view" @click="showPwd" />
-            </el-input>
-          </el-form-item>
-          <el-form-item class="container-login100-form-btn">
-            <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-              {{ $t('login.logIn') }}
-            </el-button>
-          </el-form-item>
-        </el-form>
+  <div class="login-container">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+      <h3 class="title">
+        {{ $t('login.title') }}
+      </h3>
+      <lang-select class="set-language" />
+      <el-form-item prop="email">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input v-model="loginForm.email" name="email" type="text" auto-complete="on" :placeholder="$t('login.email')" />
+      </el-form-item>
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input
+          v-model="loginForm.password"
+          :type="pwdType"
+          name="password"
+          auto-complete="on"
+          placeholder="password"
+          @keyup.enter.native="handleLogin"
+        />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon icon-class="eye" />
+        </span>
+      </el-form-item>
+      <el-form-item>
+        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+          Sign in
+        </el-button>
+      </el-form-item>
+      <div class="tips">
+        <span style="margin-right:20px;">Email: admin@laravue.dev</span>
+        <span>Password: laravue</span>
       </div>
-    </div>
+    </el-form>
   </div>
 </template>
 
 <script>
 import LangSelect from '@/components/LangSelect';
 import { validEmail } from '@/utils/validate';
+import { csrf } from '@/api/auth';
 
 export default {
   name: 'Login',
@@ -63,8 +65,8 @@ export default {
     };
     return {
       loginForm: {
-        email: '',
-        password: '',
+        email: 'admin@laravue.dev',
+        password: 'laravue',
       },
       loginRules: {
         email: [{ required: true, trigger: 'blur', validator: validateEmail }],
@@ -73,12 +75,17 @@ export default {
       loading: false,
       pwdType: 'password',
       redirect: undefined,
+      otherQuery: {},
     };
   },
   watch: {
     $route: {
       handler: function(route) {
-        this.redirect = route.query && route.query.redirect;
+        const query = route.query;
+        if (query) {
+          this.redirect = query.redirect;
+          this.otherQuery = this.getOtherQuery(query);
+        }
       },
       immediate: true,
     },
@@ -95,32 +102,72 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' });
-              this.loading = false;
-            })
-            .catch(() => {
-              this.loading = false;
-            });
+          csrf().then(() => {
+            this.$store.dispatch('user/login', this.loginForm)
+              .then(() => {
+                this.$router.push({ path: this.redirect || '/', query: this.otherQuery }, onAbort => {});
+                this.loading = false;
+              })
+              .catch(() => {
+                this.loading = false;
+              });
+          });
         } else {
           console.log('error submit!!');
           return false;
         }
       });
     },
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== 'redirect') {
+          acc[cur] = query[cur];
+        }
+        return acc;
+      }, {});
+    },
   },
 };
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-@import 'css/main.css';
-@import 'css/util.css';
+<style rel="stylesheet/scss" lang="scss">
+$bg:#2d3a4b;
+$light_gray:#eee;
 
+/* reset element-ui css */
+.login-container {
+  .el-input {
+    display: inline-block;
+    height: 47px;
+    width: 85%;
+    input {
+      background: transparent;
+      border: 0px;
+      -webkit-appearance: none;
+      border-radius: 0px;
+      padding: 12px 5px 12px 15px;
+      color: $light_gray;
+      height: 47px;
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
+        -webkit-text-fill-color: #fff !important;
+      }
+    }
+  }
+  .el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+  }
+}
+
+</style>
+
+<style rel="stylesheet/scss" lang="scss" scoped>
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
-
 .login-container {
   position: fixed;
   height: 100%;
@@ -154,7 +201,6 @@ $light_gray:#eee;
   }
   .title {
     font-size: 26px;
-    font-weight: 400;
     color: $light_gray;
     margin: 0px auto 40px auto;
     text-align: center;
@@ -176,5 +222,16 @@ $light_gray:#eee;
     right: 35px;
   }
 }
-
+@media screen and (orientation:landscape) and (max-width:1024px) {
+  .login-container {
+    position: relative;
+    overflow-y: auto;
+    .login-form {
+      transform: translate(-50%, -50%);
+      left: 50%;
+      top: 50%;
+      margin: auto;
+    }
+  }
+}
 </style>

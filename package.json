@@ -94,6 +94,7 @@
     "vue-viacep": "^1.0.4",
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.0",
+    "webpack-chunk-rename-plugin": "^1.0.3",
     "xlsx": "^0.16.9"
   }
 }

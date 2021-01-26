@@ -18,15 +18,8 @@ RUN docker-php-ext-install gd
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install yarn
-RUN npm install -g yarn
-
 COPY . .
 COPY .env.example .env
 
-RUN yarn install && yarn run production
-RUN composer install
-RUN php artisan jwt:secret
-
-ENTRYPOINT ["php", "artisan", "serve", "--host", "0.0.0.0"]
+CMD ["bash", "./laravue-entrypoint.sh"]
 

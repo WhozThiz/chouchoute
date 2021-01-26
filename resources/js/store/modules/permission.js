@@ -45,7 +45,7 @@ function filterAsyncRoutes(routes, roles, permissions) {
         tmp.children = filterAsyncRoutes(
           tmp.children,
           roles,
-          permissions,
+          permissions
         );
       }
       res.push(tmp);
@@ -72,7 +72,7 @@ const actions = {
     return new Promise(resolve => {
       let accessedRoutes;
       if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes;
+        accessedRoutes = asyncRoutes || [];
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles, permissions);
       }

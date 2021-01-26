@@ -7,7 +7,7 @@ const permissionRoutes = {
   alwaysShow: true, // will always show the root menu
   meta: {
     title: 'permission',
-    icon: 'permission',
+    icon: 'lock',
     permissions: ['view menu permission'],
   },
   children: [

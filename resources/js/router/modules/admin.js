@@ -16,7 +16,7 @@ const adminRoutes = {
     /** User managements */
     {
       path: 'users/edit/:id(\\d+)',
-      component: () => import('@/views/users/Profile'),
+      component: () => import('@/views/users/UserProfile'),
       name: 'UserProfile',
       meta: { title: 'userProfile', noCache: true, permissions: ['manage user'] },
       hidden: true,
@@ -35,24 +35,24 @@ const adminRoutes = {
       meta: { title: 'rolePermission', icon: 'role', permissions: ['manage permission'] },
     },
     {
-      path: 'page',
-      component: () => import('@/views/permission/Page'),
-      name: 'PagePermission',
-      meta: {
-        title: 'pagePermission',
-        icon: 'lock',
-        permissions: ['manage permission'],
-      },
+      path: 'articles/create',
+      component: () => import('@/views/articles/Create'),
+      name: 'CreateArticle',
+      meta: { title: 'createArticle', icon: 'edit', permissions: ['manage article'] },
+      hidden: true,
     },
     {
-      path: 'directive',
-      component: () => import('@/views/permission/Directive'),
-      name: 'directivePermission',
-      meta: {
-        title: 'directivePermission',
-        icon: 'user_role',
-        // if do not set roles neither permissions, means: this page does not require permission
-      },
+      path: 'articles/edit/:id(\\d+)',
+      component: () => import('@/views/articles/Edit'),
+      name: 'EditArticle',
+      meta: { title: 'editArticle', noCache: true, permissions: ['manage article'] },
+      hidden: true,
+    },
+    {
+      path: 'articles',
+      component: () => import('@/views/articles/List'),
+      name: 'ArticleList',
+      meta: { title: 'articleList', icon: 'list', permissions: ['manage article'] },
     },
   ],
 };
