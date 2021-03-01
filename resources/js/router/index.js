@@ -220,10 +220,17 @@ export const asyncRoutes = [
   {
     path: '/external-link',
     component: Layout,
+    meta: { title: 'External Link' },
     children: [
       {
         path: 'https://github.com/tuandm/laravue',
         meta: { title: 'externalLink', icon: 'link' },
+      },
+      {
+        path: '/testing',
+        component: () => import('@/views/testing/index'),
+        name: 'Testing',
+        meta: { title: 'Testing' },
       },
     ],
   },
