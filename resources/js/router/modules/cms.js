@@ -4,6 +4,7 @@ import Layout from '@/layout';
 const cmsRoutes = {
   path: '/cms',
   component: Layout,
+  redirect: '/cms',
   name: 'CMS',
   meta: {
     title: 'cms',
@@ -21,9 +22,9 @@ const cmsRoutes = {
     /** Post Managements */
     {
       path: 'posts',
-      component: () => import('@/views/cms/posts/List'),
+      component: () => import('@/views/cms/posts/list'),
       name: 'PostList',
-      meta: { title: 'postList', icon: 'edit' },
+      meta: { title: 'postList', icon: 'edit', permissions: ['manage article'] },
     },
   ],
 };

@@ -7,6 +7,7 @@ const accountingRoutes = {
   meta: {
     title: 'accounting',
     icon: 'excel',
+    permissions: ['view menu bookkepping routes'],
   },
   children: [
     /** Banking Managements */
@@ -14,21 +15,21 @@ const accountingRoutes = {
       path: 'banking',
       component: () => import('@/views/accounting/banking/index'),
       name: 'Banking',
-      meta: { title: 'banking', icon: 'bank' },
+      meta: { title: 'banking', icon: 'bank', permissions: ['view menu bookkepping routes'] },
       children: [
         /** Accounts Managements */
         {
           path: '/accounting/banking/account',
           component: () => import('@/views/accounting/banking/account'),
           name: 'Account',
-          meta: { title: 'account', icon: 'account' },
+          meta: { title: 'account', icon: 'account', permissions: ['view banking', 'manage banking'] },
         },
         /** Transfers Managements */
         {
           path: 'transfer',
           component: () => import('@/views/accounting/banking/transfer'),
           name: 'Transfer',
-          meta: { title: 'transfer', icon: 'transfer' },
+          meta: { title: 'transfer', icon: 'transfer', permissions: ['view banking', 'manage banking'] },
         },
       ],
     },
@@ -37,21 +38,21 @@ const accountingRoutes = {
       path: 'expense',
       component: () => import('@/views/accounting/expense/index'),
       name: 'Expense',
-      meta: { title: 'expense', icon: 'expense' },
+      meta: { title: 'expense', icon: 'expense', permissions: ['view menu bookkepping routes'] },
       children: [
         /** Bill Managements */
         {
           path: 'bill',
           component: () => import('@/views/accounting/expense/bill'),
           name: 'Bill',
-          meta: { title: 'bill', icon: 'bill' },
+          meta: { title: 'bill', icon: 'bill', permissions: ['view banking', 'manage banking'] },
         },
         /** Bill Managements */
         {
           path: 'vendor',
           component: () => import('@/views/accounting/expense/vendor'),
           name: 'Vendor',
-          meta: { title: 'vendor', icon: 'vendor' },
+          meta: { title: 'vendor', icon: 'vendor', permissions: ['view banking', 'manage banking'] },
         },
       ],
     },
@@ -60,7 +61,7 @@ const accountingRoutes = {
       path: 'income',
       component: () => import('@/views/accounting/income/index'),
       name: 'Income',
-      meta: { title: 'income', icon: 'income' },
+      meta: { title: 'income', icon: 'income', permissions: ['view menu bookkepping routes'] },
       children: [
         /** Contract Managements */
         {
