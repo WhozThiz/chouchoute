@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://www.melimelo.com.br/chouchoute/genesis/public'),
+    'url' => env('APP_URL', 'http://genesis.chouchoute.com.br'),
 
     'asset_url' => env('ASSET_URL', null),
 
