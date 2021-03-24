@@ -4,7 +4,7 @@ export default {
   /**
    * @type {String}
    */
-  title: 'Laravel Vue Admin',
+  title: 'La Chouchoute Compagnie&#39;s Management System',
   theme: variables.theme,
 
   /**

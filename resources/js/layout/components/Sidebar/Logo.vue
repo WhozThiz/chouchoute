@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: 'Laravel Vue Admin',
+      title: 'La Chouchoute Compagnie&#39;s Management System',
       logo: '/svg/logo.svg',
     };
   },
