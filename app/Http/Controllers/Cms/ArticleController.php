@@ -141,7 +141,8 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
 
         // Return single article as a resource
-        return new ArticleResource($article);
+        // return new ArticleResource($article);
+        return response()->json(new JsonResponse($article));
     }
 
     /**

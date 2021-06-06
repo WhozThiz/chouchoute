@@ -18,6 +18,11 @@ const cmsRoutes = {
       name: 'Articles',
       meta: { title: 'articles', icon: 'articles', permissions: ['manage article'] },
     },
+    {
+      path: 'articles/show/:id(\\d+)',
+      component: () => import('@/views/cms/articles/ArticleShow'),
+      hidden: true,
+    },
     /** Post Managements */
     {
       path: 'posts',

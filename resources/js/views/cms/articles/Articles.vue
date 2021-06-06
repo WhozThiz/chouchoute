@@ -12,7 +12,7 @@
 
       <el-table-column min-width="300px" :label="$t('articles.title')">
         <template slot-scope="{row}">
-          <router-link :to="'/articles/edit/'+row.id" class="link-type">
+          <router-link :to="'/cms/articles/show/'+row.id" class="link-type">
             <span>{{ row.title }}</span>
           </router-link>
         </template>

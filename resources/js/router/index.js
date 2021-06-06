@@ -66,17 +66,6 @@ export const constantRoutes = [
     hidden: true,
   },
   {
-    path: '/404',
-    redirect: { name: 'Page404' },
-    component: () => import('@/views/error-page/404'),
-    hidden: true,
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
-    hidden: true,
-  },
-  {
     path: '',
     component: Layout,
     redirect: 'dashboard',
@@ -101,6 +90,17 @@ export const constantRoutes = [
         meta: { title: 'userProfile', icon: 'user', noCache: true },
       },
     ],
+  },
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true,
+  },
+  {
+    path: '/404',
+    redirect: { name: 'Page404' },
+    component: () => import('@/views/error-page/404'),
+    hidden: true,
   },
 ];
 

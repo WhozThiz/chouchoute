@@ -81,6 +81,7 @@ Route::get('/orders', function () {
 Route::apiResource('accounts', 'Accounting\Banking\AccountController');
 
 Route::apiResource('articles', 'Cms\ArticleController');
+// Route::get('articles/show/{article}', 'Cms\ArticleContorller@show')->name('categories.show');
 Route::get('countarticles', 'Cms\ArticleController@countarticles');
 
 // All api requests to categories need "manage category" permission
