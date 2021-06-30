@@ -226,7 +226,7 @@ export default {
               registration_id: '',
               tax_id: '',
             };
-            this.cep = null;
+            this.zipcode = null;
             this.leadFormVisible = false;
             this.getList();
           })
