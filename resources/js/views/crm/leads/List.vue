@@ -249,7 +249,7 @@ export default {
         homephone: '',
         mobile: '',
         email: '',
-        registratio_id: '',
+        registration_id: '',
         tax_id: '',
       };
     },
