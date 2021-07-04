@@ -96,6 +96,7 @@ class PetController extends Controller
             return response()->json(['error' => 'Pet not Found'], 404);
         }
 
+        /*
         $validator = Validator::make(
             $request->all(),
             [
@@ -106,6 +107,7 @@ class PetController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 403);
         } else {
+            */
             $params = $request->all();
             $pet->name = $params['name'];
             $pet->breed = $params['breed'];
@@ -116,7 +118,7 @@ class PetController extends Controller
             $pet->neutered = $params['neutered'];
             $pet->registration = $params['registration'];
             $pet->save();
-        }
+        //}
 
         return new PetResource($pet);
     }
