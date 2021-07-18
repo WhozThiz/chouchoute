@@ -51,6 +51,7 @@ export default {
     componentMixin: 'Mixin',
     configuration: 'Configuração',
     contract: 'Contrato',
+    contracts: 'Contratos',
     countTo: 'CountTo',
     createArticle: 'Create Artigo',
     createLead: 'Create Lead',

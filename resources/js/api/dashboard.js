@@ -23,6 +23,13 @@ class DashboardResource extends Resource {
       params: query,
     });
   }
+  countcontracts(query) {
+    return request({
+      url: '/countcontracts',
+      method: 'get',
+      params: query,
+    });
+  }
 }
 
 export { DashboardResource as default };
