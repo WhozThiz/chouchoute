@@ -3,6 +3,10 @@
 
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
+    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+      <line-chart :chart-data="lineChartData" />
+    </el-row>
+
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
         <transaction-table />
@@ -19,17 +23,48 @@
 
 <script>
 import PanelGroup from './components/PanelGroup';
+import LineChart from './components/LineChart';
 import TransactionTable from './components/TransactionTable';
 import TodoList from './components/TodoList';
 import BoxCard from './components/BoxCard';
+
+const lineChartData = {
+  articles: {
+    expectedData: [100, 120, 161, 134, 105, 160, 165],
+    actualData: [120, 82, 91, 154, 162, 140, 145],
+  },
+  leads: {
+    expectedData: [200, 192, 120, 144, 160, 130, 140],
+    actualData: [180, 160, 151, 106, 145, 150, 130],
+  },
+  pets: {
+    expectedData: [80, 100, 121, 104, 105, 90, 100],
+    actualData: [120, 90, 100, 138, 142, 130, 130],
+  },
+  contracts: {
+    expectedData: [130, 140, 141, 142, 145, 150, 160],
+    actualData: [120, 82, 91, 154, 162, 140, 130],
+  },
+};
 
 export default {
   name: 'DashboardAdmin',
   components: {
     PanelGroup,
+    LineChart,
     TransactionTable,
     TodoList,
     BoxCard,
+  },
+  data() {
+    return {
+      lineChartData: lineChartData.contracts,
+    };
+  },
+  methods: {
+    handleSetLineChartData(type) {
+      this.lineChartData = lineChartData[type];
+    },
   },
 };
 </script>

@@ -164,4 +164,16 @@ class ContractController extends Controller
     {
         //
     }
+
+    /**
+     * Count the specified resource.
+     *
+     * @param  \App\Laravue\Models\Accounting\Income\Contract  $contract
+     * @return \Illuminate\Http\Response
+     */
+    public function countcontracts()
+    {
+        $total = Contract::count();
+        return response()->json($total);
+    }
 }

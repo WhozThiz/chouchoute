@@ -79,6 +79,7 @@ Route::get('/orders', function () {
 });
 
 Route::apiResource('accounts', 'Accounting\Banking\AccountController');
+Route::get('countcontracts', 'Accounting\Income\ContractController@countcontracts');
 
 Route::apiResource('articles', 'Cms\ArticleController');
 // Route::get('articles/show/{article}', 'Cms\ArticleContorller@show')->name('categories.show');
